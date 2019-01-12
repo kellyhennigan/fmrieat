@@ -43,7 +43,8 @@
 
 # dataDir is the parent directory of subject-specific directories
 # path should be relevant to where this script file sits
-dataDir='../data' 
+cd ../data
+dataDir=$(pwd)
 
 
 # subject ids to process
