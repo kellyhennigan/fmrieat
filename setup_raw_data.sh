@@ -22,16 +22,17 @@ dataDir='../data'
 
 
 # subject ids to process
-subject='lm181213'  # e.g. 'aa190123'
+subject='ga181112'  # e.g. 'aa190123'
 
-cniID='19342'
+cniID='19072'
 
 
 # set to 0 to skip a file
-qt1num=3
-t1wnum=4
-cuenum=6
-dwinum=10
+cal_qt1num=5
+qt1num=6
+t1wnum=7
+cuenum=10
+dwinum=12
 
 #########################################################################
 ############################# RUN IT ###################################
@@ -40,18 +41,37 @@ dwinum=10
 	
 echo WORKING ON SUBJECT $subject
 
-# subject input & output directories
-inDir=$dataDir/$subject/raw
+# subject directory 
+subjDir=$dataDir/$subject
+if [ ! -d "$subjDir" ]; then
+	mkdir $subjDir
+fi 
 
+# raw subdirectory
+inDir=$subjDir/raw
+if [ ! -d "$inDir" ]; then
+	mkdir $inDir
+fi 
 
-# make inDir & cd to it: 
-mkdir $inDir
+# cd to subject's raw data directory 
 cd $inDir
 
 
-# t1 file
+# calibration quant-t1 file
+if [ "$cal_qt1num" != "0" ]; then
+cmd="fw download \"knutson/fmrieat/${cniID}/SS-SMS T1 2mm pe1 CAL/files/${cniID}_${cal_qt1num}_1.nii.gz\" -o qt1_cal.nii.gz"
+eval $cmd	# execute the command
+fi
+
+# quant-t1 file
+if [ "$qt1num" != "0" ]; then
+cmd="fw download \"knutson/fmrieat/${cniID}/SS-SMS T1 2mm pe0/files/${cniID}_${qt1num}_1.nii.gz\" -o qt1.nii.gz"
+eval $cmd	# execute the command
+fi
+
+# t1-weighted file
 if [ "$t1wnum" != "0" ]; then
-cmd="fw download \"knutson/fmrieat/${cniID}/T1w .9mm BRAVO/files/${cniID}_${t1num}_1.nii.gz\" -o t1_raw.nii.gz"
+cmd="fw download \"knutson/fmrieat/${cniID}/T1w .9mm BRAVO/files/${cniID}_${t1wnum}_1.nii.gz\" -o t1w.nii.gz"
 eval $cmd	# execute the command
 fi
 
