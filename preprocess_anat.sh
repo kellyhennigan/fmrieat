@@ -27,7 +27,7 @@
 ######### assumes a subject's raw data is in a subject's "raw" directory and is named: 
 
 # cue1.nii.gz 				# raw fmri data from cue reactivity task 
-# t1_raw.nii.gz 			# raw t1-weighted data
+# t1w.nii.gz 			# raw t1-weighted data
 
 
 ######### output files are (all found in the output directory): 
@@ -51,6 +51,7 @@
 #########################################################################
 
 # dataDir is the parent directory of subject-specific directories
+# path should be relevant to where this script file sits
 dataDir='../data' 
 
 
@@ -85,7 +86,7 @@ do
 	mkdir xfs
 
 	# remove skull from t1 anatomical data
-	3dSkullStrip -prefix t1_ns.nii.gz -input $inDir/t1_raw.nii.gz
+	3dSkullStrip -prefix t1_ns.nii.gz -input $inDir/t1w.nii.gz
 
 
 	# estimate transform to put t1 in tlrc space
