@@ -42,14 +42,15 @@
 #########################################################################
 
 # dataDir is the parent directory of subject-specific directories
-dataDir='~/fmrieat/data'
+# path should be relevant to where this script file sits
+dataDir='../data' 
 
 
 # subject ids to process
-subjects=''  # e.g. 'aa190123'
+subjects='ga181112'  # e.g. 'aa190123'
 
 # threshold for determining which volumes should be censored due to "bad" motion 
-# (I use a threshold of .5 which is very stringent)
+# (I use a threshold of 1 which seems good)
 censor_thresh=1
 
 # filepaths to ROI masks 

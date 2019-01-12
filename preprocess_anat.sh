@@ -51,11 +51,11 @@
 #########################################################################
 
 # dataDir is the parent directory of subject-specific directories
-dataDir='~/fmieat/data' 
+dataDir='../data' 
 
 
 # subject ids to process
-subjects=''  # e.g. 'aa190123'
+subjects='ga181112'  # e.g. 'aa190123'
 
 t1_template=$dataDir/templates/TT_N27.nii # %s is data_dir
 
