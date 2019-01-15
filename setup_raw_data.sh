@@ -33,17 +33,17 @@ dataDir='../rawdata_bids'
 
 
 # subject ids to process
-subject='gm181112'  # e.g. 'aa190123'
+subject='ks181124'  # e.g. 'aa190123'
 
-cniID='19073'
+cniID='19095'
 
 
 # set to 0 to skip a file
-cal_qt1num=4
-qt1num=5
-t1wnum=6
-cuenum=9
-dwinum=11
+cal_qt1num=5
+qt1num=6
+t1wnum=7
+cuenum=10
+dwinum=13
 
 #########################################################################
 ############################# RUN IT ###################################
