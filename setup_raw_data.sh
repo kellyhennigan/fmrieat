@@ -56,18 +56,24 @@ mkdir func anat qti dwi
 # calibration quant-t1 file
 if [ "$cal_qt1num" != "0" ]; then
 cmd="fw download \"knutson/fmrieat/${cniID}/SS-SMS T1 2mm pe1 CAL/files/${cniID}_${cal_qt1num}_1.nii.gz\" -o qt1/qt1_cal.nii.gz"
+echo GET QUANT T1 files:
+echo $cmd
 eval $cmd	# execute the command
 fi
 
 # quant-t1 file
 if [ "$qt1num" != "0" ]; then
 cmd="fw download \"knutson/fmrieat/${cniID}/SS-SMS T1 2mm pe0/files/${cniID}_${qt1num}_1.nii.gz\" -o qt1/qt1.nii.gz"
+echo GET QUANT T1 files:
+echo $cmd
 eval $cmd	# execute the command
 fi
 
 # t1-weighted file
 if [ "$t1wnum" != "0" ]; then
 cmd="fw download \"knutson/fmrieat/${cniID}/T1w .9mm BRAVO/files/${cniID}_${t1wnum}_1.nii.gz\" -o anat/t1w.nii.gz"
+echo GET T1-WEIGHTED file:
+echo $cmd
 eval $cmd	# execute the command
 fi
 
@@ -75,6 +81,8 @@ fi
 # cue data file
 if [ "$cuenum" != "0" ]; then
 cmd="fw download \"knutson/fmrieat/${cniID}/BOLD EPI 2.9mm 2sec CUE/files/${cniID}_${cuenum}_1.nii.gz\" -o func/cue1.nii.gz"
+echo GET FMRI file:
+echo $cmd
 eval $cmd	# execute the command
 fi
 
@@ -82,10 +90,16 @@ fi
 # DWI files
 if [ "$dwinum" != "0" ]; then
 cmd="fw download \"knutson/fmrieat/${cniID}/DTI 2mm b2500 96dir1/files/${cniID}_${dwinum}_1.nii.gz\" -o dwi/dwi.nii.gz"
+echo GET DWI files:
+echo $cmd
 eval $cmd	# execute the command
+
 cmd="fw download \"knutson/fmrieat/${cniID}/DTI 2mm b2500 96dir1/files/${cniID}_${dwinum}_1.bvec\" -o dwi/bvec"
+echo $cmd
 eval $cmd	# execute the command
+
 cmd="fw download \"knutson/fmrieat/${cniID}/DTI 2mm b2500 96dir1/files/${cniID}_${dwinum}_1.bval\" -o dwi/bval"
+echo $cmd
 eval $cmd	# execute the command
 fi
 
