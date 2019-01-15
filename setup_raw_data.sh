@@ -12,6 +12,17 @@
 # ALSO NOTE: before running this, I need to log into flywheel first:
 # fw login cni.flywheel.io:faKngx7782veTjZPM9
 
+
+# NOTE: for duplicate scans with the same name, as of now they must be downloaded manually. 
+# To do that, do this: 
+
+# command to get ID for each scan: 
+# fw ls "knutson/fmrieat/19073"
+
+# that prints out scan IDs. Use that id to specify the desired scan 
+# *** MAKE SURE ITS THE RIGHT ONE!!!
+# fw download "knutson/fmrieat/19073/<id:5bea0806d1f71500151540db>/files/19073_9_1.nii.gz" -o func/cue1.nii.gz
+
 #########################################################################
 ########################## DEFINE VARIABLES #############################
 #########################################################################
@@ -49,7 +60,7 @@ fi
 
 # raw subdirectories
 cd $subjDir
-mkdir func anat qti dwi
+mkdir func anat qt1 dwi
 
 
 
