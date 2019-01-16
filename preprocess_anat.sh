@@ -65,7 +65,7 @@ func_template=$mainDir/derivatives/templates/TT_N27_func_dim.nii
 cd $dataDir
 
 # subject ids to process
-subjects='ga181112'  # e.g. 'aa190123'
+subjects='gm181112 ks181124'  # e.g. 'aa190123'
 
 
 
