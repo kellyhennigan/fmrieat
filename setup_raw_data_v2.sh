@@ -55,32 +55,37 @@ cd $subjDir
 # t1-weighted file
 if [ "$t1wnum" != "0" ]; then
 
-	# make sure there's just 1 file: 
+	# check how many files there are: 
 	scanStr='T1w .9mm BRAVO'
 	outFilePath='anat/t1w.nii.gz'
-	nscans=$(fw ls "knutson/fmrieat/${cniID}" --ids | grep '${scanStr}' | wc -l)
-	if [ "$nscans" -eq "1" ]; then
-		printf "\n\n\n1 SCAN FOUND FOR ${scanStr} SO ALL IS GOOD...\n\n\n"
-		scanID=$(fw ls "knutson/fmrieat/${cniID}" --ids | grep '${scanStr}'  | awk '{print $1}')
-		fileName=$(fw ls "knutson/fmrieat/${cniID}/${scanID}/files" | grep 'nii' | awk '{print $5}')
+	
+	cmd="fw ls \"knutson/fmrieat/${cniID}\" --ids | grep '${scanStr}' | wc -l"
+	nscans=$(eval $cmd)
+
+	# if no scans are found with that string, skip the scan 
+	if [ "$nscans" -lt "1" ]; then
+		printf "\n\n\nCOULDNT FIND SCAN ID FOR ${scanStr}, SO SKIPPING...\n\n"
+	else 	
+
+		# if 1 scans is found, great! continue
+		if [ "$nscans" -eq "1" ]; then
+			printf "\n\n\n1 SCAN FOUND FOR ${scanStr} SO ALL IS GOOD...\n\n\n"
+			cmd="fw ls \"knutson/fmrieat/${cniID}\" --ids | grep '${scanStr}'  | awk '{print $1}'"
+			scanID=$(eval $cmd)
+		
+		# if >1 scans are found, take the last one (this assumes its the right one to take)
+		elif [ "$nscans" -gt "1" ]; then
+			printf "\n\n\nMORE THAN 1 SCAN FOUND FOR ${scanStr};\nCONFIRM THAT THE LAST ONE IS THE CORRECT ONE\n\n\n"
+			cmd="fw ls \"knutson/fmrieat/${cniID}\" --ids | grep '${scanStr}' | tail -n 1 | awk '{print $1}'"
+			scanID=$(eval $cmd)
+		fi 	
+		
+		cmd="fw ls \"knutson/fmrieat/${cniID}/${scanID}/files\" | grep 'nii' | awk '{print $5}'"
+		fileName=$(eval $cmd)
 		echo fileName: $fileName
 		cmd="fw download \"knutson/fmrieat/${cniID}/${scanID}/${fileName}\" -o ${outFilePath}"
 		echo $cmd
 		eval $cmd	# execute the command
-
-	# if there's more than 1 scan with the same name, pick the last one
-	elif [ "$nscans" -lt "1" ]; then
-		printf "\n\n\nMORE THAN 1 SCAN FOUND FOR ${scanStr};\nCONFIRM THAT THE LAST ONE IS THE CORRECT ONE\n\n\n"
-		scanID=$(fw ls "knutson/fmrieat/${cniID}" --ids | grep '${scanStr}' | tail -n 1 | awk '{print $1}')
-		fileName=$(fw ls "knutson/fmrieat/${cniID}/${scanID}/files" | grep 'nii' | awk '{print $5}')
-		echo fileName: $fileName
-		cmd="fw download \"knutson/fmrieat/${cniID}/${scanID}/${fileName}\" -o anat/t1w.nii.gz"
-		echo $cmd
-		eval $cmd	# execute the command
-
-	# if no ID is found, skip it
-	else	
-		printf "\n\n\nCOULDNT FIND SCAN ID FOR ${scanStr}, SO SKIPPING...\n\n"
 	fi
 
 fi
