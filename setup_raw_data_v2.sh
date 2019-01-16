@@ -38,6 +38,8 @@ dwinum=1
 ############################# RUN IT ###################################
 #########################################################################
 
+cmd="fw login cni.flywheel.io:faKngx7782veTjZPM9"
+eval $cmd
 	
 echo WORKING ON SUBJECT $subject
 
