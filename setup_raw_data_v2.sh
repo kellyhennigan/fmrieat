@@ -54,11 +54,11 @@ mkdir func anat qt1 dwi
 
 # t1-weighted file
 
-if [ "$gett1wnum" != "0" ]; then
+if [ "$t1wnum" != "0" ]; then
 	# get scan id for this file
-	scanID=$("fw ls \"knutson/fmrieat/${cniID}\" --ids | grep 'T1w .9mm BRAVO' | awk '{print $1}'")
+	scanID=$(fw ls "knutson/fmrieat/${cniID}" --ids | grep 'T1w .9mm BRAVO' | awk '{print $1}')
 	echo scanID: $scanID
-	fileName=$(fw ls \"knutson/fmrieat/${cniID}/${scanID}/files\" | grep 'nii' | awk '{print $5}')
+	fileName=$(fw ls "knutson/fmrieat/${cniID}/${scanID}/files" | grep 'nii' | awk '{print $5}')
 	echo fileName: $fileName
 	cmd="fw download \"knutson/fmrieat/${cniID}/${scanID}/files/${fileName}\" -o anat/t1w.nii.gz"
 	echo $cmd
