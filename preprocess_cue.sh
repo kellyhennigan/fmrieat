@@ -59,7 +59,7 @@ censor_thresh=1
 # filepaths to ROI masks 
 wmMaskFile=$mainDir/derivatives/ROIs/wm_func.nii
 csfMaskFile=$mainDir/derivatives/ROIs/csf_func.nii
-naccMaskFile=$mainDir/derivatives/ROIs/nacc_func.nii
+naccMaskFile=$mainDir/derivatives/ROIs/nacc_desai_func.nii
 
 #########################################################################
 ############################# RUN IT ###################################
@@ -99,7 +99,15 @@ do
 
 
 	# clear out any pre-existing concatenated motion files 
-	rm cue_vr.1D; rm cue_censor.1D; rm cue_enorm.1D
+	if [ -f cue_vr.1D ]; then
+		rm cue_vr.1D
+	fi 	
+	if [ -f cue_censor.1D ]; then
+		rm cue_censor.1D
+	fi 	
+	if [ -f cue_enorm.1D ]; then
+		rm cue_enorm.1D
+	fi 	
 
 
 	# motion correction & saves out the motion parameters in file, 'cue1_vr.1D' 
@@ -149,7 +157,10 @@ do
 	# remove intermediate files 
 	# NOTE: ONLY DO THIS ONCE YOU'RE CONFIDENT THAT THE PIPELINE IS WORKING! 
 	# (because you may want to view intermediate files to troubleshoot the pipeline)
-	rm *cue1*
+	if [ -f pp_cue.nii.gz ]; then
+		rm *cue1*
+	fi 	
+	
 
 
 
