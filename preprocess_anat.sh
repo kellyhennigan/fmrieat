@@ -86,11 +86,16 @@ do
 
 	# subject output directories 
 	outSubjDir=$mainDir/derivatives/$subject
-	mkdir $outSubjDir
+	if [ ! -d "$outSubjDir" ]; then
+		mkdir $outSubjDir
+	fi 
+
 	cd $outSubjDir
 
 	outDir=func_proc
-	mkdir $outDir
+	if [ ! -d "$outDir" ]; then
+		mkdir $outDir
+	fi 	
 	cd $outDir
 
 
