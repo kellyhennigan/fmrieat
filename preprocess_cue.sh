@@ -43,21 +43,23 @@
 
 # dataDir is the parent directory of subject-specific directories
 # path should be relevant to where this script file sits
-cd ../data
-dataDir=$(pwd)
+cd ..
+mainDir=$(pwd)
+
+dataDir=$mainDir/rawdata_bids
 
 
 # subject ids to process
-subjects='ga181112'  # e.g. 'aa190123'
+subjects='gm181112 ks181124'  # e.g. 'aa190123'
 
 # threshold for determining which volumes should be censored due to "bad" motion 
 # (I use a threshold of 1 which seems good)
 censor_thresh=1
 
 # filepaths to ROI masks 
-wmMaskFile=$dataDir/ROIs/wm_func.nii
-csfMaskFile=$dataDir/ROIs/csf_func.nii
-naccMaskFile=$dataDir/ROIs/nacc_func.nii
+wmMaskFile=$mainDir/derivatives/ROIs/wm_func.nii
+csfMaskFile=$mainDir/derivatives/ROIs/csf_func.nii
+naccMaskFile=$mainDir/derivatives/ROIs/nacc_func.nii
 
 #########################################################################
 ############################# RUN IT ###################################
@@ -69,17 +71,22 @@ do
 	echo WORKING ON SUBJECT $subject
 
 	# subject input & output directories
-	inDir=$dataDir/$subject/raw
-	outDir=$dataDir/$subject/func_proc
+	inFuncDir=$dataDir/$subject/func
+	outDir=$mainDir/derivatives/$subject/func_proc
 
 
-	# make outDir & cd to it: 
+	# subject output directories 
+	outSubjDir=$mainDir/derivatives/$subject
+	mkdir $outSubjDir
+	cd $outSubjDir
+
+	outDir=func_proc
 	mkdir $outDir
 	cd $outDir
 
 
 	# drop the first 6 volumes to allow longitudinal magentization (t1) to reach steady state
-	3dTcat -output cue1.nii.gz $inDir/cue1.nii.gz[6..$]
+	3dTcat -output cue1.nii.gz $inFuncDir/cue1.nii.gz[6..$]
 
 
 	# correct for slice time differences
