@@ -63,6 +63,7 @@ if [ "$cal_qt1num" != "0" ]; then
 	# check how many files there are: 
 	scanStr='SS-SMS T1 2mm pe1 CAL'
 	outFilePath='qt1/qt1_cal.nii.gz'
+	outPhaseFilePath='qt1/qt1_cal_phase.nii.gz'
 	
 	cmd="fw ls \"knutson/fmrieat/${cniID}\" --ids | grep '${scanStr}' | wc -l"
 	nscans=$(eval $cmd)
@@ -85,10 +86,19 @@ if [ "$cal_qt1num" != "0" ]; then
 			scanID=$(eval $cmd | awk '{print $1}')
 		fi 	
 		
-		cmd="fw ls \"knutson/fmrieat/${cniID}/${scanID}/files\" | grep 'nii'" 
+		# cal file
+		cmd="fw ls \"knutson/fmrieat/${cniID}/${scanID}/files\" | grep '1.nii'" 
 		fileName=$(eval $cmd | awk '{print $5}')
 		echo fileName: $fileName
 		cmd="fw download \"knutson/fmrieat/${cniID}/${scanID}/${fileName}\" -o ${outFilePath}"
+		echo $cmd
+		eval $cmd	# execute the command
+
+		# phase file
+		cmd="fw ls \"knutson/fmrieat/${cniID}/${scanID}/files\" | grep 'phase.nii'" 
+		fileName=$(eval $cmd | awk '{print $5}')
+		echo fileName: $fileName
+		cmd="fw download \"knutson/fmrieat/${cniID}/${scanID}/${fileName}\" -o ${outPhaseFilePath}"
 		echo $cmd
 		eval $cmd	# execute the command
 	fi
@@ -104,7 +114,8 @@ if [ "$qt1num" != "0" ]; then
 	# check how many files there are: 
 	scanStr='SS-SMS T1 2mm pe0'
 	outFilePath='qt1/qt1.nii.gz'
-	
+	outPhaseFilePath='qt1/qt1_phase.nii.gz'
+
 	cmd="fw ls \"knutson/fmrieat/${cniID}\" --ids | grep '${scanStr}' | wc -l"
 	nscans=$(eval $cmd)
 
@@ -126,10 +137,18 @@ if [ "$qt1num" != "0" ]; then
 			scanID=$(eval $cmd | awk '{print $1}')
 		fi 	
 		
-		cmd="fw ls \"knutson/fmrieat/${cniID}/${scanID}/files\" | grep 'nii'" 
+		cmd="fw ls \"knutson/fmrieat/${cniID}/${scanID}/files\" | grep '1.nii'" 
 		fileName=$(eval $cmd | awk '{print $5}')
 		echo fileName: $fileName
 		cmd="fw download \"knutson/fmrieat/${cniID}/${scanID}/${fileName}\" -o ${outFilePath}"
+		echo $cmd
+		eval $cmd	# execute the command
+
+		# phase file
+		cmd="fw ls \"knutson/fmrieat/${cniID}/${scanID}/files\" | grep 'phase.nii'" 
+		fileName=$(eval $cmd | awk '{print $5}')
+		echo fileName: $fileName
+		cmd="fw download \"knutson/fmrieat/${cniID}/${scanID}/${fileName}\" -o ${outPhaseFilePath}"
 		echo $cmd
 		eval $cmd	# execute the command
 	fi
