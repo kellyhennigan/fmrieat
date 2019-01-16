@@ -58,10 +58,10 @@ if [ "$t1wnum" != "0" ]; then
 	# make sure there's just 1 file: 
 	scanStr='T1w .9mm BRAVO'
 	outFilePath='anat/t1w.nii.gz'
-	nscans=$(fw ls "knutson/fmrieat/${cniID}" --ids | grep ${scanStr} | wc -l)
+	nscans=$(fw ls "knutson/fmrieat/${cniID}" --ids | grep '${scanStr}' | wc -l)
 	if [ "$nscans" -eq "1" ]; then
 		printf "\n\n\n1 SCAN FOUND FOR ${scanStr} SO ALL IS GOOD...\n\n\n"
-		scanID=$(fw ls "knutson/fmrieat/${cniID}" --ids | grep ${scanStr}  | awk '{print $1}')
+		scanID=$(fw ls "knutson/fmrieat/${cniID}" --ids | grep '${scanStr}'  | awk '{print $1}')
 		fileName=$(fw ls "knutson/fmrieat/${cniID}/${scanID}/files" | grep 'nii' | awk '{print $5}')
 		echo fileName: $fileName
 		cmd="fw download \"knutson/fmrieat/${cniID}/${scanID}/${fileName}\" -o ${outFilePath}"
@@ -71,7 +71,7 @@ if [ "$t1wnum" != "0" ]; then
 	# if there's more than 1 scan with the same name, pick the last one
 	elif [ "$nscans" -lt "1" ]; then
 		printf "\n\n\nMORE THAN 1 SCAN FOUND FOR ${scanStr};\nCONFIRM THAT THE LAST ONE IS THE CORRECT ONE\n\n\n"
-		scanID=$(fw ls "knutson/fmrieat/${cniID}" --ids | grep ${scanStr} | tail -n 1 | awk '{print $1}')
+		scanID=$(fw ls "knutson/fmrieat/${cniID}" --ids | grep '${scanStr}' | tail -n 1 | awk '{print $1}')
 		fileName=$(fw ls "knutson/fmrieat/${cniID}/${scanID}/files" | grep 'nii' | awk '{print $5}')
 		echo fileName: $fileName
 		cmd="fw download \"knutson/fmrieat/${cniID}/${scanID}/${fileName}\" -o anat/t1w.nii.gz"
