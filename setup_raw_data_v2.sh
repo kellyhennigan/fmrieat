@@ -60,7 +60,7 @@ if [ "$t1wnum" != "0" ]; then
 	outFilePath='anat/t1w.nii.gz'
 	nscans=$(fw ls "knutson/fmrieat/${cniID}" --ids | grep ${scanStr} | wc -l)
 	if [ "$nscans" -eq "1" ]; then
-		printf("\n\n\n1 SCAN FOUND FOR ${scanStr} SO ALL IS GOOD...\n\n\n")
+		printf "\n\n\n1 SCAN FOUND FOR ${scanStr} SO ALL IS GOOD...\n\n\n"
 		scanID=$(fw ls "knutson/fmrieat/${cniID}" --ids | grep ${scanStr}  | awk '{print $1}')
 		fileName=$(fw ls "knutson/fmrieat/${cniID}/${scanID}/files" | grep 'nii' | awk '{print $5}')
 		echo fileName: $fileName
