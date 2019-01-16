@@ -60,7 +60,7 @@ if [ "$t1wnum" != "0" ]; then
 	echo scanID: $scanID
 	fileName=$(fw ls "knutson/fmrieat/${cniID}/${scanID}/files" | grep 'nii' | awk '{print $5}')
 	echo fileName: $fileName
-	cmd="fw download \"knutson/fmrieat/${cniID}/${scanID}/files/${fileName}\" -o anat/t1w.nii.gz"
+	cmd="fw download \"knutson/fmrieat/${cniID}/${scanID}/${fileName}\" -o anat/t1w.nii.gz"
 	echo $cmd
 	eval $cmd	# execute the command
 fi
