@@ -17,7 +17,7 @@
 # To do that, do this: 
 
 # command to get ID for each scan: 
-# fw ls "knutson/fmrieat/19073"
+# fw ls "knutson/fmrieat/19073" --id
 
 # that prints out scan IDs. Use that id to specify the desired scan 
 # *** MAKE SURE ITS THE RIGHT ONE!!!

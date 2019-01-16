@@ -52,16 +52,22 @@
 
 # dataDir is the parent directory of subject-specific directories
 # path should be relevant to where this script file sits
-cd ../data
-dataDir=$(pwd)
+cd ..
+mainDir=$(pwd)
 
+dataDir=$mainDir/rawdata_bids
+
+t1_template=$mainDir/derivatives/templates/TT_N27.nii 
+
+func_template=$mainDir/derivatives/templates/TT_N27_func_dim.nii 
+
+
+cd $dataDir
 
 # subject ids to process
 subjects='ga181112'  # e.g. 'aa190123'
 
-t1_template=$dataDir/templates/TT_N27.nii # %s is data_dir
 
-func_template=$dataDir/templates/TT_N27_func_dim.nii # %s is data_dir
 
 
 #########################################################################
@@ -73,12 +79,17 @@ do
 	
 	echo WORKING ON SUBJECT $subject
 
-	# subject input & output directories
-	inDir=$dataDir/$subject/raw
-	outDir=$dataDir/$subject/func_proc
+	# subject input directories
+	inFuncDir=$dataDir/$subject/func
+	inAnatDir=$dataDir/$subject/anat
 
 
-	# make outDir & cd to it: 
+	# subject output directories 
+	outSubjDir=$mainDir/derivatives/$subject
+	mkdir $outSubjDir
+	cd $outSubjDir
+
+	outDir=func_proc
 	mkdir $outDir
 	cd $outDir
 
@@ -87,7 +98,7 @@ do
 	mkdir xfs
 
 	# remove skull from t1 anatomical data
-	3dSkullStrip -prefix t1_ns.nii.gz -input $inDir/t1w.nii.gz
+	3dSkullStrip -prefix t1_ns.nii.gz -input $inAnatDir/t1w.nii.gz
 
 
 	# estimate transform to put t1 in tlrc space
@@ -103,11 +114,11 @@ do
 
 
 	# take first volume of raw functional data:
-	3dTcat -output $inDir/vol1_cue.nii.gz $inDir/cue1.nii.gz[0]
+	3dTcat -output $inFuncDir/vol1_cue.nii.gz $inFuncDir/cue1.nii.gz[0]
 
 	
 	# skull-strip functional vol
-	3dSkullStrip -prefix vol1_cue_ns.nii.gz -input $inDir/vol1_cue.nii.gz
+	3dSkullStrip -prefix vol1_cue_ns.nii.gz -input $inFuncDir/vol1_cue.nii.gz
 
 
 	# estimate xform between anatomy and functional data
