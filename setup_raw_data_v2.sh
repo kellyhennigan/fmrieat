@@ -22,9 +22,9 @@ dataDir='../rawdata_bids'
 
 
 # subject ids to process
-subject='id181126'  # e.g. 'aa190123'
+subject='gm181112'  # e.g. 'aa190123'
 
-cniID='19180'
+cniID='19073'
 
 
 # set to 0 to skip a file, otherwise set to 1
@@ -49,33 +49,56 @@ fi
 
 # raw subdirectories
 cd $subjDir
-mkdir func anat qt1 dwi
+#mkdir func anat qt1 dwi
 
 
 # t1-weighted file
-
 if [ "$t1wnum" != "0" ]; then
-	# get scan id for this file
-	scanID=$(fw ls "knutson/fmrieat/${cniID}" --ids | grep 'T1w .9mm BRAVO' | awk '{print $1}')
-	echo scanID: $scanID
-	fileName=$(fw ls "knutson/fmrieat/${cniID}/${scanID}/files" | grep 'nii' | awk '{print $5}')
-	echo fileName: $fileName
-	cmd="fw download \"knutson/fmrieat/${cniID}/${scanID}/${fileName}\" -o anat/t1w.nii.gz"
-	echo $cmd
-	eval $cmd	# execute the command
+
+	# make sure there's just 1 file: 
+	scanStr='T1w .9mm BRAVO'
+	outFilePath='anat/t1w.nii.gz'
+	nscans=$(fw ls "knutson/fmrieat/${cniID}" --ids | grep ${scanStr} | wc -l)
+	if [ "$nscans" -eq "1" ]; then
+		printf "\n\n\n1 SCAN FOUND FOR ${scanStr} SO ALL IS GOOD...\n\n\n"
+		scanID=$(fw ls "knutson/fmrieat/${cniID}" --ids | grep ${scanStr}  | awk '{print $1}')
+		fileName=$(fw ls "knutson/fmrieat/${cniID}/${scanID}/files" | grep 'nii' | awk '{print $5}')
+		echo fileName: $fileName
+		cmd="fw download \"knutson/fmrieat/${cniID}/${scanID}/${fileName}\" -o ${outFilePath}"
+		echo $cmd
+		eval $cmd	# execute the command
+
+	# if there's more than 1 scan with the same name, pick the last one
+	elif [ "$nscans" -lt "1" ]; then
+		printf "\n\n\nMORE THAN 1 SCAN FOUND FOR ${scanStr};\nCONFIRM THAT THE LAST ONE IS THE CORRECT ONE\n\n\n"
+		scanID=$(fw ls "knutson/fmrieat/${cniID}" --ids | grep ${scanStr} | tail -n 1 | awk '{print $1}')
+		fileName=$(fw ls "knutson/fmrieat/${cniID}/${scanID}/files" | grep 'nii' | awk '{print $5}')
+		echo fileName: $fileName
+		cmd="fw download \"knutson/fmrieat/${cniID}/${scanID}/${fileName}\" -o anat/t1w.nii.gz"
+		echo $cmd
+		eval $cmd	# execute the command
+
+	# if no ID is found, skip it
+	else	
+		printf "\n\n\nCOULDNT FIND SCAN ID FOR ${scanStr}, SO SKIPPING...\n\n"
+	fi
+
 fi
 
 
 
-# # cue data file
+# # # cue data file
 # if [ "$cuenum" != "0" ]; then
-# cmd="fw download \"knutson/fmrieat/${cniID}/BOLD EPI 2.9mm 2sec CUE/files/${cniID}_${cuenum}_1.nii.gz\" -o func/cue1.nii.gz"
-# echo GET FMRI file:
-# echo $cmd
-# eval $cmd	# execute the command
+# 	# get scan id for this file
+# 	scanID=$(fw ls "knutson/fmrieat/${cniID}" --ids | grep 'BOLD EPI 2.9mm 2sec CUE' | awk '{print $1}')
+# 	echo scanID: $scanID
+# 	fileName=$(fw ls "knutson/fmrieat/${cniID}/${scanID}/files" | grep 'nii' | awk '{print $5}')
+# 	echo fileName: $fileName
+# 	cmd="fw download \"knutson/fmrieat/${cniID}/${scanID}/${fileName}\" -o anat/t1w.nii.gz"
+# 	echo $cmd
+# 	eval $cmd	# execute the command
 # fi
-
-echo DONE
+# echo DONE
 
 
 	
