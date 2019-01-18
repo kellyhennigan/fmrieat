@@ -12,6 +12,23 @@
 # ALSO NOTE: before running this, I need to log into flywheel first:
 # fw login cni.flywheel.io:faKngx7782veTjZPM9
 
+# code to iterate through 2 arrays: 
+# A1=( "subj1" "subj2" "subj3" "subj4" )
+# A2=( "s1" "s2" "s3" "s4" )
+# for ((i=0;i<4;++i)); do
+# printf "%s and then %s\n" "${A1[i]}" "${A2[i]}"
+# done
+
+
+# ga181112	19072
+# gm181112	19073
+# ks181114	19095
+# tr181126	19179
+# id181126	19180
+# ap181126	19181
+# pm181126	19182
+# js181128	19200
+
 #########################################################################
 ########################## DEFINE VARIABLES #############################
 #########################################################################
