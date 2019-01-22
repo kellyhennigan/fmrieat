@@ -10,7 +10,7 @@ import os,sys
 # whole trial (TRs 1-4), rather than just at the image onset period (TR 2). 
 
 #data_dir = os.path.join(os.path.expanduser('~'),'fmrieat','derivatives')
-data_dir = os.path.join('home','span','lvta','fmrieat','derivatives')
+data_dir = os.path.join('/home','span','lvta','fmrieat','derivatives')
 
 
 afniStr = '_afni' # set this to '' if not using afni coreg version
