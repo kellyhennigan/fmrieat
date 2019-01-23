@@ -118,7 +118,7 @@ do
 
 	# create a “censor vector” that denotes bad movement volumes with a 0 and good volumes with a 1
 	# to be used later for glm estimation and making timecourses
-	1d_tool.py -infile vr_cue.1D[1..6] -show_censor_count -censor_prev_TR -censor_motion $censor_thresh cue
+	1d_tool.py -infile cue_vr.1D[1..6] -show_censor_count -censor_prev_TR -censor_motion $censor_thresh cue
 	rm cue_CENSORTR.txt
 	
 
