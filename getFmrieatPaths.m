@@ -30,24 +30,10 @@ p.derivatives = fullfile(p.baseDir, 'derivatives');
 p.source = fullfile(p.baseDir, 'source');
 p.figures = fullfile(p.baseDir, 'figures');
 p.scripts = fullfile(p.baseDir, 'scripts');
+p.subjlist = fullfile(p.baseDir, 'subjects_list');
 
 % place scripts directory at the top of the search path
-path(p.scripts,path)
-
-% 
-% % subject directories
-% if ~notDefined('subject')
-%     p.subj = fullfile(p.data, subject);  % subject directory
-%     p.behavior    = fullfile(p.subj, 'behavior');
-%     %     p.design_mats = fullfile(p.subj, 'design_mats');
-%     %     p.dti_proc   = fullfile(p.subj, 'dti80trilin');
-%     p.func_proc_cue   = fullfile(p.subj, 'func_proc_cue');
-%     p.raw         = fullfile(p.subj, 'raw');
-%     p.regs        = fullfile(p.subj, 'regs');
-%     %     p.ROIs        = fullfile(p.subj, 'ROIs');
-%     %     p.results        = fullfile(p.subj, 'results');
-%     p.t1          = fullfile(p.subj, 't1');
-% end
+path(genpath_nohidden(p.scripts),path)
 
 
 

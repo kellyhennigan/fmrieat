@@ -11,13 +11,8 @@ clear all
 close all
 
 
-% p=getFmrieatPaths;
-p.source='/Users/kelly/fmrieat/source';
-p.derivatives='/Users/kelly/fmrieat/derivatives';
+p=getFmrieatPaths;
 
-
-p.baseDir='/Users/kelly/fmrieat';
-p.figures='/Users/kelly/fmrieat/figures';
 subjects={'ga181112','gm181112','ks181114','tr181126'};
 
 path(p.scripts,path)
