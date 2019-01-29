@@ -47,7 +47,7 @@ switch task
         mp_file = [dataDir '/%s/func_proc/' task '_vr.1D']; % motion param file where %s is task
         
         en_thresh = [.5 1 2];
-        percent_bad_thresh = [2 1 .5];
+        percent_bad_thresh = [5 1 .5];
         
 end
 
