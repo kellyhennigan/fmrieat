@@ -4,17 +4,23 @@
 clear all
 close all
 
-p=getFmrieatPaths;
+% p=getFmrieatPaths;
 
 
 subjects={'ga181112','gm181112','ks181114','tr181126','id181126','ap181126','pm181126','js181128','st181126','sa181203','fh181203','ar181204','rk181206','kl181210','pc181210','as181210','em181211','ja181214','rs181219','js190106','an190106','se190106','ky190106','er190106','ag190107','hb190109','ty190109','kt190110','ms190110','ty190110','nh190110','sk190110','ak190110','as190111','ih190111','mx190114','va190114','jk190114','km190114','bg190114_1','sl190114','bg190114_2','aa190115','mm190115','lg190117','ay190117'};
 
-task='cue'
+task='cue';
+
+p.source='/home/span/lvta/fmrieat/source';
+% p.derivatives=
 
 
-dataDir = p.derivatives;
+p.scripts='/home/span/lvta/fmrieat/scripts';
+path(p.scripts,path)
 
-figDir = fullfile(p.figures,'QA',task);
+dataDir = '/home/span/lvta/fmrieat/derivatives';
+
+figDir = fullfile('/home/span/lvta/fmrieat/figures','QA',task);
 
 savePlots = 1; % 1 to save plots, otherwise 0
 
