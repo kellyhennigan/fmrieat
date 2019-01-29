@@ -50,11 +50,11 @@ switch task
         
         mp_file = [dataDir '/%s/func_proc/' task '_vr.1D']; % motion param file where %s is task
         
-        en_thresh = 1;
-        percent_bad_thresh = 1;
+        en_thresh = .5;
+        percent_bad_thresh = 5;
         
-        roi_str = 'nacc_afni';
-        roits_file = [dataDir '/%s/func_proc/' task '_' roi_str '.1D']; % roi time series file to plot where %s is task
+        roi_str = 'nacc';
+        roits_file = [dataDir '/%s/func_proc/' task '_' roi_str '_ts.1D']; % roi time series file to plot where %s is task
         
 end
 
@@ -105,14 +105,14 @@ for s = 1:numel(subjects)
         max_en(s,1)=nan; max_TR(s,1)=nan; nBad(s,1)=nan; omit_idx(s,1)=nan;
     else
         
-        % plot motion params & save if desired
-       fig = plotMotionParams(mp);
-        if savePlots
-            outName = [subject '_mp'];
-            print(gcf,'-dpng','-r300',fullfile(figDir,outName));
-        end
-        
-        
+%         % plot motion params & save if desired
+%        fig = plotMotionParams(mp);
+%         if savePlots
+%             outName = [subject '_mp'];
+%             print(gcf,'-dpng','-r300',fullfile(figDir,outName));
+%         end
+%         
+%         
         % calculate euclidean norm (head motion distance roughly in mm units)
         en = [0;sqrt(sum(diff(mp).^2,2))];
         
@@ -137,7 +137,11 @@ for s = 1:numel(subjects)
         
         % plot, if desired
         if ~isempty(roits_file) && exist(sprintf(roits_file,subject),'file')
+        try
             ts = dlmread(sprintf(roits_file,subject));
+        catch me
+        end
+        
         else
             ts = zeros(numel(en),1); roi_str = '';
         end
