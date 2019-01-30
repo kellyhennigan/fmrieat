@@ -70,6 +70,9 @@ this should create the directory, **fmrieat/source/subjid/behavior**, which shou
 
 
 
+
+
+
 ### Estimate transforms to align subject's fmri and anatomy to standard space 
 from a terminal command line, run: 
 ```
