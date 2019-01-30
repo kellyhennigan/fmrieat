@@ -9,23 +9,43 @@ These scripts require the following software:
 * [Matlab](https://www.mathworks.com/products/matlab.html)
 * [matlab package, VISTASOFT](https://github.com/vistalab/vistasoft)
 * [mrtrix 3.0](http://www.mrtrix.org/)
+* spm (VISTASOFT dependency)
+* freesurfer
 
-## raw data: 
+## before you start
 
-Start with the following raw data files:
+make sure the user has permission to execute bash scripts. From a terminal command line, cd to the directory containing these scripts. Then type:
+```
+chmod 777 *sh
+```
+to be able to execute them. This only needs to be run once. 
+
+
+## get raw data from flywheel: 
+
+<i>from a terminal command line, type:</i> 
+```
+./setup_raw_data.sh
+```
+this will copy over the data into a BIDs-compatible directory structure
+
+
+## get raw behavioral data
+
+<i>in matlab, run:</i> 
+```
+setup_behavioral_data.m
+```
+to copy over raw behavioral data files to your local computer and then manually transfer them to vta server. Alternatively, just copy over the behavioral files to vta into the "source" sub-directory. 
+
+
+## to start pre-processing, Start with the following raw data files:
 
 - cue_matrix.csv -behavioral data from the task
 - t1_raw.nii.gz –subjects t1-weighted anatomical scan
 - cue1.nii.gz –functional task data
 - quantitative t1 nifti 
 
-
-## before running scripts, make sure the user has permission to execute bash scripts:
-<i>from a terminal command line, cd to the directory containing these scripts. Then type:</i> 
-```
-chmod 777 *sh
-```
-to be able to execute them. This only needs to be run once. 
 
 
 ## pre-processing pipeline
