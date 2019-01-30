@@ -28,6 +28,39 @@ chmod 777 *py
 to be able to execute them. This only needs to be run once. 
 
 
+[fMRI pipeline](#fmri-pipeline)
+
+- [Get raw mri data](#get-raw-mri-data)
+- [Get behavioral data](#get-behavioral-data)
+- [Estimate transforms from subject's native to standard space](#estimate-transforms-from-subject's-native-to-standard-space)
+- [Pre-process fmri data](#pre-process-fmri-data)
+- [Quality Assurance (QA)](#quality-assurance)
+- [Get stimulus onset times and make regressors](#get-stimulus-onset-times-and-make-regressors)
+- [Subject-level GLMs](#subject-level-glms)
+- [Group-level whole brain analyses](#group-level-whole-brain-analyses)
+- [Generate VOI timecourses](#generate-voi-timecourses)
+- [Behavioral analyses](#behavioral-analyses)
+
+
+[dMRI pipeline](#dmri-pipeline)
+
+- [Acpc-align t1 data](#acpc-align-t1-data)
+- [Run freesurfer recon](#run-freesurfer-recon)
+- [Convert freesurfer files to nifti and save out ROI masks](#convert-freesurfer-files-to-nifti-and-save-out-roi-masks)
+- [Convert midbrain ROI from standard > native space](#convert-midbrain-roi-from-standard->-native-space)
+- [Pre-process diffusion data](#pre-process-diffusion-data)
+- [Mrtrix pre-processing steps](#rtrix-pre-processing-steps)
+- [Track fibers](#track-fibers)
+- [Clean fiber bundles](#Clean fiber bundles)
+- [Save out measurements from the core of fiber bundles]
+- [Correlate diffusivity measures with behavioral and functional measures](#correlate-diffusivity-measures-with-behavioral-and-functional-measures)
+- [Create density maps of fiber group endpoints](#create-density-maps-of-fiber-group-endpoints)
+
+
+
+## fMRI pipeline
+
+
 ### Get raw mri data 
 from a terminal command line, type:
 ```
@@ -44,16 +77,6 @@ this should create a directory, **fmrieat/rawdata_bids/subjid** where subjid is 
 * dwi/bvec				# b-vectors 
 * <i>(quantitative t1 scans are saved as well; pipeline for that to be added later)</i> 
 
-
-At this point, the fMRI and dMRI processing streams are separate and can be run in parallel. See links below to go to each pipeline:
-[fMRI pipeline](#fmri-pipeline)
-[dMRI pipeline](#dmri-pipeline)
-
-
-
-## fMRI pipeline
-
-
 ### Get behavioral data 
 In matlab, run:
 ```
@@ -68,7 +91,7 @@ this should create the directory, **fmrieat/source/subjid/behavior**, which shou
 
 
 
-### Estimate transforms to align subject's fmri and anatomy to standard space 
+### Estimate transforms from subject's native to standard space
 from a terminal command line, run: 
 ```
 ./preprocess_anat.sh
@@ -226,7 +249,7 @@ to check out behavioral data.
 
 This pipeline is specifically designed for identifying the medial forebrain bundle. 
 
-### Manually acpc-align t1 data
+### Acpc-align t1 data
 In matlab, run:
 ```
 mrAnatAverageAcpcNifti
