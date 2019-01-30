@@ -6,7 +6,7 @@ This repository has code for processing functional mri (fmri) and diffusion mri 
 ## Getting started
 
 
-### software requirements 
+### Software requirements 
 
 * [Python 2.7](https://www.python.org/)
 * [Matlab](https://www.mathworks.com/products/matlab.html)
@@ -17,7 +17,7 @@ This repository has code for processing functional mri (fmri) and diffusion mri 
 * [freesurfer](https://surfer.nmr.mgh.harvard.edu/) (dmri pipeline only)
 
 
-### permissions
+### Permissions
 
 make sure the user has permission to execute scripts. From a terminal command line, cd to the directory containing these scripts. Then type:
 ```
@@ -27,7 +27,7 @@ chmod 777 *py
 to be able to execute them. This only needs to be run once. 
 
 
-## Get raw mri data 
+### Get raw mri data 
 
 from a terminal command line, type:
 ```
