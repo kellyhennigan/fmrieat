@@ -43,10 +43,11 @@ if __name__ == '__main__':
 
 	main_dir = getMainDir()
 	
+	subjects = whichSubs()
+
 	data_dir = main_dir+'/derivatives'
 	os.chdir(data_dir) 		
 
-	subjects = whichSubs()
 
 	filepath = raw_input('filepath to process, relative to subject dir: ')
 	print filepath
