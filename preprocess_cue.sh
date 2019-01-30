@@ -50,13 +50,15 @@ dataDir=$mainDir/rawdata_bids
 
 
 # subject ids to process
-#subjects='ga181112 tr181126 id181126 ap181126 pm181126 js181128 st181126 sa181203 fh181203 ar181204 rk181206 pc181210 as181210 ja181214 rs181219 js190106 an190106 se190106 ky190106'
-# er190106 ag190107 hb190109 ty190109 kt190110 ms190110 ty190110 nh190110 sk190110 ak190110 as190111 ih190111 mx190114 km190114 bg190114_1 sl190114 bg190114_2 aa190115 mm190115 lg190117 ay190117'
-subjects='em181211 kl181210 va190114 jk190114'
+# subject ids to process
+msg='enter subject ID(s) e.g., ab180123 va190114:' 
+echo $msg
+read subjects
+echo you entered: $subjects
 
 # threshold for determining which volumes should be censored due to "bad" motion 
 # (I use a threshold of 1 which seems good)
-censor_thresh=1
+censor_thresh=.5
 
 # filepaths to ROI masks 
 wmMaskFile=$mainDir/derivatives/ROIs/wm_func.nii
