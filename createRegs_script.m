@@ -13,7 +13,7 @@ close all
 
 p=getFmrieatPaths;
 
-subjects={'ga181112','gm181112','ks181114','tr181126'};
+subjects=getFmrieatSubjects();
 
 path(p.scripts,path)
 

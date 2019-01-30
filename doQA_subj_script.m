@@ -12,7 +12,7 @@ dataDir = p.derivatives;
 task='cue';
 
 %
-[subjects,gi]=getFmrieatSubjects();
+subjects=getFmrieatSubjects();
 
 
 figDir = fullfile(p.figures,'QA',task);
