@@ -13,6 +13,7 @@ This repository has code for processing functional mri (fmri) and diffusion mri 
 * [AFNI](https://afni.nimh.nih.gov/) (fmri pipeline only)
 * [matlab package, VISTASOFT](https://github.com/vistalab/vistasoft) (dmri pipeline only)
 * [spm as a VISTASOFT dependency](https://www.fil.ion.ucl.ac.uk/spm/) (dmri pipeline only)
+* [AFQ](https://github.com/yeatmanlab/AFQ) (dmri pipeline only)
 * [mrtrix 3.0](http://www.mrtrix.org/) (dmri pipeline only)
 * [freesurfer](https://surfer.nmr.mgh.harvard.edu/) (dmri pipeline only)
 
@@ -28,7 +29,6 @@ to be able to execute them. This only needs to be run once.
 
 
 ### Get raw mri data 
-
 from a terminal command line, type:
 ```
 ./setup_raw_data.sh
@@ -36,9 +36,7 @@ from a terminal command line, type:
 this will copy over the raw MRI data from Flywheel into a BIDs-compatible directory structure.
 
 #### output
-
 this should create a directory, **fmrieat/rawdata_bids/subjid** where subjid is the subject id. This directory should contain: 
-
 * func/cue1.nii.gz 		# fMRI data 
 * anat/t1w.nii.gz 		# t1-weighted (anatomical) data 
 * dwi/dwi.nii.gz		# diffusion MRI data
@@ -46,11 +44,11 @@ this should create a directory, **fmrieat/rawdata_bids/subjid** where subjid is 
 * dwi/bvec				# b-vectors 
 * <i>(quantitative t1 scans are saved as well; pipeline for that to be added later)</i> 
 
+
 At this point, the fMRI and dMRI processing streams are separate and can be run in parallel. See links below to go to each pipeline:
-
 [fMRI pipeline](#fmri-pipeline)
-
 [dMRI pipeline](#dmri-pipeline)
+
 
 
 ## fMRI pipeline
@@ -67,9 +65,6 @@ to save behavioral data (stim timing and ratings files) locally, then scp them t
 this should create the directory, **fmrieat/source/subjid/behavior**, which should contain:
 * cue_matrix.csv	# stim timing file
 * cue_ratings.csv 	# valence and arousal ratings
-
-
-
 
 
 
@@ -95,9 +90,7 @@ this should create the directory, **fmrieat/derivatives/subjid/func_proc**, whic
 
 
 ### Pre-process fmri data
-
 from a terminal command line, run:
-
 ```
 ./preprocess_cue.sh
 ```
@@ -113,9 +106,7 @@ this script does the following using AFNI commands:
 * saves out white matter, csf, and nacc VOI time series as single vector text files (e.g., 'cue_csf_ts.1D') 
 
 #### output 
-
 files saved out to directory **fmrieat/derivatives/subjid/func_proc** are: 
-
 * pp_cue.nii.gz		# pre-processed fmri data in native space
 * pp_cue_tlrc_afni.nii.gz		# " " in standard space
 * cue_vr.1D			# volume-to-volume motion estimates (located in columns 2-7 of the file)
@@ -124,12 +115,11 @@ files saved out to directory **fmrieat/derivatives/subjid/func_proc** are:
 * cue_[ROI]_ts.1D	# ROI time series 
 
 
-### Quality Assurance (QA)
 
-at this point, we should do some QA checks. The most common things that can go wrong are bad coregistration in group space and bad head motion. 
+### Quality Assurance (QA)
+At this point, we should do some QA checks. The most common things that can go wrong are bad coregistration in group space and bad head motion. 
 
 #### bad co-registration
-
 In afni viewer, load subject's anatomy and functional volume in tlrc space (files "t1_tlrc_afni.nii.gz" and "vol1_cue_tlrc_afni.nii.gz"). These should be reasonably aligned. If they aren't, that means 1) the anatomical <-> functional alignment in native space messed up, 2) the subject's anatomical <-> tlrc template alignment messed up, or 3) both messed up. 
 
 This can be done more efficiently for a lot of subjects by using the script `concatSubjVol.py`. Run that to concatanate all subjects' t1 and vol1 functional data in tlrc space, then flip through them in the afni viewer using the "index" option. 
@@ -143,7 +133,6 @@ Here's an example of bad coregistration (where something went terribly wrong!)
 To correct bad coregistration, follow instuctions outlined in `preprocess_anat_nudge.sh`, then run that instead of preprocess_anat.sh. If coregistration then looks fixed, run `preprocess_cue.sh` as usual. 
 
 #### bad head motion
-
 In matlab, run: 
 ```
 doQA_subj_script.m
@@ -155,8 +144,8 @@ doQA_group_script.m
 to save out figures showing head motion. Figures saved out to **fmrieat/figures/QA/cue**. At this point, we've decided to exclude participants that have bad motion for 5% of more volumes of the fmri data, with bad motion being defined as .5mm or more. `doQA_group_script` will say if a subject is recommended to be excluded based on these parameters. 
 
 
-### Get stimulus onset times and make regressors
 
+### Get stimulus onset times and make regressors
 In matlab, run: 
 ```
 createRegs_script
@@ -166,14 +155,11 @@ this script loads behavioral data to get stimulus onset times and saves out regr
 Note that the output files from this script are used for estimating single-subject GLMs as well as for plotting VOI timecourses. 
 
 #### output 
+this should create directory **fmrieat/derivatives/subjid/regs** which should contain all the regressor and stimulus timing files. To check out regressor time series, from a terminal command line, cd to output "regs" directory, then type, e.g., `1dplot food_cue_cuec.1D`. 
 
-this should create directory **fmrieat/derivatives/subjid/regs** which should contain all the regressor and stimulus timing files. 
-
-To check out regressor time series, from a terminal command line, cd to output "regs" directory, then type, e.g., `1dplot food_cue_cuec.1D`. 
 
 
 ### Subject-level GLMs
-
 From terminal command line, run: 
 ```
 python glm_cue.py
@@ -181,26 +167,26 @@ python glm_cue.py
 to specify GLM and fit that model to data using afni's 3dDeconvolve. There's excellent documentation on this command [here](https://afni.nimh.nih.gov/pub/dist/doc/manual/Deconvolvem.pdf). 
 
 #### output 
-
 saves out the following files to directory **fmrieat/derivatives/results_cue**:
-
 * subjid_glm_B+tlrc 	# file containing only beta coefficients for each regressor in GLM
 * subjid_glm+tlrc 		# file containing a bunch of GLM stats
-
 To check out glm results, open these files in afni as an overlay (with, e.g., TT_N27.nii as underlay). You can also get info about these files using afni's 3dinfo command, e.g., from the terminal command line, `3dinfo -verb subjid_glm_B+tlrc`.
 
 
-### Group-level whole brain analyses
 
+### Group-level whole brain analyses
 From terminal command line, run: 
 ```
 python ttest_cue.py
 ```
 to use AFNI's command 3dttest++ to perform t-ttests on subjects' brain maps.
 
+#### output 
+Saves out resulting Z-maps to directory **fmrieat/derivatives/results_cue**. Check out results in afni viewer. 
+
+
 
 ### Generate VOI timecourses
-
 In matlab, run: 
 ```
 saveRoiTimeCourses_script
@@ -211,16 +197,151 @@ plotRoiTimeCourses_script
 ```
 to save out and plot VOI timecourses for events of interest.
 
+#### output 
+Saves out VOI timecourses to directory **fmrieat/derivatives/timecourses_cue** and saves out figures to **fmrieat/figures/timecourses_cue/**.
 
-### Check out behavior
+
+
+### Behavioral analyses
 In matlab, run: 
 ```
 analyzeBehavior_script & analyzeBehavior_singlesubject_script
 ```
-to check out behavioral data
+to check out behavioral data. 
+
+
+
+### TO DO: 
+- qualtrics questionnaire analyses
+- pipeline data collected on paper (weight, height, etc.)
+- get follow-up data!
 
 
 
 ## dMRI pipeline
+
+This pipeline is specifically designed for identifying the medial forebrain bundle. 
+
+### Manually acpc-align t1 data
+In matlab, run:
+```
+mrAnatAverageAcpcNifti
+```
+Use GUI to manually acpc-align t1 data 
+
+#### output
+Save out acpc-aligned nifti to **fmrieat/derivatives/anat_proc/t1_acpc.nii.gz**. 
+
+
+### Run freesurfer recon
+From terminal command line, cd to dir with subject's acpc-aligned t1 and run: 
+```
+recon-all -i t1_acpc.nii.gz -subjid subjid -all
+```
+This calls freesurfer's recon command to segment brain tissue
+
+#### output
+Saves out a bunch of files to directory, **/usr/local/freesurfer/subjects/subjid**.
+
+
+
+### Convert freesurfer files to nifti and save out ROI masks
+In matlab, run:
+```
+convertFsSegFiles_script.m
+createRoiMasks_script.m
+```
+To convert freesurfer segmentation files to be in nifti format & save out desired ROI masks based on FS segmentation labels
+
+#### output
+Saves out files to directory, **fmrieat/derivatives/subjid/anat_proc**
+
+
+
+### Convert midbrain ROI from standard > native space
+From terminal command line, run:
+```
+t12tlrc_ANTS_script.py
+```
+and then in matlab, run:
+```
+xformROIs_script.m
+```
+To estimate the tranform (using ANTs) between subject's acpc-aligned native space and standard space and to apply the inverse transform to take a midbrain ROI in standard space > subject native space. 
+
+#### output
+Saves out acpc-aligned<->standard space transforms to directory, **fmrieat/derivatives/subjid/anat_proc**, and saves out a midbrain ROI ("DA.nii.gz") in directory: **fmrieat/derivatives/subjid/ROIs**
+
+
+
+### Pre-process diffusion data
+In Matlab, run:
+```
+dtiPreProcess_script
+```
+To do vistasoft standard pre-processing steps on diffusion data.
+
+#### output
+Saves out files to directory, **fmrieat/derivatives/subjid/dti96trilin**
+
+
+
+### mrtrix pre-processing steps 
+From terminal command line, run:
+```
+python mrtrix_proc.py
+```
+This script: 
+* copies b_file and brainmask to mrtrix output dir
+* make mrtrix tensor file and fa map (for comparison with mrvista maps and for QA)
+* estimate response function using lmax of 8
+* estimate fiber orientation distribution (FOD) (for tractography)
+
+#### output
+Saves out files to directory, **fmrieat/derivatives/subjid/dti96trilin/mrtrix**
+
+
+
+### Track fibers
+From terminal command line, run:
+```
+python mrtrix_fibertrack.py
+```
+tracks fiber pathways between 2 ROIs with desired parameters 
+
+##### output
+Saves out files to directory, **fmrieat/derivatives/fibersdti96trilin/mrtrix**
+
+
+### Clean fiber bundles
+In matlab:
+```
+cleanFibers_script
+```
+uses AFQ software to iteratively remove errant fibers 
+
+##### output
+Saves out fiber group files to directory, **fmrieat/derivatives/subjid/fibers**
+
+
+
+### Save out measurements from the core of fiber bundles 
+In matlab:
+```
+dtiSaveFGMeasures_script & dtiSaveFGMeasures_csv_script
+```
+
+### Correlate diffusivity measurements with personality and/or fMRI measures, e.g., impulsivity
+
+### Create density maps of fiber group endpoints 
+
+
+
+
+
+
+
+
+
 
 
