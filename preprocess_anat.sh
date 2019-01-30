@@ -101,7 +101,10 @@ do
 
 
 	# also make a "xfs" directory to house all xform files
-	mkdir xfs
+	if [ ! -d xfs ]; then
+		mkdir xfs
+	fi 
+	
 
 	# remove skull from t1 anatomical data
 	3dSkullStrip -prefix t1_ns.nii.gz -input $inAnatDir/t1w.nii.gz
