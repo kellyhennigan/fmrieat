@@ -126,7 +126,9 @@ This can be done more efficiently for a lot of subjects by using the script `con
 
 Here's an example of decent coregistration: 
 ![decent coreg](https://github.com/kellyhennigan/fmrieat/blob/master/coreg_examples/decent_coreg_y.jpg)
-
+<p align="center">
+  <img width="322" height="302" src="https://github.com/kellyhennigan/fmrieat/blob/master/coreg_examples/decent_coreg_y.jpg">
+</p>
 Here's an example of bad coregistration (where something went terribly wrong!)
 ![bad coreg](https://github.com/kellyhennigan/fmrieat/blob/master/coreg_examples/bad_coreg_y.jpg)
 
