@@ -15,8 +15,6 @@ p=getFmrieatPaths;
 
 subjects=getFmrieatSubjects();
 
-path(p.scripts,path)
-
 
 % hard code # of TRs bc behavioral log file doesn't match # of actual TRs acquired
 nTRs = 436;
