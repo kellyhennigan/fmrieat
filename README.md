@@ -27,21 +27,17 @@ chmod 777 *py
 to be able to execute them. This only needs to be run once. 
 
 
-## get raw mri data 
+## Get raw mri data 
 
 from a terminal command line, type:
 ```
 ./setup_raw_data.sh
 ```
-this will copy over the raw MRI data from Flywheel into a BIDs-compatible directory structure
+this will copy over the raw MRI data from Flywheel into a BIDs-compatible directory structure.
 
-#### OUTPUT
+#### output
 
-this should create the directory:
-
-* fmrieat/rawdata_bids/subjid		# subject raw MRI data folder 
-
-where subjid is the subject's id. This directory should contain:
+this should create a directory, **fmrieat/rawdata_bids/subjid** where subjid is the subject id. This directory should contain: 
 
 * func/cue1.nii.gz 		# fMRI data 
 * anat/t1w.nii.gz 		# t1-weighted (anatomical) data 
@@ -60,28 +56,21 @@ At this point, the fMRI and dMRI processing streams are separate and can be run 
 ## fMRI pipeline
 
 
-### get behavioral data 
-
+### Get behavioral data 
 In matlab, run:
 ```
 setup_behavioral_data.m 
 ```
 to save behavioral data (stim timing and ratings files) locally, then scp them to save them on vta server. (Or just manually scp them from Google drive folder to vta server)
 
-#### OUTPUT 
-
-this should create the following directory: 
-
-* fmrieat/source/subjid/behavior		# subject directory for behavioral data
-
-which should contain: 
-
+#### output 
+this should create the directory, **fmrieat/source/subjid/behavior**, which should contain:
 * cue_matrix.csv	# stim timing file
 * cue_ratings.csv 	# valence and arousal ratings
 
 
-### estimate transforms to align subject's fmri and anatomy to standard space 
 
+### Estimate transforms to align subject's fmri and anatomy to standard space 
 from a terminal command line, run: 
 ```
 ./preprocess_anat.sh
@@ -92,22 +81,17 @@ this script does the following using AFNI commands:
 * pulls out the first volume of functional data to be co-registered to anatomy and skullstrips this volume using "3dSkullStrip"
 * coregisters anatomy to functional data, and then calculates the transform from native functional space to standard group space (tlrc space)
 
-#### OUTPUT 
-
-this should create the following directory: 
-
-* fmrieat/derivatives/subjid/func_proc				# directory for subject's processed fmri data
-
-which should contain: 
-
-* t1_ns.nii.gz 			# subject's t1 with no skull in native space
-* t1_tlrc_afni.nii.gz	# " " in standard (tlrc) space
-* vol1_cue_ns.nii.gz 	# 1st vol of fmri data with no skull in native space
+#### output 
+this should create the directory, **fmrieat/derivatives/subjid/func_proc**, which should contain: 		
+* t1_ns.nii.gz 				# subject's t1 with no skull in native space
+* t1_tlrc_afni.nii.gz		# " " in standard (tlrc) space
+* vol1_cue_ns.nii.gz 		# 1st vol of fmri data with no skull in native space
 * vol1_cue_tlrc_afni.nii.gz	# " " in standard space
-* xfs # sub-directory containing all transforms 
+* xfs 						# sub-directory containing all transforms 
 
 
-### pre-process fmri data
+
+### Pre-process fmri data
 
 from a terminal command line, run:
 
@@ -125,9 +109,9 @@ this script does the following using AFNI commands:
 * transforms pre-processed functional data into standard group (tlrc) space using transforms estimated in "preprocess_anat.sh" script
 * saves out white matter, csf, and nacc VOI time series as single vector text files (e.g., 'cue_csf_ts.1D') 
 
-#### OUTPUT 
+#### output 
 
-files saved out to fmrieat/derivatives/subjid/func_proc are: 
+files saved out to directory **fmrieat/derivatives/subjid/func_proc** are: 
 
 * pp_cue.nii.gz		# pre-processed fmri data in native space
 * pp_cue_tlrc_afni.nii.gz		# " " in standard space
@@ -160,10 +144,12 @@ To correct bad coregistration, follow instuctions outlined in `preprocess_anat_n
 In matlab, run: 
 ```
 doQA_subj_script.m
-and 
+```
+and then: 
+```
 doQA_group_script.m
 ```
-to save out figures showing head motion. Figures saved out to <i>fmrieat/figures/QA/cue<\i>. At this point, we've decided to exclude participants that have bad motion for 5% of more volumes of the fmri data, with bad motion being defined as .5mm or more. `doQA_group_script` will say if a subject is recommended to be excluded based on these parameters. 
+to save out figures showing head motion. Figures saved out to **fmrieat/figures/QA/cue**. At this point, we've decided to exclude participants that have bad motion for 5% of more volumes of the fmri data, with bad motion being defined as .5mm or more. `doQA_group_script` will say if a subject is recommended to be excluded based on these parameters. 
 
 
 ### Get stimulus onset times and make regressors
@@ -174,37 +160,26 @@ createRegs_script
 ```
 this script loads behavioral data to get stimulus onset times and saves out regressors of interest. Saved out files each contain a single vector of length equal to the number of TRs in the task with mostly 0 entries, and than 1 to indicate when an event of interest occurs. These vectors are then convolved with an hrf using AFNI's waver command to model the hemodynamic response. 
 
-#### OUTPUT 
+Note that the output files from this script are used for estimating single-subject GLMs as well as for plotting VOI timecourses. 
 
-reg files saved out to: 
+#### output 
 
-* fmrieat/derivatives/subjid/regs		# subject directory for behavioral data
+this should create directory **fmrieat/derivatives/subjid/regs** which should contain all the regressor and stimulus timing files. 
 
-To check out regressor time series, from a terminal command line, cd to output "regs" directory, then type, e.g.:
-```
-1dplot food_cue_cuec.1D
-```
-
-** Note that the OUTPUT files from this script are used for estimating single-subject GLMs and for plotting VOI timecourses. 
+To check out regressor time series, from a terminal command line, cd to output "regs" directory, then type, e.g., `1dplot food_cue_cuec.1D`. 
 
 
-### fit single-subject GLMs
+### Subject-level GLMs
 
 From terminal command line, run: 
-
 ```
 python glm_cue.py
-
 ```
 to specify GLM and fit that model to data using afni's 3dDeconvolve. There's excellent documentation on this command [here](https://afni.nimh.nih.gov/pub/dist/doc/manual/Deconvolvem.pdf). 
 
-#### OUTPUT 
+#### output 
 
-saves out files to this directory:
-
-* fmrieat/derivatives/results_cue		
-
-files saved out are: 
+saves out the following files to directory **fmrieat/derivatives/results_cue**:
 
 * subjid_glm_B+tlrc 	# file containing only beta coefficients for each regressor in GLM
 * subjid_glm+tlrc 		# file containing a bunch of GLM stats
@@ -212,16 +187,18 @@ files saved out are:
 To check out glm results, open these files in afni as an overlay (with, e.g., TT_N27.nii as underlay). You can also get info about these files using afni's 3dinfo command, e.g., from the terminal command line, `3dinfo -verb subjid_glm_B+tlrc`.
 
 
-### estimate group maps 
+### Group-level whole brain analyses
+
 From terminal command line, run: 
 ```
 python ttest_cue.py
 ```
-to use AFNI's command 3dttest++ to perform t-ttests on subjects' brain maps
+to use AFNI's command 3dttest++ to perform t-ttests on subjects' brain maps.
 
 
-### To generate VOI timecourses: 
-<i>from matlab command line, type:</i> 
+### Generate VOI timecourses
+
+In matlab, run: 
 ```
 saveRoiTimeCourses_script
 ```
@@ -229,15 +206,13 @@ and then:
 ```
 plotRoiTimeCourses_script
 ```
-to save & plot ROI timecourses for events of interest
+to save out and plot VOI timecourses for events of interest.
 
 
-### check out behavior
-<i>in matlab, run:</i> 
+### Check out behavior
+In matlab, run: 
 ```
-analyzeBehavior_script
-& 
-analyzeBehavior_singlesubject_script
+analyzeBehavior_script & analyzeBehavior_singlesubject_script
 ```
 to check out behavioral data
 
