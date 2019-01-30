@@ -51,8 +51,8 @@ to be able to execute them. This only needs to be run once.
 - [Pre-process diffusion data](#pre-process-diffusion-data)
 - [Mrtrix pre-processing steps](#rtrix-pre-processing-steps)
 - [Track fibers](#track-fibers)
-- [Clean fiber bundles](#Clean fiber bundles)
-- [Save out measurements from the core of fiber bundles]
+- [Clean fiber bundles](#clean-fiber-bundles)
+- [Save out measurements from fiber bundles cores](#save-out-measurements-from-fiber-bundles-cores)
 - [Correlate diffusivity measures with behavioral and functional measures](#correlate-diffusivity-measures-with-behavioral-and-functional-measures)
 - [Create density maps of fiber group endpoints](#create-density-maps-of-fiber-group-endpoints)
 
@@ -352,7 +352,7 @@ Saves out fiber group files to directory, **fmrieat/derivatives/subjid/fibers**
 
 
 
-### Save out measurements from the core of fiber bundles 
+### Save out measurements from fiber bundles cores
 In matlab:
 ```
 dtiSaveFGMeasures_script & dtiSaveFGMeasures_csv_script
