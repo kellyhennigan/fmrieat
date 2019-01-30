@@ -125,12 +125,10 @@ In afni viewer, load subject's anatomy and functional volume in tlrc space (file
 This can be done more efficiently for a lot of subjects by using the script `concatSubjVol.py`. Run that to concatanate all subjects' t1 and vol1 functional data in tlrc space, then flip through them in the afni viewer using the "index" option. 
 
 Here's an example of decent coregistration: 
-![decent coreg](https://github.com/kellyhennigan/fmrieat/blob/master/coreg_examples/decent_coreg_y.jpg)
-<p align="center">
-  <img width="322" height="302" src="https://github.com/kellyhennigan/fmrieat/blob/master/coreg_examples/decent_coreg_y.jpg">
-</p>
-Here's an example of bad coregistration (where something went terribly wrong!)
-![bad coreg](https://github.com/kellyhennigan/fmrieat/blob/master/coreg_examples/bad_coreg_y.jpg)
+<img align="left" width="161" height="151" src="https://github.com/kellyhennigan/fmrieat/blob/master/coreg_examples/decent_coreg_y.jpg">
+
+And here's an example of bad coregistration (where something went terribly wrong!)
+<img align="left" width="161" height="151" src="https://github.com/kellyhennigan/fmrieat/blob/master/coreg_examples/bad_coreg_y.jpg">
 
 To correct bad coregistration, follow instuctions outlined in `preprocess_anat_nudge.sh`, then run that instead of preprocess_anat.sh. If coregistration then looks fixed, run `preprocess_cue.sh` as usual. 
 
