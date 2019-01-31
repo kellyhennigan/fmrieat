@@ -1,4 +1,4 @@
-function colors = getCueExpColors(labels,format,set)
+function colors = getCueExpColors(labels,set)
 % -------------------------------------------------------------------------
 % usage: returns rgb color values for plotting cue experiment results. The
 % idea of having this is to keep plot colors for each stimulus consistent.
@@ -17,8 +17,9 @@ function colors = getCueExpColors(labels,format,set)
     %     somewhatdontwant
     %     strongwant
     %     somewhatwant
-%   format (optional) - 'cell' will return colors in a cell array format
-%   set - either 'grayscale' or 'color' to return grayscale or colors
+
+    %   set (optional) - either 'grayscale' or 'color' to return grayscale
+    %   or colors. Default is color.
 %
 % OUTPUT:
 %   colors - rgb values in rows for colors
@@ -31,15 +32,13 @@ if ~iscell(labels)
     labels = {labels};
 end
 
-if notDefined('format')
-    format = [];
-end
 
 if notDefined('set')
     set = 'color'; % either 'grayscale' or 'color'
 end
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%% define colors for all possible stims/groups here %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -51,7 +50,7 @@ switch set
         
         % stims
         alcohol_color = [75 75 75]./255; % dark gray
-        cig_color = [30 30 30]./255; % grayish black
+        drug_color = [30 30 30]./255; % grayish black
         food_color = [100 100 100]./255; % mid-gray
         neutral_color = [170 170 170]./255; % light gray
         
@@ -66,10 +65,10 @@ switch set
     case 'color'
         
         % stims
-        alcohol_color = [253 158 33]./255;      % orange
-        cig_color = [219 79 106]./255;       % pink
-        food_color = [2 117 180]./255;     % blue
-        neutral_color = [170 170 170]./255; % light gray
+        alcohol_color =  [219 79 106]./255;       % pink
+        drug_color =  [253 158 33]./255;      % orange
+        food_color = [42 160 120]./255;  % green
+        neutral_color = [2 117 180]./255;     % blue
       
         % want ratings
         strongwant_color =  [219 79 106]./255;       % pink
@@ -81,6 +80,7 @@ switch set
 end
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% determine which colors to return based on input labels %%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -92,8 +92,8 @@ for i=1:numel(labels)
         case 'alcohol'
             colors(i,:) = alcohol_color;
             
-        case 'cig'
-            colors(i,:) = cig_color;
+        case {'drugs','drug'}
+            colors(i,:) = drug_color;
             
         case 'food'
             colors(i,:) = food_color;
@@ -101,16 +101,16 @@ for i=1:numel(labels)
         case 'neutral'
             colors(i,:) = neutral_color;
      
-        case 'strongwant'
+        case {'strongwant','strong want','strong_want'}
             colors(i,:) = strongwant_color;
             
-        case 'somewhatwant'
+        case {'somewhatwant','somewhat want','somewhat_want'}
             colors(i,:) = somewhatwant_color;
             
-        case 'somewhatdontwant'
+        case {'somewhatdontwant','somewhat dontwant','somewhat_dontwant'}
             colors(i,:) = somewhatdontwant_color;
             
-        case 'strongdontwant'
+        case {'strongdontwant','strong dontwant','strong_dontwant'}
             colors(i,:) = strongdontwant_color;
             
         otherwise
@@ -118,9 +118,4 @@ for i=1:numel(labels)
             
     end
     
-end
-
-
-if strcmp(format,'cell')
-    colors = mat2cell(colors,[ones(1,size(colors,1))],3);
 end
