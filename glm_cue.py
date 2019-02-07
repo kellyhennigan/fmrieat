@@ -9,8 +9,6 @@ import os,sys
 # this script is like glm_cue.py except that condition (alcohol, drugs, etc.) is modeled as a boxcar of the 
 # whole trial (TRs 1-4), rather than just at the image onset period (TR 2). 
 
-#data_dir = os.path.join(os.path.expanduser('~'),'fmrieat','derivatives')
-#########  get main data directory and subjects to process	
 
 #########  get main data directory and subjects to process	
 def getMainDir():

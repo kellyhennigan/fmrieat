@@ -11,63 +11,6 @@
 
 import os,sys,re,glob,numpy as np
 
-justPrint = 0 # 1 to just print, 0 to print and execute
-
-
-doClustSim = 0 # 1 to do clustsim, otherwise 0 (it takes a while)
-
-
-in_str = '_glm_B+tlrc'  # identify file string of coefficients file 
-
-# labels of sub-bricks to test
-sub_labels = ['cue#0',
-'img#0',
-'choice#0',
-'choice_rt#0',
-'alcohol#0',
-'drugs#0',
-'food#0',
-'neutral#0'] 
-
-# labels for out files 
-out_labels =  ['Zcue'+out_str,
-'Zimg'+out_str,
-'Zchoice'+out_str,
-'Zchoice_rt'+out_str,
-'Zalcohol'+out_str,
-'Zdrugs'+out_str,
-'Zfood'+out_str,
-'Zneutral'+out_str]
-
-# glt contrasts, arent in coeff bucket so get them from glm bucket: 
-in_str2 = '_glm+tlrc'
-
-sub_labels2 = ['Full_R^2',
-'Full_Fstat',
-'alcohol-neutral_GLT#0_Coef',
-'drugs-neutral_GLT#0_Coef',
-'food-neutral_GLT#0_Coef',
-'drugs-food_GLT#0_Coef']
-
-
-# labels for out files 
-out_labels2 =  ['ZFull_R^2'+out_str,
-'ZFull_Fstat'+out_str,
-'Zalc-neutral'+out_str,
-'Zdrug-neutral'+out_str,
-'Zfood-neutral'+out_str,
-'Zdrug-food'+out_str]
-
-# concatenate lists 
-in_str = np.append(np.tile(in_str,len(sub_labels)),np.tile(in_str2,len(sub_labels2)))
-sub_labels = sub_labels+sub_labels2
-out_labels = out_labels+out_labels2
-print('\n\n\nIN STR:\n\n\n')
-print(in_str)
-print('\n\n\n\n\n\n')
-
-
-
 #########  get main data directory and subjects to process	
 def getMainDir():
 
@@ -100,17 +43,72 @@ def whichSubs():
 ####### main function
 def main(): 
 
+	justPrint = 0 # 1 to just print, 0 to print and execute
+
+
+	doClustSim = 0 # 1 to do clustsim, otherwise 0 (it takes a while)
+
+
+	in_str = '_glm_B+tlrc'  # identify file string of coefficients file 
+
+
 	# get project directory
 	main_dir=getMainDir()
 	data_dir = main_dir+'/derivatives'
 	res_dir = data_dir+'/results_cue'
 
-
 	# get subject ids
 	subjects = whichSubs()
 
-
 	out_str = ''  # add a string to output files? 
+
+		# labels of sub-bricks to test
+	sub_labels = ['cue#0',
+	'img#0',
+	'choice#0',
+	'choice_rt#0',
+	'alcohol#0',
+	'drugs#0',
+	'food#0',
+	'neutral#0'] 
+
+	# labels for out files 
+	out_labels =  ['Zcue'+out_str,
+	'Zimg'+out_str,
+	'Zchoice'+out_str,
+	'Zchoice_rt'+out_str,
+	'Zalcohol'+out_str,
+	'Zdrugs'+out_str,
+	'Zfood'+out_str,
+	'Zneutral'+out_str]
+
+	# glt contrasts, arent in coeff bucket so get them from glm bucket: 
+	in_str2 = '_glm+tlrc'
+
+	sub_labels2 = ['Full_R^2',
+	'Full_Fstat',
+	'alcohol-neutral_GLT#0_Coef',
+	'drugs-neutral_GLT#0_Coef',
+	'food-neutral_GLT#0_Coef',
+	'drugs-food_GLT#0_Coef']
+
+
+	# labels for out files 
+	out_labels2 =  ['ZFull_R^2'+out_str,
+	'ZFull_Fstat'+out_str,
+	'Zalc-neutral'+out_str,
+	'Zdrug-neutral'+out_str,
+	'Zfood-neutral'+out_str,
+	'Zdrug-food'+out_str]
+
+	# concatenate lists 
+	in_str = np.append(np.tile(in_str,len(sub_labels)),np.tile(in_str2,len(sub_labels2)))
+	sub_labels = sub_labels+sub_labels2
+	out_labels = out_labels+out_labels2
+	print('\n\n\nIN STR:\n\n\n')
+	print(in_str)
+	print('\n\n\n\n\n\n')
+
 
 	# define mask file if masking is desired; otherwise leave blank
 	mask_file = os.path.join(data_dir,'templates','tt29_bmask.nii')  
