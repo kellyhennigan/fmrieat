@@ -150,7 +150,7 @@ def main():
 		else:
 			clustsim_cmd = ''
 
-		cmd = '3dttest++ -prefix '+out_labels[i]+mask_cmd+' -toz '+clustsim_cmd+subjA_cmd+cv_cmd
+		cmd = '3dttest++ -prefix '+out_labels[i]+mask_cmd+' -toz '+clustsim_cmd+subjA_cmd
 		print(cmd+'\n')
 		if not justPrint:
 			os.system(cmd)
