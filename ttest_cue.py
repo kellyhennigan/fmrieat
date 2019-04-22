@@ -26,7 +26,7 @@ def getMainDir():
 def whichSubs():
 
 	from getFmrieatSubjects import getsubs
-	subjects = getsubs()
+	subjects = getsubs('cue')
 
 	print(' '.join(subjects))
 

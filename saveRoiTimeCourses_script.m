@@ -61,6 +61,10 @@ nTRs = 10; % # of TRs to extract
 TR = 2; % 2 sec TR
 t = 0:TR:TR*(nTRs-1); % time points (in seconds) to plot
 
+% save out figures plotting single trials? Note this is very
+% time-consuming; recommend using just for troubleshooting on 1 ROI; its
+% not worth looping over lots of ROIs with this set to 1. 
+plotSingleTrials = 0; 
 
 %% do it
 
@@ -104,13 +108,14 @@ for i=1:numel(subjects) % subject loop
         % trial
         roi_ts = [roi_ts;nan(nTRs,1)];
         
-        % set vols with abs(zscore > 4) to nan (assume this is due to
-        % some non-bio noise)
+         % if desired, identify outlier TRs
         if omitOTs
             % temporarily assign censored vols due to head motion to nan
             temp = roi_ts; temp(censorVols)=nan;
-            censorVols=[censorVols;find(abs(zscore(temp(~isnan(temp))))>4)];
+            Z=(temp-nanmean(temp))./nanstd(temp); % Z-score
+            censorVols=[censorVols;find(abs(Z)>4)];
         end
+        
         
         
         for k=1:numel(stims)
@@ -130,23 +135,61 @@ for i=1:numel(subjects) % subject loop
                 % single trial time courses for this stim
                 this_stim_tc=roi_ts(this_stim_TRs);
                
-                %%%%% TO ONLY OMIT CENSORED TRS: 
-%                 censor_idx=find(ismember(this_stim_TRs,censorVols));
-%                 this_stim_tc(censor_idx)=nan;
+                %%%%% TO ONLY OMIT CENSORED TRS:
+                censor_idx=find(ismember(this_stim_TRs,censorVols));
+                [~,cc]=ind2sub(size(this_stim_TRs),censor_idx); % this is to get the time relative to trial onset for plotting
+                censored_trs = this_stim_tc(censor_idx);
+                this_stim_tc(censor_idx)=nan;
                 
-                %%%%%% TO OMIT ENTIRE TRIALS FROM AVERAGING THAT HAVE
-                %%%%%% CENSORED TRS:
-                  
-                % identify & omit trials w/censored TRs
-                [censor_idx,~]=find(ismember(this_stim_TRs,censorVols));
-                censor_idx = unique(censor_idx);
-                censored_tc = this_stim_tc(censor_idx,:);
-                this_stim_tc(censor_idx,:) = [];
                 
+                %%%%%% TO OMIT ENTIRE TRIALS THAT CONTAIN CENSORED TRS:
+                %                 [censor_idx,~]=find(ismember(this_stim_TRs,censorVols));
+                %                 censor_idx = unique(censor_idx);
+                %                 censored_trs = this_stim_tc(censor_idx,:);
+                %                 this_stim_tc(censor_idx,:) = [];
+              
+                        
                  % keep count of the # of censored & outlier trials
                 nBadTrials{j}(i,k) = numel(censor_idx);
   
-                TC{j,k}(i,:) = nanmean(this_stim_tc);
+                % fill in timecourses cell array
+                TC{j,k}(i,:) = nanmean(this_stim_tc,1);
+                
+                % plot single trials
+                if plotSingleTrials
+                    h = figure;
+                    set(gcf, 'Visible', 'off');
+                    hold on
+                    set(gca,'fontName','Arial','fontSize',12)
+                    % plot good and bad (censored) single trials
+                    plot(t,this_stim_tc','linewidth',1.5,'color',[.15 .55 .82])
+                    if ~isempty(censored_trs)
+                        
+                        % IF OMITTING JUST CENSORED TRS:
+                        plot(t(cc),censored_trs,'*','color',[1 0 0],'markersize',20,'Linewidth',1.5)
+                        
+                        % IF OMITTING ENTIRE TRIALS THAT HAVE A CENSORED TR:
+                        % plot(t,censored_trs','linewidth',1.5,'color',[1 0 0])
+             
+                    end
+                    xlim([t(1) t(end)])
+                    set(gca,'XTick',t)
+                    xlabel('time (in seconds) relative to cue onset')
+                    ylabel('%\Delta BOLD')
+                    set(gca,'box','off');
+                    set(gcf,'Color','w','InvertHardCopy','off','PaperPositionMode','auto');
+                    
+                    title(gca,[subject ' ' stims{k}])
+                    
+                    % save out plot
+                    thisOutDir = fullfile(outDir,roiNames{j},'single_trial_plots');
+                    if ~exist(thisOutDir,'dir')
+                        mkdir(thisOutDir);
+                    end
+                    outName = [subject '_' stims{k}];
+                    print(gcf,'-dpng',fullfile(thisOutDir,outName));
+                end
+                
                 
             end % isempty(onsetTRs)
             
