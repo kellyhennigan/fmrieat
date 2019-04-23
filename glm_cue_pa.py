@@ -38,19 +38,16 @@ def whichSubs():
 	return subjects
 	
 
-
 def main(): 
 
 	# get project directory
 	main_dir=getMainDir()
 	data_dir = main_dir+'/derivatives'
 
-
 	afniStr = '_afni' # set this to '' if not using afni coreg version
 
 	# get subject ids
 	subjects = whichSubs()
-
 
 	# pre-processed functional data to analyze
 	func_dir = 'func_proc'  	# relative to subject-specific directory
@@ -85,7 +82,8 @@ def main():
 		print '\nCurrent working directory: '+cdir+'\n\n'
 		# NOTE: all input file paths in the 3dDeconvolve command are relative to the subject's directory
 		
-#-#-#-#-#-#-#-#-#-#-#-		Run 3dDeconvolve:		-#-#-#-#-#-#-#-#-#-#-#
+
+		#-#-#-#-#-#-#-#-#-#-#-		Run 3dDeconvolve:		-#-#-#-#-#-#-#-#-#-#-#
 
 		cmd = ('3dDeconvolve '		
 			'-jobs 2 '
@@ -107,8 +105,6 @@ def main():
 			'-stim_file 10 regs/img_cuec.1D -stim_label 10 img '
 			'-stim_file 11 regs/choice_cuec.1D -stim_label 11 choice ' 
 			'-stim_file 12 regs/choicert_cuec.1D -stim_label 12 choice_rt ' 
-			# '-stim_file 13 regs/trial_cuec.1D -stim_label 13 trial ' 
-			# '-stim_file 14 regs/pa_trial_cuec.1D -stim_label 14 pa ' 
 			'-stim_file 13 regs/alcohol_trial_cuec.1D -stim_label 13 alcohol ' 
 			'-stim_file 14 regs/drugs_trial_cuec.1D -stim_label 14 drugs ' 
 			'-stim_file 15 regs/food_trial_cuec.1D -stim_label 15 food ' 
@@ -121,32 +117,31 @@ def main():
 			'-glt_label 1 alcohol-neutral -gltsym "SYM: +pa_alcohol +pa_food +pa_neutral" ' 
 			'-tout ' 					# output the partial and full model F
 			'-rout ' 					# output the partial and full model R2
-			#'-xout '						# print design matrix to the screen
-			#'-errts errts '						# print design matrix to the screen
+			'-xout '						# print design matrix to the screen
+			#'-errts errts '						# get error time series file
 			'-bucket '+os.path.join(out_dir,this_out_str)+' ' 			# save out all info to filename w/prefix
 			'-cbucket '+os.path.join(out_dir,this_out_str+'_B')+' ' 		# save out only regressor coefficients to filename w/prefix
-		)
-	
-# #############
-# # RUN IT
-# 
-	print cmd+'\n'
-	os.system(cmd)
+			)
+		
+	# #############
+	# # RUN IT
+	# 
+		print cmd+'\n'
+		os.system(cmd)
 
-	# z-score results
-	# this_out_str_z = 'z_'+this_out_str
-	# cmd = '3dmerge -doall -1zscore -prefix '+os.path.join(out_dir,this_out_str_z)+' '+os.path.join(out_dir,this_out_str+'+tlrc')
-	# print cmd+'\n'
-	# os.system(cmd)
+		# z-score results
+		# this_out_str_z = 'z_'+this_out_str
+		# cmd = '3dmerge -doall -1zscore -prefix '+os.path.join(out_dir,this_out_str_z)+' '+os.path.join(out_dir,this_out_str+'+tlrc')
+		# print cmd+'\n'
+		# os.system(cmd)
 
-	
-	print '********** DONE WITH SUBJECT '+subject+' **********'
+		print '********** DONE WITH SUBJECT '+subject+' **********'
 
-
-print 'finished subject loop'
+	print 'finished subject loop'
 
 
 main()
+
 
 
 
