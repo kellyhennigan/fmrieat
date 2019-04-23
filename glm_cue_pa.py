@@ -56,7 +56,7 @@ def main():
 	func_dir = 'func_proc'  	# relative to subject-specific directory
 	func_files = 'pp_cue_tlrc'+afniStr+'.nii.gz'
 
-	out_dir = os.path.join(data_dir,'results_cue')  	# directory for out files 
+	out_dir = os.path.join(data_dir,'results_cue_pa')  	# directory for out files 
 	out_str = 'glm'					# string for output files
 
 
