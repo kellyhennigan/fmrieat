@@ -117,14 +117,14 @@ def main():
 			#'-stim_file 18 regs/drugs_trial_cuec.1D -stim_label 18 drugs ' 
 			'-stim_file 18 regs/pafood_trial_cuec.1D -stim_label 18 pa_food ' 
 			'-stim_file 19 regs/paneutral_trial_cuec.1D -stim_label 19 pa_neutral ' 
-		 	'-num_glt 1 '					 # of contrasts
+			'-num_glt 1 '					 # of contrasts
 			'-glt_label 1 alcohol-neutral -gltsym "SYM: +pa_alcohol +pa_food +pa_neutral" ' 
 			'-tout ' 					# output the partial and full model F
-	 		'-rout ' 					# output the partial and full model R2
-	 		#'-xout '						# print design matrix to the screen
-	 		#'-errts errts '						# print design matrix to the screen
-	 		'-bucket '+os.path.join(out_dir,this_out_str)+' ' 			# save out all info to filename w/prefix
-	 		'-cbucket '+os.path.join(out_dir,this_out_str+'_B')+' ' 		# save out only regressor coefficients to filename w/prefix
+			'-rout ' 					# output the partial and full model R2
+			#'-xout '						# print design matrix to the screen
+			#'-errts errts '						# print design matrix to the screen
+			'-bucket '+os.path.join(out_dir,this_out_str)+' ' 			# save out all info to filename w/prefix
+			'-cbucket '+os.path.join(out_dir,this_out_str+'_B')+' ' 		# save out only regressor coefficients to filename w/prefix
 		)
 	
 # #############

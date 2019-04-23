@@ -38,19 +38,16 @@ def whichSubs():
 	return subjects
 	
 
-
 def main(): 
 
 	# get project directory
 	main_dir=getMainDir()
 	data_dir = main_dir+'/derivatives'
 
-
 	afniStr = '_afni' # set this to '' if not using afni coreg version
 
 	# get subject ids
 	subjects = whichSubs()
-
 
 	# pre-processed functional data to analyze
 	func_dir = 'func_proc'  	# relative to subject-specific directory
@@ -86,8 +83,7 @@ def main():
 		# NOTE: all input file paths in the 3dDeconvolve command are relative to the subject's directory
 		
 
-
-	#-#-#-#-#-#-#-#-#-#-#-		Run 3dDeconvolve:		-#-#-#-#-#-#-#-#-#-#-#
+		#-#-#-#-#-#-#-#-#-#-#-		Run 3dDeconvolve:		-#-#-#-#-#-#-#-#-#-#-#
 
 		cmd = ('3dDeconvolve '		
 			'-jobs 2 '
@@ -138,9 +134,7 @@ def main():
 		# print cmd+'\n'
 		# os.system(cmd)
 
-		
 		print '********** DONE WITH SUBJECT '+subject+' **********'
-
 
 	print 'finished subject loop'
 
