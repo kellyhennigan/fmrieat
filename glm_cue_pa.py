@@ -146,7 +146,7 @@ def main():
 print 'finished subject loop'
 
 
-
+main()
 
 
 
