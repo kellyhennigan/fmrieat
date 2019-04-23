@@ -49,7 +49,7 @@ def main():
 	doClustSim = 0 # 1 to do clustsim, otherwise 0 (it takes a while)
 
 
-	in_str = '_glm_B+tlrc'  # identify file string of coefficients file 
+	in_str = '_glm_allcond_B+tlrc'  # identify file string of coefficients file 
 
 
 	# get project directory
@@ -60,51 +60,43 @@ def main():
 	# get subject ids
 	subjects = whichSubs()
 
-	out_str = ''  # add a string to output files? 
+	out_str = 'allcond'  # add a string to output files? 
 
 		# labels of sub-bricks to test
-	sub_labels = ['cue#0',
-	'img#0',
-	'choice#0',
+	sub_labels = ['trial#0'
 	'choice_rt#0',
 	'alcohol#0',
 	'drugs#0',
 	'food#0',
 	'neutral#0',
-	'pa_alcohol#0',
-	'pa_food#0',
-	'pa_neutral#0'] 
+	'pa_trial#0'] 
 
 	# labels for out files 
-	out_labels =  ['Zcue'+out_str,
-	'Zimg'+out_str,
-	'Zchoice'+out_str,
+	out_labels =  ['Ztrial'+out_str,
 	'Zchoice_rt'+out_str,
 	'Zalcohol'+out_str,
 	'Zdrugs'+out_str,
 	'Zfood'+out_str,
 	'Zneutral'+out_str,
-	'Zpa_alcohol'+out_str,
-	'Zpa_food'+out_str,
-	'Zpa_neutral'+out_str]
+	'Zpa_trial'+out_str]
 
-	# glt contrasts, arent in coeff bucket so get them from glm bucket: 
-	in_str2 = '_glm+tlrc'
+	# # glt contrasts, arent in coeff bucket so get them from glm bucket: 
+	# in_str2 = '_glm+tlrc'
 
-	sub_labels2 = ['Full_R^2',
-	'Full_Fstat',
-	'pa_alcfoodneutral_GLT#0_Coef']
+	# sub_labels2 = ['Full_R^2',
+	# 'Full_Fstat',
+	# 'alcohol-neutral_GLT#0_Coef']
 
 
-	# labels for out files 
-	out_labels2 =  ['ZFull_R^2'+out_str,
-	'ZFull_Fstat'+out_str,
-	'Zpa_alcfoodneutral'+out_str]
+	# # labels for out files 
+	# out_labels2 =  ['ZFull_R^2'+out_str,
+	# 'ZFull_Fstat'+out_str,
+	# 'Zpa_alcfoodneutral'+out_str]
 
 	# concatenate lists 
-	in_str = np.append(np.tile(in_str,len(sub_labels)),np.tile(in_str2,len(sub_labels2)))
-	sub_labels = sub_labels+sub_labels2
-	out_labels = out_labels+out_labels2
+	in_str = np.append(np.tile(in_str,len(sub_labels)))
+	# sub_labels = sub_labels+sub_labels2
+	# out_labels = out_labels+out_labels2
 	print('\n\n\nIN STR:\n\n\n')
 	print(in_str)
 	print('\n\n\n\n\n\n')
