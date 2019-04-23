@@ -18,7 +18,7 @@ conds = {'alcohol','drugs','food','neutral'};
 
 for j=1:numel(conds)
     for i=1:numel(subjects)
-        
+        condpa(i,j) = mean(pa(i,image_types==j));
         varpa(i,j) = var(pa(i,image_types==j));
     end
 end
