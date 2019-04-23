@@ -100,12 +100,14 @@ for s=1:numel(subjects)
         %%%%%%%%% whole-trial parametric regressor modulated by pa ratings by cond
         for i=1:4
             pa=table2array(PA(idx,find([trial_type(tr==1)==i]')+1));
-            if any(isnan(pa)) || var(pa)<.1
-                pa=choice_num(find(trial_type==i & tr==1))';
+            if var(pa)>.1
+                if any(isnan(pa))
+                    pa=choice_num(find(trial_type==i & tr==1))';
+                end
+                pa=pa-mean(pa);
+                pa=reshape(repmat(pa,4,1),[],1);
+                [reg,regc]=createRegTS(find(trial_type==i & (tr==1 | tr==2 | tr==3 | tr==4)),pa,nTRs,hrf,[regDir '/pa' conds{i} '_trial_cue.1D']);
             end
-            pa=pa-mean(pa);
-            pa=reshape(repmat(pa,4,1),[],1);
-            [reg,regc]=createRegTS(find(trial_type==i & (tr==1 | tr==2 | tr==3 | tr==4)),pa,nTRs,hrf,[regDir '/pa' conds{i} '_trial_cue.1D']);
         end
         
         
