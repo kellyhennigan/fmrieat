@@ -63,7 +63,7 @@ def main():
 	out_str = 'allcond'  # add a string to output files? 
 
 		# labels of sub-bricks to test
-	sub_labels = ['trial#0'
+	sub_labels = ['trial#0',
 	'choice_rt#0',
 	'alcohol#0',
 	'drugs#0',
