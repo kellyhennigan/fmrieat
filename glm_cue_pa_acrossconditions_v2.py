@@ -54,7 +54,7 @@ def main():
 	func_files = 'pp_cue_tlrc'+afniStr+'.nii.gz'
 
 	out_dir = os.path.join(data_dir,'results_cue_pa')  	# directory for out files 
-	out_str = 'glm'					# string for output files
+	out_str = 'glm_allcond_v2'					# string for output files
 
 
 	##########################################################################################
@@ -89,7 +89,7 @@ def main():
 			'-jobs 2 '
 			'-input '+func_dir+'/'+func_files+' '
 			'-censor '+func_dir+'/'+'cue_censor.1D '
-			'-num_stimts 19 '
+			'-num_stimts 16 '
 			'-polort 2 '
 			'-dmbase '						# de-mean baseline regressors
 			'-xjpeg '+os.path.join(out_dir,'Xmat')+' '
@@ -101,21 +101,16 @@ def main():
 			'-stim_file 6 "'+func_dir+'/cue_vr.1D[6]" -stim_base 6 -stim_label 6 dP ' 
 			'-stim_file 7 '+func_dir+'/cue_csf_ts.1D -stim_base 7 -stim_label 7 csf ' 
 			'-stim_file 8 '+func_dir+'/cue_wm_ts.1D -stim_base 8 -stim_label 8 wm ' 
-			'-stim_file 9 regs/cue_cuec.1D -stim_label 9 cue '
-			'-stim_file 10 regs/img_cuec.1D -stim_label 10 img '
-			'-stim_file 11 regs/choice_cuec.1D -stim_label 11 choice ' 
+			'-stim_file 9 regs/trial_cuec.1D -stim_label 9 trial '
+			'-stim_file 10 regs/pa_trial_cuec.1D -stim_label 10 pa_trial '
+			'-stim_file 11 regs/cuert_cuec.1D -stim_label 11 cue_rt ' 
 			'-stim_file 12 regs/choicert_cuec.1D -stim_label 12 choice_rt ' 
 			'-stim_file 13 regs/alcohol_trial_cuec.1D -stim_label 13 alcohol ' 
 			'-stim_file 14 regs/drugs_trial_cuec.1D -stim_label 14 drugs ' 
 			'-stim_file 15 regs/food_trial_cuec.1D -stim_label 15 food ' 
 			'-stim_file 16 regs/neutral_trial_cuec.1D -stim_label 16 neutral ' 
-			'-stim_file 17 regs/paalcohol_trial_cuec.1D -stim_label 17 pa_alcohol ' 
-			#'-stim_file 18 regs/drugs_trial_cuec.1D -stim_label 18 drugs ' 
-			'-stim_file 18 regs/pafood_trial_cuec.1D -stim_label 18 pa_food ' 
-			'-stim_file 19 regs/paneutral_trial_cuec.1D -stim_label 19 pa_neutral ' 
-			'-num_glt 2 '					 # of contrasts
+			'-num_glt 1 '					 # of contrasts
 			'-glt_label 1 food-neutral -gltsym "SYM: +food -neutral" ' 
-			'-glt_label 2 pa_alcfoodneutral -gltsym "SYM: +pa_alcohol +pa_food +pa_neutral" ' 
 			'-tout ' 					# output the partial and full model F
 			'-rout ' 					# output the partial and full model R2
 			'-xout '						# print design matrix to the screen

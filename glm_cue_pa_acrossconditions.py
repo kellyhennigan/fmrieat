@@ -89,7 +89,7 @@ def main():
 			'-jobs 2 '
 			'-input '+func_dir+'/'+func_files+' '
 			'-censor '+func_dir+'/'+'cue_censor.1D '
-			'-num_stimts 15 '
+			'-num_stimts 12 '
 			'-polort 2 '
 			'-dmbase '						# de-mean baseline regressors
 			'-xjpeg '+os.path.join(out_dir,'Xmat')+' '
@@ -103,11 +103,8 @@ def main():
 			'-stim_file 8 '+func_dir+'/cue_wm_ts.1D -stim_base 8 -stim_label 8 wm ' 
 			'-stim_file 9 regs/trial_cuec.1D -stim_label 9 trial '
 			'-stim_file 10 regs/pa_trial_cuec.1D -stim_label 10 pa_trial '
-			'-stim_file 11 regs/choicert_cuec.1D -stim_label 11 choice_rt ' 
-			'-stim_file 12 regs/alcohol_trial_cuec.1D -stim_label 12 alcohol ' 
-			'-stim_file 13 regs/drugs_trial_cuec.1D -stim_label 13 drugs ' 
-			'-stim_file 14 regs/food_trial_cuec.1D -stim_label 14 food ' 
-			'-stim_file 15 regs/neutral_trial_cuec.1D -stim_label 15 neutral ' 
+			'-stim_file 11 regs/cuert_cuec.1D -stim_label 11 cue_rt ' 
+			'-stim_file 12 regs/choicert_cuec.1D -stim_label 12 choice_rt ' 
 			'-num_glt 1 '					 # of contrasts
 			'-glt_label 1 food-neutral -gltsym "SYM: +food -neutral" ' 
 			'-tout ' 					# output the partial and full model F
