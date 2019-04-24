@@ -49,7 +49,7 @@ def main():
 	doClustSim = 0 # 1 to do clustsim, otherwise 0 (it takes a while)
 
 
-	in_str = '_glm_B+tlrc'  # identify file string of coefficients file 
+	in_str = '_glm_allcond_v2_B+tlrc'  # identify file string of coefficients file 
 
 
 	# get project directory
@@ -60,48 +60,35 @@ def main():
 	# get subject ids
 	subjects = whichSubs()
 
-	out_str = ''  # add a string to output files? 
+	out_str = 'allcond'  # add a string to output files? 
 
 		# labels of sub-bricks to test
-	sub_labels = ['cue#0',
-	'img#0',
-	'choice#0',
+	sub_labels = ['trial#0',
 	'choice_rt#0',
 	'alcohol#0',
 	'drugs#0',
 	'food#0',
 	'neutral#0',
-	'pa_alcohol#0',
-	'pa_food#0',
-	'pa_neutral#0'] 
+	'pa_trial#0'] 
 
 	# labels for out files 
-	out_labels =  ['Zcue'+out_str,
-	'Zimg'+out_str,
-	'Zchoice'+out_str,
+	out_labels =  ['Ztrial'+out_str,
 	'Zchoice_rt'+out_str,
 	'Zalcohol'+out_str,
 	'Zdrugs'+out_str,
 	'Zfood'+out_str,
 	'Zneutral'+out_str,
-	'Zpa_alcohol'+out_str,
-	'Zpa_food'+out_str,
-	'Zpa_neutral'+out_str]
+	'Zpa_trial'+out_str]
 
 	# glt contrasts, arent in coeff bucket so get them from glm bucket: 
-	in_str2 = '_glm+tlrc'
+	in_str2 = '_glm_allcond_v2+tlrc'
 
-	sub_labels2 = ['Full_R^2',
-	'Full_Fstat',
-	'food-neutral_GLT#0_Coef',
-	'pa_alcfoodneutral_GLT#0_Coef']
+	sub_labels2 = ['food-neutral_GLT#0_Coef']
 
 
 	# labels for out files 
-	out_labels2 =  ['ZFull_R^2'+out_str,
-	'ZFull_Fstat'+out_str,
-	'Zfood-neutral'+out_str,
-	'Zpa_alcfoodneutral'+out_str]
+	out_labels2 =  ['Zfood-neutral'+out_str]
+	
 
 	# concatenate lists 
 	in_str = np.append(np.tile(in_str,len(sub_labels)),np.tile(in_str2,len(sub_labels2)))
@@ -111,7 +98,7 @@ def main():
 	print(in_str)
 	print('\n\n\n\n\n\n')
 
-
+	
 	# define mask file if masking is desired; otherwise leave blank
 	mask_file = os.path.join(data_dir,'templates','tt29_bmask.nii')  
 	#mask_file = ''

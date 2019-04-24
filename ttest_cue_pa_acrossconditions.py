@@ -64,35 +64,17 @@ def main():
 
 		# labels of sub-bricks to test
 	sub_labels = ['trial#0',
-	'choice_rt#0',
-	'alcohol#0',
-	'drugs#0',
-	'food#0',
-	'neutral#0',
-	'pa_trial#0'] 
+	'pa_trial#0',
+	'cue_rt#0',
+	'choice_rt#0'] 
 
 	# labels for out files 
 	out_labels =  ['Ztrial'+out_str,
-	'Zchoice_rt'+out_str,
-	'Zalcohol'+out_str,
-	'Zdrugs'+out_str,
-	'Zfood'+out_str,
-	'Zneutral'+out_str,
-	'Zpa_trial'+out_str]
+	'Zpa_trial'+out_str,
+	'Zcue_rt'+out_str,
+	'Zchoice_rt'+out_str]
 
-	# # glt contrasts, arent in coeff bucket so get them from glm bucket: 
-	# in_str2 = '_glm+tlrc'
-
-	# sub_labels2 = ['Full_R^2',
-	# 'Full_Fstat',
-	# 'alcohol-neutral_GLT#0_Coef']
-
-
-	# # labels for out files 
-	# out_labels2 =  ['ZFull_R^2'+out_str,
-	# 'ZFull_Fstat'+out_str,
-	# 'Zpa_alcfoodneutral'+out_str]
-
+	
 	# concatenate lists 
 	in_str = np.tile(in_str,len(sub_labels))
 	# sub_labels = sub_labels+sub_labels2
