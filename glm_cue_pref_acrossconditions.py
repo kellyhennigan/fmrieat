@@ -105,8 +105,8 @@ def main():
 			'-stim_file 10 regs/pref_trial_cuec.1D -stim_label 10 pref_trial '
 			'-stim_file 11 regs/cuert_cuec.1D -stim_label 11 cue_rt ' 
 			'-stim_file 12 regs/choicert_cuec.1D -stim_label 12 choice_rt ' 
-			'-num_glt 1 '					 # of contrasts
-			'-glt_label 1 food-neutral -gltsym "SYM: +food -neutral" ' 
+			# '-num_glt 1 '					 # of contrasts
+			# '-glt_label 1 food-neutral -gltsym "SYM: +food -neutral" ' 
 			'-tout ' 					# output the partial and full model F
 			'-rout ' 					# output the partial and full model R2
 			'-xout '						# print design matrix to the screen
