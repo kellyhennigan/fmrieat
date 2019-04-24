@@ -94,7 +94,7 @@ def main():
 	# 'Zpa_alcfoodneutral'+out_str]
 
 	# concatenate lists 
-	in_str = np.append(np.tile(in_str,len(sub_labels)))
+	in_str = np.tile(in_str,len(sub_labels))
 	# sub_labels = sub_labels+sub_labels2
 	# out_labels = out_labels+out_labels2
 	print('\n\n\nIN STR:\n\n\n')
