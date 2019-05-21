@@ -28,8 +28,8 @@ clear all
 close all
 
 p=getFmrieatPaths;
-subjects=getFmrieatSubjects();
-subjects=subjects(38:49);
+subjects=getFmrieatSubjects('dti');
+subjects=subjects(26:37);
 
 dwRawPath=fullfile(p.raw,'%s','dwi','dwi.nii.gz'); %s will be subject id
 t1Path=fullfile(p.derivatives,'%s','anat_proc','t1_acpc.nii.gz'); %s will be subject id
