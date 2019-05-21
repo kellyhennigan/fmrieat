@@ -73,16 +73,26 @@ for i = 1:numel(subjects)
 %% move aligned data from raw to new outDir
 % and fix dt6 file structure accordingly
 
-dt=load(dt6file);
-movefile([outBaseDir '*'],outDir); movefile([p.subj, '/*b0*'],outDir);
-movefile([p.subj, '/dtiInitLog.mat'],outDir);
+newOutDir = fullfile(p.derivatives,subject,'dti96trilin');
 
-dt.files.alignedDwRaw = fullfile(outDir,[outStr '.nii.gz']);
-dt.files.alignedDwBvecs = fullfile(outDir,[outStr '.bvecs']);
-dt.files.alignedDwBvals = fullfile(outDir,[outStr '.bvals']);
+
+dt=load(dt6file);
+movefile([outBaseDir '*'],outDir); 
+movefile(fullfile(p.raw,subject,'*b0*'),outDir);
+movefile(fullfile(p.raw,subject,'dtiInitLog*'),outDir);
+
+movefile(outDir,newOutDir); % move outdir to derivatives subject folder for BIDs format
+
+dt.files.alignedDwRaw = fullfile(newOutDir,[outStr '.nii.gz']);
+dt.files.alignedDwBvecs = fullfile(newOutDir,[outStr '.bvecs']);
+dt.files.alignedDwBvals = fullfile(newOutDir,[outStr '.bvals']);
+dt.files.t1 = fullfile(p.derivatives,subject,'anat_proc','t1_acpc.nii.gz');
+
+% change dt6file name to reflect new output dir
+dt6file=fullfile(p.derivatives,subject,'dti96trilin/dt6.mat');
 save(dt6file,'-struct','dt');
 
-
+outDir = newOutDir; clear newOutDir
 
 %% check for any WM voxels with negative eigenvalues; if found, set to zero
 
