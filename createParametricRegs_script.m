@@ -33,12 +33,14 @@ pref_labels = {'strongdontwant','somewhatdontwant',...
 hrf = 'waver'; % choices are spm or 'waver'
 
 pafilepath = fullfile(dataDir,'PANAratings','pa.csv');
+nafilepath = fullfile(dataDir,'PANAratings','na.csv');
 
 %%
 
 % [qd,PA,NA,famil,qimage_type]=getQualtricsData(qualtricsfilepath,subjects);
 
 PA = readtable(pafilepath);
+NA = readtable(nafilepath);
 
 for s=1:numel(subjects)
     
@@ -111,6 +113,31 @@ for s=1:numel(subjects)
         end
         
         
+        %%%%%%%%%% whole-trial parametric regressor modulated by na ratings
+        idx=find(strcmp(NA.subjects,subjects{s}));
+        na=table2array(NA(idx,2:end));
+        if any(isnan(na))
+            na=choice_num(find(tr==1))';
+        end
+        na=na-nanmean(na);
+        na=reshape(repmat(na,4,1),[],1);
+        na(isnan(na))=0;
+        [reg,regc]=createRegTS(find(tr==1 | tr==2 | tr==3 | tr==4),na,nTRs,hrf,[regDir '/na_trial_cue.1D']);
+        
+        
+        
+        %%%%%%%%% whole-trial parametric regressor modulated by na ratings by cond
+        for i=1:4
+            na=table2array(NA(idx,find([trial_type(tr==1)==i]')+1));
+            if any(isnan(na))
+                na=choice_num(find(trial_type==i & tr==1))';
+            end
+            if var(na)>.1  
+                na=na-mean(na);
+                na=reshape(repmat(na,4,1),[],1);
+                [reg,regc]=createRegTS(find(trial_type==i & (tr==1 | tr==2 | tr==3 | tr==4)),na,nTRs,hrf,[regDir '/na' conds{i} '_trial_cue.1D']);
+            end
+        end
         
         
 

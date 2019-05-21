@@ -60,7 +60,7 @@ def main():
 	# get subject ids
 	subjects = whichSubs()
 
-	out_str = 'allcond'  # add a string to output files? 
+	out_str = 'allcond_v2'  # add a string to output files? 
 
 		# labels of sub-bricks to test
 	sub_labels = ['trial#0',
