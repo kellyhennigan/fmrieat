@@ -49,7 +49,7 @@ def main():
 	# get subject ids
 	subjects = whichSubs()
 
-	pv = 'pa' #  parametric variable? pa, na, or pref 
+	pv = 'pref' #  parametric variable? pa, na, or pref 
 
 	# pre-processed functional data to analyze
 	func_dir = 'func_proc'  	# relative to subject-specific directory
