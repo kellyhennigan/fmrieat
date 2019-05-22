@@ -43,8 +43,8 @@ def whichSubs():
 ####### main function
 def main(): 
 
-
-	pv = 'pa' #  parametric variable? pa, na, or pref 
+	pv = raw_input('enter parametric variable string (pa, na or pref): ')
+	# pv = 'pa' #  parametric variable? pa, na, or pref 
 
 
 	justPrint = 0 # 1 to just print, 0 to print and execute
