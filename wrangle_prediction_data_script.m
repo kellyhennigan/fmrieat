@@ -84,6 +84,7 @@ close all
 p=getFmrieatPaths;
 subjects=getFmrieatSubjects('cue');
 
+baseDir=p.baseDir;
 dataDir = p.derivatives;
 
 outPath = fullfile(dataDir,'prediction_data',['data_' datestr(now,'yymmdd') '.csv']);
@@ -472,13 +473,54 @@ end % roiNames
 Tbrain = array2table(bd,'VariableNames',bdNames);
 
 
-%% SELF-REPORT:
+%% SELF-REPORT
+
 % PA ratings for food, alcohol stim
 % " " minus neutral
+
+[valence, arousal, pa, na, familiarity, image_types] = getQualtricsData(subjects);
+conds = {'alcohol','drugs','food','neutral'};
+
+for j=1:numel(conds)
+    condpa(:,j) = nanmean(pa(:,image_types==j),2);
+    condna(:,j) = nanmean(na(:,image_types==j),2);
+    condfamil(:,j) = nanmean(familiarity(:,image_types==j),2);
+end
+
+varnames=[cellfun(@(x) ['pa_' x ], conds,'uniformoutput',0) cellfun(@(x) ['na_' x ], conds,'uniformoutput',0) cellfun(@(x) ['familiarity_' x ], conds,'uniformoutput',0)];
+Tratings = array2table([condpa condna condfamiliarity],'VariableNames',varnames);
+
+
 % preference ratings for food, alcohol stim
-% " " minus neutral
+fp=fullfile(baseDir,'source','%s','behavior','cue_matrix.csv'); % filepath
+fpc = cellfun(@(x) sprintf(fp,x), subjects, 'uniformoutput',0); % filepath as cell array w/subject ids
+[trial,tr,starttime,clock,trial_onset,trial_type,cue_rt,choice,choice_num,...
+    choice_type,choice_rt,iti,drift,image_name]=cellfun(@(x) getCueTaskBehData(x,'short'), fpc, 'uniformoutput',0);
+
+% get mean pref ratings by condition w/subjects in rows
+pref = cell2mat(choice_num')'; % subjects x items pref ratings
+mean_pref = [];
+for j=1:numel(conds) % # of conds
+    mean_pref(:,j) = nanmean(pref(:,ci==j),2);
+end
+varnames=cellfun(@(x) ['pref_' x ], conds,'uniformoutput',0);
+Tpref = array2table(mean_pref,'VariableNames',varnames);
+
+
 % BIS (from BIS/BAS)
 % neuroticism (from TIPI 5)
+% 
+% docid = '1Ra-JM2JyLnqYyFnfnwr8mTrcesAG94tz-REDeCNMaG8'; % doc id for google sheet
+% 
+% colname = {'BIS'};
+% 
+% subjids=getFmrieatSubjects('cue');
+% 
+% subjci=1;
+% 
+% if ~iscell(colname)
+%     colname={colname};
+% end
 
 
 % DEMOGRAPHICS:
@@ -494,6 +536,8 @@ Tbrain = array2table(bd,'VariableNames',bdNames);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% concatenate all variables into 1 table
 
+
+
 % subject ids
 Tsubj = table(subjects);
 
@@ -501,7 +545,7 @@ Tsubj = table(subjects);
 % concatenate all data into 1 table
 T=table();
 % T = [Tsubj Trelapse Tdem Tbeh Tbrain Totherdruguse];
-T = [Tsubj Toutcomefoodvars Toutcomealc30dvars Toutcomealc6mvars]; 
+T = [Tsubj Toutcomefoodvars Toutcomealc30dvars Toutcomealc6mvars Tbrain Tratings Tpref]; 
 
 % save out
 writetable(T,outPath);

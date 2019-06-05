@@ -21,10 +21,10 @@ aroidx=find(strncmp(d(1,:),'Arousal',3));
 famidx=find(strncmp(d(1,:),'Familiarity',3));
 
 
-i=1
+i=1;
 for i=1:numel(subjects)
     
-    i
+    
     if strcmp(subjects{i},'ss190122')
         
         fprintf('\n skipping subjet ss190122 for now - figure this out later!\n\n');
