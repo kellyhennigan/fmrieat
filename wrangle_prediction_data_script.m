@@ -373,7 +373,7 @@ end
 
 deltanepisodesermonth6m=nepisodespermonth6m_2-nepisodespermonth6m_1;
 deltandrinksperweek6m=ndrinksperweek6m_2-ndrinksperweek6m_1;
-deltandrinksperepisode6m=deltandrinksperepisode6m_2-deltandrinksperepisode6m_1;
+deltandrinksperepisode6m=ndrinksperepisode6m_2-ndrinksperepisode6m_1;
 deltanNegConsequences6m=nNegConsequences6m_2-nNegConsequences6m_1;
 
 Toutcomealc6mvars = table(nepisodespermonth6m_2,nepisodespermonth6m_1,deltanepisodesermonth6m,...
