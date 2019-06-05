@@ -1,28 +1,28 @@
-% script to wrangle data for prediction analyses for fmrieat project. 
+% script to wrangle data for prediction analyses for fmrieat project.
 
 % idea is to wrangle all data of interest for these analyses here, and save
-% them out into a single csv file. 
+% them out into a single csv file.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% OUTCOME VARIABLES: 
+%% OUTCOME VARIABLES:
 
-%%%%%%% FOOD: 
+%%%%%%% FOOD:
 
 % change in BMI
-% change in body fat percentage 
+% change in body fat percentage
 % change in waist-to-hip ratio
 % change in waist
-% change in hip 
+% change in hip
 
-%%%%%%% ALCOHOL: 
+%%%%%%% ALCOHOL:
 
-% past 30 day changes in drinking measures (based on TLFB): 
-%     # of drinks 
-%     # of drinking episodes 
+% past 30 day changes in drinking measures (based on TLFB):
+%     # of drinks
+%     # of drinking episodes
 %     # of drinks/# of episodes
 
-% past 6 month changes in drinking (based on Alcohol Consumption questions on Qualtrics): 
+% past 6 month changes in drinking (based on Alcohol Consumption questions on Qualtrics):
 %    # of drinks in a typical week (in the past 6 months)
 %    # of drinking episodes in a typical month (in the past 6 months)
 %    # of drinks typically consumed in an episode (in the past 6 months)
@@ -35,42 +35,42 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% PREDICTORS OF INTEREST: 
+%% PREDICTORS OF INTEREST:
 
-% BRAIN: 
-    % VOI X beta cofficients in response to food, alcohol
-    % VOI X beta cofficients in response to food, alcohol - neutral 
-    % VOI TRs 3-7 with respect to trial onset
+% BRAIN:
+% VOI X beta cofficients in response to food, alcohol
+% VOI X beta cofficients in response to food, alcohol - neutral
+% VOI TRs 3-7 with respect to trial onset
 
-    
-% SELF-REPORT: 
-    % PA ratings for food, alcohol stim
-    % " " minus neutral
-    % preference ratings for food, alcohol stim
-    % " " minus neutral
-    % BIS (from BIS/BAS)
-    % neuroticism (from TIPI 5) 
- 
-    
-% DEMOGRAPHICS: 
-    % ethnicity 
-    % gender
-    % SES
-    
 
-    
+% SELF-REPORT:
+% PA ratings for food, alcohol stim
+% " " minus neutral
+% preference ratings for food, alcohol stim
+% " " minus neutral
+% BIS (from BIS/BAS)
+% neuroticism (from TIPI 5)
+
+
+% DEMOGRAPHICS:
+% ethnicity
+% gender
+% SES
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% CONTROL VARIABLES: 
+%% CONTROL VARIABLES:
 
 % body image (ideal-subjective ratings)
 % dieting status
-% weight-loss (or gain) goals 
+% weight-loss (or gain) goals
 % Michaela's 1-item fitness question
 % motivation to exercise (1-10 scale)
 % 3-factor eating: cognitive restraint, uncontrolled eating, emotional eating
 % special diet considerations
 % # of hours of exercise
-% college athelete? (1 or 0) 
+% college athelete? (1 or 0)
 % eating disorders (past history)
 
 
@@ -89,12 +89,13 @@ dataDir = p.derivatives;
 outPath = fullfile(dataDir,'prediction_data',['data_' datestr(now,'yymmdd') '.csv']);
 
 
-
-%% GET DATA
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% OUTCOME VARS 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % baseline BMI, % fat, waist and hip measures
 
-%%%%%%%% baseline BMI 
+%%%%%%%% baseline BMI
 docid = '1PzIMd1k6cHbOc4Xbww4yQnfMjPog9XY2vPbebHYRJug'; % doc id for google sheet w/relapse data
 
 % try to load data from google spreadsheet
@@ -113,7 +114,7 @@ if isempty(d)
     fat1 = [];
     waist1 = [];
     hip1 = [];
-else  
+else
     ciBMI = find(strcmp(d(1,:),'BMI')); % column with BMI scores
     cifat = find(strcmp(d(1,:),'fat %')); % column with BMI scores
     ciwaist = find(strcmp(d(1,:),'waist (cm)')); % column with BMI scores
@@ -135,7 +136,7 @@ else
     end
 end
 
-%%%%%%%% followup BMI 
+%%%%%%%% followup BMI
 docid = '1XZoXx4oioBbnCR2nQHnkNyoyX0PGnodqGuTZO3OIWsw'; % doc id for google sheet w/relapse data
 
 % try to load data from google spreadsheet
@@ -154,7 +155,7 @@ if isempty(d)
     fat2 = [];
     waist2 = [];
     hip2 = [];
-else  
+else
     ciBMI = find(strcmp(d(1,:),'BMI w/ B height')); % column with BMI scores
     cifat = find(strcmp(d(1,:),'fat %')); % column with BMI scores
     ciwaist = find(strcmp(d(1,:),'waist (cm)')); % column with BMI scores
@@ -177,15 +178,28 @@ else
 end
 
 
-%% alcohol measures 
+w2hr1=waist1./hip1;
+w2hr2=waist2./hip2;
+deltaBMI=BMI2-BMI1;
+deltafat=fat2-fat1;
+deltawaist=waist2-waist1;
+deltahip=hip2-hip1;
+deltaw2hr=w2hr2-w2hr1;
+
+Toutcomefoodvars = table(BMI1,BMI2,deltaBMI,fat1,fat2,deltafat,...
+    waist1,waist2,deltawaist,hip1,hip2,deltahip,w2hr1,w2hr2,deltaw2hr);
 
 
-% past 30 day changes in drinking measures (based on TLFB): 
-%     # of drinks 
-%     # of drinking episodes 
+
+%% alcohol measures
+
+
+% past 30 day changes in drinking measures (based on TLFB):
+%     # of drinks
+%     # of drinking episodes
 %     # of drinks/# of episodes
 
-% past 6 month changes in drinking (based on Alcohol Consumption questions on Qualtrics): 
+% past 6 month changes in drinking (based on Alcohol Consumption questions on Qualtrics):
 %    # of drinks in a typical week (in the past 6 months)
 %    # of drinking episodes in a typical month (in the past 6 months)
 %    # of drinks typically consumed in an episode (in the past 6 months)
@@ -196,8 +210,8 @@ end
 % negative consequences experienced from alcohol consumption (based on X
 % questionnaire on Qualtrics)
 
-%%%%%%%% 
-docid = '1tPA-d3tay33Oc1eIAVE0Fo10ELg1yiyMI9S7IlzfZ2c'; % doc id for google sheet 
+%%%%%%%%
+docid = '1tPA-d3tay33Oc1eIAVE0Fo10ELg1yiyMI9S7IlzfZ2c'; % doc id for google sheet
 
 % try to load data from google spreadsheet
 try
@@ -211,13 +225,13 @@ end
 
 % if data is loaded, compute scores
 if isempty(d)
-    ndrinks30_1=[];
-    nepisodes30_1=[];
-    ndrinks30_2=[];
-    nepisodes30_2=[];
-    binge30_1=[];
-    binge30_2=[];
-
+    ndrinks30d_1=[];
+    nepisodes30d_1=[];
+    ndrinks30d_2=[];
+    nepisodes30d_2=[];
+    nbinge30d_1=[];
+    nbinge30d_2=[];
+    
 else
     ciNdrinks1 = find(strcmp(d(1,:),'B # Drinks (Past 30 D)')); % column with BMI scores
     ciNdrinks2 = find(strcmp(d(1,:),'F # Drinks (Past 30 D)')); % column with BMI scores
@@ -229,28 +243,37 @@ else
     for i=1:numel(subjects)
         idx=find(strncmp(d(:,2),subjects{i},numel(subjects{i}))); % find row index for this subject
         if isempty(idx)
-            ndrinks30_1(i,1)=nan;
-            nepisodes30_1(i,1)=nan;
-            ndrinks30_2(i,1)=nan;
-            nepisodes30_2(i,1)=nan;
-            binge30_1(i,1)=nan;
-            binge30_2(i,1)=nan;
+            ndrinks30d_1(i,1)=nan;
+            nepisodes30d_1(i,1)=nan;
+            ndrinks30d_2(i,1)=nan;
+            nepisodes30d_2(i,1)=nan;
+            nbinge30d_1(i,1)=nan;
+            nbinge30d_2(i,1)=nan;
         else
-            ndrinks30_1(i,1) = str2double(d{idx,ciNdrinks1});
-            ndrinks30_2(i,1) = str2double(d{idx,ciNdrinks2});
-            nepisodes30_1(i,1) = str2double(d{idx,ciNepisodes1});
-            nepisodes30_2(i,1) = str2double(d{idx,ciNepisodes2});
-            binge30_1(i,1) = str2double(d{idx,ciBinge1});
-            binge30_2(i,1) = str2double(d{idx,ciBinge2});
+            ndrinks30d_1(i,1) = str2double(d{idx,ciNdrinks1});
+            ndrinks30d_2(i,1) = str2double(d{idx,ciNdrinks2});
+            nepisodes30d_1(i,1) = str2double(d{idx,ciNepisodes1});
+            nepisodes30d_2(i,1) = str2double(d{idx,ciNepisodes2});
+            nbinge30d_1(i,1) = str2double(d{idx,ciBinge1});
+            nbinge30d_2(i,1) = str2double(d{idx,ciBinge2});
         end
     end
 end
 
 
+deltandrinks30d=ndrinks30d_2-ndrinks30d_1;
+deltanepisodes30d=nepisodes30d_2-nepisodes30d_1;
+deltanbinge30d=nbinge30d_2-nbinge30d_1;
+
+Toutcomealc30dvars = table(ndrinks30d_1,ndrinks30d_2,deltandrinks30d,...
+    nepisodes30d_1,nepisodes30d_2,deltanepisodes30d,...
+    nbinge30d_1,nbinge30d_2,deltanbinge30d);
+    
+
 %%%%% qualtrics alc
 
-%%%%%%%% 
-docid = '1E0bmGIt_2PwCO6RxdMVG9eR0SCQeVgBPuHR87s9kkMc'; % doc id for google sheet 
+%%%%%%%%
+docid = '1E0bmGIt_2PwCO6RxdMVG9eR0SCQeVgBPuHR87s9kkMc'; % doc id for google sheet
 
 % try to load data from google spreadsheet
 try
@@ -265,28 +288,32 @@ end
 % if data is loaded, compute scores
 if isempty(d)
     
-    nepisodespermonth6_1=[];
-    ndrinksperweek6_1=[];
-    ndrinksperepisode6_1=[];
+    nepisodespermonth6m_1=[];
+    ndrinksperweek6m_1=[];
+    ndrinksperepisode6m_1=[];
+    nNegConsequences6m_1=[];
     
 else
     ciNepisodes = find(strcmp(d(1,:),'Averaging over the past 6 months, how many times in a TYPICAL month do you drink ALCOHOL?')); % column with BMI scores
     ciNdrinks = find(strcmp(d(1,:),'Averaging over the past 6 months, how many drinks do you have in a TYPICAL WEEK?')); % column with BMI scores
     cidrinksperep = find(strcmp(d(1,:),'Averaging over the past 6 months, how many drinks do you TYPICALLY have at ONE TIME?'));
+    cinegcon = find(strcmp(d(1,:),'Total neg consequences experienced - Past 6m'));
     
     for i=1:numel(subjects)
         idx=find(strncmp(d(:,1),subjects{i},numel(subjects{i}))); % find row index for this subject
         if isempty(idx)
             
-            nepisodespermonth6_1(i,1)=nan;
-            ndrinksperweek6_1(i,1)=nan;
-            ndrinksperepisode6_1(i,1)=nan;
+            nepisodespermonth6m_1(i,1)=nan;
+            ndrinksperweek6m_1(i,1)=nan;
+            ndrinksperepisode6m_1(i,1)=nan;
+            nNegConsequences6m_1(i,1)=nan;
             
         else
             
-            nepisodespermonth6_1(i,1)=str2double(d{idx,ciNepisodes});
-            ndrinksperweek6_1(i,1)=str2double(d{idx,ciNdrinks});
-            ndrinksperepisode6_1(i,1)=str2double(d{idx,cidrinksperep});
+            nepisodespermonth6m_1(i,1)=str2double(d{idx,ciNepisodes});
+            ndrinksperweek6m_1(i,1)=str2double(d{idx,ciNdrinks});
+            ndrinksperepisode6m_1(i,1)=str2double(d{idx,cidrinksperep});
+            nNegConsequences6m_1(i,1)=str2double(d{idx,cinegcon});
             
         end
     end
@@ -296,8 +323,8 @@ end
 
 %%%%%% followup
 
-%%%%%%%% 
-docid = '1qo1-FZcauGImZJgKth6-2XradwdwuUKiiObO0RwQFQY'; % doc id for google sheet 
+%%%%%%%%
+docid = '1qo1-FZcauGImZJgKth6-2XradwdwuUKiiObO0RwQFQY'; % doc id for google sheet
 
 % try to load data from google spreadsheet
 try
@@ -312,48 +339,176 @@ end
 % if data is loaded, compute scores
 if isempty(d)
     
-    nepisodespermonth6_2=[];
-    ndrinksperweek6_2=[];
-    ndrinksperepisode6_2=[];
+    nepisodespermonth6m_2=[];
+    ndrinksperweek6m_2=[];
+    ndrinksperepisode6m_2=[];
+    nNegConsequences6m_2=[];
     
 else
     ciNepisodes = find(strcmp(d(1,:),'Averaging over the past 6 months, how many times in a TYPICAL month do you drink ALCOHOL?')); % column with BMI scores
     ciNdrinks = find(strcmp(d(1,:),'Averaging over the past 6 months, how many drinks do you have in a TYPICAL WEEK?')); % column with BMI scores
     cidrinksperep = find(strcmp(d(1,:),'Averaging over the past 6 months, how many drinks do you TYPICALLY have at ONE TIME?'));
+    cinegcon = find(strcmp(d(1,:),'Total neg consequences experienced - Past 6m'));
     
     for i=1:numel(subjects)
         idx=find(strncmp(d(:,1),subjects{i},numel(subjects{i}))); % find row index for this subject
         if isempty(idx)
             
-            nepisodespermonth6_2(i,1)=nan;
-            ndrinksperweek6_2(i,1)=nan;
-            ndrinksperepisode6_2(i,1)=nan;
+            nepisodespermonth6m_2(i,1)=nan;
+            ndrinksperweek6m_2(i,1)=nan;
+            ndrinksperepisode6m_2(i,1)=nan;
+            nNegConsequences6m_2(i,1)=nan;
             
         else
             
-            nepisodespermonth6_2(i,1)=str2double(d{idx,ciNepisodes});
-            ndrinksperweek6_2(i,1)=str2double(d{idx,ciNdrinks});
-            ndrinksperepisode6_2(i,1)=str2double(d{idx,cidrinksperep});
+            nepisodespermonth6m_2(i,1)=str2double(d{idx,ciNepisodes});
+            ndrinksperweek6m_2(i,1)=str2double(d{idx,ciNdrinks});
+            ndrinksperepisode6m_2(i,1)=str2double(d{idx,cidrinksperep});
+            nNegConsequences6m_2(i,1)=str2double(d{idx,cinegcon});
             
         end
     end
 end
 
-w2hr1=waist1./hip1;
-w2hr2=waist2./hip2;
-deltaBMI=BMI2-BMI1;
-deltafat=fat2-fat1;
-deltawaist=waist2-waist1;
-deltahip=hip2-hip1;
-deltaw2hr=w2hr2-w2hr1;
+deltanepisodesermonth6m=nepisodespermonth6m_2-nepisodespermonth6m_1;
+deltandrinksperweek6m=ndrinksperweek6m_2-ndrinksperweek6m_1;
+deltandrinksperepisode6m=deltandrinksperepisode6m_2-deltandrinksperepisode6m_1;
+deltanNegConsequences6m=nNegConsequences6m_2-nNegConsequences6m_1;
 
-Toutcomevars = table(BMI1,BMI2,fat1,fat2,waist1,waist2,hip1,hip2,w2hr1,w2hr2,...
-    deltaBMI,deltafat,deltawaist,deltahip,deltaw2hr);
+Toutcomealc6mvars = table(nepisodespermonth6m_2,nepisodespermonth6m_1,deltanepisodesermonth6m,...
+    ndrinksperweek6m_2,ndrinksperweek6m_1,deltandrinksperweek6m,...
+    deltandrinksperepisode6m_2,deltandrinksperepisode6m_1,deltandrinksperepisode6m,...
+    nNegConsequences6m_2,nNegConsequences6m_1,deltanNegConsequences6m);
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% concatenate relapse, demographic, behavioral, & brain data into 1 table
+%% PREDICTORS OF INTEREST
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% BRAIN:
+% VOI X beta cofficients in response to food, alcohol
+% VOI X beta cofficients in response to food, alcohol - neutral
+% VOI TRs 3-7 with respect to trial onset
+
+
+%% brain data
+
+% roiNames = {'nacc_desai','naccL_desai','naccR_desai','mpfc','VTA','acing','ins_desai','PVT','dlpfc','dlpfcL','dlpfcR','ifgL','ifgR','vlpfcL','vlpfcR'};
+% roiVarNames = {'nacc','naccL','naccR','mpfc','vta','acc','ains','pvt','dlpfc','dlpfcL','dlpfcR','ifgL','ifgR','vlpfcL','vlpfcR'};
+
+roiNames = {'nacc_desai','naccL_desai','naccR_desai','mpfc','VTA','acing','ins_desai'};
+roiVarNames = {'nacc','naccL','naccR','mpfc','vta','acc','ains'};
+
+% roiNames = {'nacc_desai','naccL_desai','naccR_desai','mpfc','VTA','acing','ins_desai','PVT'};
+% roiVarNames = {'nacc','naccL','naccR','mpfc','vta','acing','ains','pvt'};
+
+% stims = {'drugs','food','neutral','drugs-neutral','drugs-food'};
+stims = {'alcohol','drugs','food','neutral'};
+
+
+bd = [];  % array of brain data values
+bdNames = {};  % brain data predictor names
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%  ROI TRs  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% tcPath = fullfile(dataDir,['timecourses_' task '_afni'],'%s','%s.csv'); %s is roiNames, stims
+% % tcPath = fullfile(dataDir,['timecourses_' task '_afni_woOutliers'],'%s','%s.csv'); %s is roiNames, stims
+% 
+% TRs = [3:7];
+% aveTRs = [3:5]; % ***this is an index of var TRs**, so the mean will be taken of TRs(aveTRs)
+% 
+% for j=1:numel(roiNames)
+%          
+%     for k = 1:numel(stims)
+%         
+%         % if there's a minus sign, assume desired output is stim1-stim2
+%         if strfind(stims{k},'-')
+%             stim1 = stims{k}(1:strfind(stims{k},'-')-1);
+%             stim2 = stims{k}(strfind(stims{k},'-')+1:end);
+%             thistc1=loadRoiTimeCourses(sprintf(tcPath,roiNames{j},stim1),subjects,TRs);
+%             thistc2=loadRoiTimeCourses(sprintf(tcPath,roiNames{j},stim2),subjects,TRs);
+%             thistc=thistc1-thistc2;
+%         
+%         % otherwise just load stim timecourses
+%         else
+%             thistc=loadRoiTimeCourses(sprintf(tcPath,roiNames{j},stims{k}),subjects,TRs);
+%         end
+%         bd = [bd thistc];
+%         
+%         % update var names
+%         for ti = 1:numel(TRs)
+%             bdNames{end+1} = [roiVarNames{j} '_' strrep(stims{k},'-','') '_TR' num2str(TRs(ti))];
+%         end
+%         
+%         % if averaging over TRs is desired, include it
+%         if ~isempty(aveTRs)
+%             bd = [bd mean(thistc(:,aveTRs),2)];
+%             bdNames{end+1} = [roiVarNames{j} '_' strrep(stims{k},'-','') '_TR' strrep(num2str(TRs(aveTRs)),' ','') 'mean'];
+%         end
+%             
+%     end % stims
+%    
+% end % rois
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%  ROI BETAS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+ 
+betaPath = fullfile(dataDir,['results_' task '_afni'],'roi_betas','%s','%s.csv'); %s is roiName, stim
+
+for j=1:numel(roiNames)
+
+      for k = 1:numel(stims)
+          
+          this_bfile = sprintf(betaPath,roiNames{j},stims{k}); % this beta file path
+          if exist(this_bfile,'file')
+              B = loadRoiTimeCourses(this_bfile,subjects);
+              bd = [bd B];
+              bdNames = [bdNames [roiVarNames{j} '_' strrep(stims{k},'-','') '_beta']];
+          end
+            
+      end % stims
+      
+end % roiNames
+
+% brain data
+Tbrain = array2table(bd,'VariableNames',bdNames);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% SELF-REPORT:
+% PA ratings for food, alcohol stim
+% " " minus neutral
+% preference ratings for food, alcohol stim
+% " " minus neutral
+% BIS (from BIS/BAS)
+% neuroticism (from TIPI 5)
+
+
+% DEMOGRAPHICS:
+% ethnicity
+% gender
+% SES
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% concatenate all variables into 1 table
 
 % subject ids
 Tsubj = table(subjects);
@@ -362,12 +517,12 @@ Tsubj = table(subjects);
 % concatenate all data into 1 table
 T=table();
 % T = [Tsubj Trelapse Tdem Tbeh Tbrain Totherdruguse];
-T = [Tsubj Toutcomevars]
+T = [Tsubj Toutcomefoodvars Toutcomealc30dvars Toutcomealc6mvars]; 
 
 % save out
-writetable(T,outPath); 
+writetable(T,outPath);
 
-% done 
+% done
 
 
 
