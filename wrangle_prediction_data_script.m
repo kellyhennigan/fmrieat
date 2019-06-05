@@ -410,7 +410,7 @@ bdNames = {};  % brain data predictor names
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  ROI TRs  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-tcPath = fullfile(dataDir,['timecourses_' task ],'%s','%s.csv'); %s is roiNames, stims
+tcPath = fullfile(dataDir,['timecourses_cue'],'%s','%s.csv'); %s is roiNames, stims
 % % tcPath = fullfile(dataDir,['timecourses_' task '_woOutliers'],'%s','%s.csv'); %s is roiNames, stims
 % 
 TRs = [3:7];
