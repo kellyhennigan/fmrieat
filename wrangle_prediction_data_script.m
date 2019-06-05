@@ -378,7 +378,7 @@ deltanNegConsequences6m=nNegConsequences6m_2-nNegConsequences6m_1;
 
 Toutcomealc6mvars = table(nepisodespermonth6m_2,nepisodespermonth6m_1,deltanepisodesermonth6m,...
     ndrinksperweek6m_2,ndrinksperweek6m_1,deltandrinksperweek6m,...
-    deltandrinksperepisode6m_2,deltandrinksperepisode6m_1,deltandrinksperepisode6m,...
+    ndrinksperepisode6m_2,ndrinksperepisode6m_1,deltandrinksperepisode6m,...
     nNegConsequences6m_2,nNegConsequences6m_1,deltanNegConsequences6m);
 
 
@@ -545,7 +545,7 @@ Tsubj = table(subjects);
 % concatenate all data into 1 table
 T=table();
 % T = [Tsubj Trelapse Tdem Tbeh Tbrain Totherdruguse];
-T = [Tsubj Toutcomefoodvars Toutcomealc30dvars Toutcomealc6mvars Tbrain Tratings Tpref]; 
+T = [Tsubj Toutcomefoodvars Toutcomealc30dvars Toutcomealc6mvars Tbrain Tratings]; 
 
 % save out
 writetable(T,outPath);
