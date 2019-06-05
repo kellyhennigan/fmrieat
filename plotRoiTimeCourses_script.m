@@ -50,9 +50,9 @@ outDir_suffix = '';
 
 plotColorSet = 'color'; % 'grayscale' or 'color'
 
-plotErr = 'shaded'; % 'bar' or 'shaded'
+plotErr = 'bar'; % 'bar' or 'shaded'
 
-plotToScreen=1; % 1 to plot figures to screen, otherwise 0
+plotToScreen=0; % 1 to plot figures to screen, otherwise 0
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%r
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
