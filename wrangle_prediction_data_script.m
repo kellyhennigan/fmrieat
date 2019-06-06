@@ -381,13 +381,10 @@ Tpref = array2table(mean_pref,'VariableNames',varnames);
 
 %% BIS (from BIS/BAS)
 
-% neuroticism (from TIPI 5)
-% 
 docid = '1Ra-JM2JyLnqYyFnfnwr8mTrcesAG94tz-REDeCNMaG8'; % doc id for google sheet
-% 
-colnames = {'BIS','BASDrive','BASFunSeeking','BASRewardResponse'};
-varnames={'BIS_BISBAS',colnames{2:4}};
-subjci=1;
+
+colnames = {'BIS','BASDrive','BASFunSeeking','BASRewardResponse'}; % column names for variables of interest
+subjci=1; % which column to look for subject ids in
 
 d = getGSSData(docid,colnames,subjects,subjci);
 
@@ -398,7 +395,11 @@ BASRewardResponse=d(:,4);
 
 Tbisbas = table(BIS_BISBAS,BASDrive,BASFunSeeking,BASRewardResponse);
 
-%% more to add: 
+
+%% more to variables to add: 
+
+% neuroticism (from TIPI 5)
+
 
 % DEMOGRAPHICS:
 
