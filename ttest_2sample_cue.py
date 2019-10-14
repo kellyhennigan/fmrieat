@@ -52,8 +52,8 @@ def main():
 	in_str = '_glm_B+tlrc'  # identify file string of coefficients file 
 
 	
-	out_str = '_past30daydrinkersVnot'  # add a string to output files? 
-
+#	out_str = '_past30daydrinkersVnot'  # add a string to output files? 
+	out_str = '_past30daybingeVnot'  # add a string to output files? 
 
 	# get project directory
 	main_dir=getMainDir()
@@ -64,9 +64,12 @@ def main():
 	# subjects = whichSubs()
 	
 	# ever drinkers (based on TLFB at timepoint 1)
-	subjsA = ['ag190107','am190125','an190106','bc190118','em181211','fc190124','fh181203','ga181112','gm181112','gr190124','hs190128','id181126','ip190130','jk190114','km190114','ks181114','kt190110','lg190117','mm190115','ms190110','mx190114','oo190130','pc181210','pm181126','rk181206','rs181219','sa190128','sb190122','se190106','sg190121','sk190110','sr190128','ss190122','st181128','tr181126','ts190110','zl190124']
-	subjsB = ['aa190115','ak190110','ap181126','ar181204','as190111','bg190114_1','bg190114_2','er190106','hb190109','ih190111','ja181214','js181128','js190106','kl181210','ky190106','nh190110','sa181203','sl190114','ty190109','va190114']
+	# subjsA = ['ag190107','am190125','an190106','bc190118','em181211','fc190124','fh181203','ga181112','gm181112','gr190124','hs190128','id181126','ip190130','jk190114','km190114','ks181114','kt190110','lg190117','mm190115','ms190110','mx190114','oo190130','pc181210','pm181126','rk181206','rs181219','sa190128','sb190122','se190106','sg190121','sk190110','sr190128','ss190122','st181128','tr181126','ts190110','zl190124']
+	# subjsB = ['aa190115','ak190110','ap181126','ar181204','as190111','bg190114_1','bg190114_2','er190106','hb190109','ih190111','ja181214','js181128','js190106','kl181210','ky190106','nh190110','sa181203','sl190114','ty190109','va190114']
 
+	# binge drinkers (based on TLFB at timepoint 1)
+	subjsA = ['am190125','em181211','fc190124','fh181203','gm181112','hs190128','ip190130','km190114','ks181114','lg190117','mx190114','oo190130','pm181126','rs181219','sb190122','se190106','sg190121','sk190110','st181128','ty190109']
+	subjsB = ['aa190115','ag190107','ak190110','an190106','ap181126','ar181204','as190111','bc190118','bg190114_1','bg190114_2','er190106','ga181112','gr190124','hb190109','id181126','ih190111','ja181214','jk190114','js181128','js190106','kl181210','kt190110','ky190106','mm190115','ms190110','nh190110','pc181210','rk181206','sa181203','sa190128','sl190114','sr190128','ss190122','tr181126','ts190110','va190114','zl190124']
 	
 	# labels of sub-bricks to test
 	sub_labels = ['cue#0',
