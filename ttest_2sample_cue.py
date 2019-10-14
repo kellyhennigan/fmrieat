@@ -134,13 +134,23 @@ def main():
 		
 		# get part of command for subjects in setA
 		subjA_cmd = ' '
-		if subjects:
+		if subjsA:
 			subjA_cmd = '-setA '
-			for subj in subjects:
+			for subj in subjsA:
 				cmd = "3dinfo -label2index '"+sub_label+"' "+subj+in_str[i]
 				vol_idx=int(os.popen(cmd).read())
 				subjA_cmd+="'"+subj+in_str[i]+'['+str(vol_idx)+']'+"' " 
 				#print(subjA_cmd)
+
+
+		# get part of command for subjects in setB
+		subjB_cmd = ''
+		if subjsB:
+			subjB_cmd = '-setB '
+			for subj in subjsB:
+				cmd = "3dinfo -label2index '"+sub_label+"' "+subj+in_str[i]
+				vol_idx=int(os.popen(cmd).read())
+				subjB_cmd+="'"+subj+in_str[i]+'['+str(vol_idx)+']'+"' " 
 
 
 		# define mask command, if desired
@@ -156,7 +166,7 @@ def main():
 		else:
 			clustsim_cmd = ''
 
-		cmd = '3dttest++ -prefix '+out_labels[i]+mask_cmd+' -toz '+clustsim_cmd+subjA_cmd
+		cmd = '3dttest++ -prefix '+out_labels[i]+mask_cmd+' -toz '+clustsim_cmd+subjA_cmd+subjB_cmd
 		print(cmd+'\n')
 		if not justPrint:
 			os.system(cmd)
