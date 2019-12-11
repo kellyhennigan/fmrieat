@@ -81,6 +81,7 @@ if ~isempty(group)
             colname = 'ever_drinker_1_qualtrics';
             gi = getGSSData(docid,colname,subjects,subjci);
             subjects=subjects(gi==1);
+    
         case 'noneverdrinkers'
             colname = 'ever_drinker_1_qualtrics';
             gi = getGSSData(docid,colname,subjects,subjci);
@@ -139,6 +140,14 @@ if ~isempty(group)
             colname = 'ndrinks_delta';
             gi = getGSSData(docid,colname,subjects,subjci);
             subjects=subjects(gi==0);
+            
+        case {'female','females'}
+            subjects={'femaleid1';
+                'femaleid2'};
+            
+               case {'male','males'}
+            subjects={'maleid1';
+                'maleid2'}
             
     end
     

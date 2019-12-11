@@ -75,74 +75,89 @@ plotToScreen=0; % 1 to plot figures to screen, otherwise 0
 
 % [plotGroups,plotStims,plotStimStrs]=getTCPlotSpec(task);
 
-plotGroups={'everdrinkers noneverdrinkers';
-    'everdrinkers noneverdrinkers';
-    'everdrinkers noneverdrinkers';
-    'past30daydrinkers_1 nonpast30daydrinkers_1';
-    'past30daydrinkers_1 nonpast30daydrinkers_1';
-    'past30daydrinkers_1 nonpast30daydrinkers_1';
-    'past30daydrinkers_2 nonpast30daydrinkers_2';
-    'past30daydrinkers_2 nonpast30daydrinkers_2';
-    'past30daydrinkers_2 nonpast30daydrinkers_2';
-    'deltadrinks_positive deltadrinks_zero deltadrinks_negative';
-    'deltadrinks_positive deltadrinks_zero deltadrinks_negative';
-    'deltadrinks_positive deltadrinks_zero deltadrinks_negative';
-    'deltadrinks_positive deltadrinks_negative';
-    'deltadrinks_positive deltadrinks_negative';
-    'deltadrinks_positive deltadrinks_negative';
-    'past30daybingers_1 nonpast30daybingers_1';
-    'past30daybingers_1 nonpast30daybingers_1';
-    'past30daybingers_1 nonpast30daybingers_1';
-    'past30daybingers_2 nonpast30daybingers_2';
-    'past30daybingers_2 nonpast30daybingers_2';
-    'past30daybingers_2 nonpast30daybingers_2'};
+plotGroups={'females males';
+    'females males';
+    'females males'};
 
-plotGroupStrs = {'everdrinkers';
-    'everdrinkers';
-    'everdrinkers';
-    'past30drinkers_T1';
-    'past30drinkers_T1';
-    'past30drinkers_T1';
-    'past30drinkers_T2';
-    'past30drinkers_T2';
-    'past30drinkers_T2';
-    'deltadrinks_inc0';
-    'deltadrinks_inc0';
-    'deltadrinks_inc0';
-    'deltadrinks';
-    'deltadrinks';
-    'deltadrinks';
-    'past30bingers_T1';
-    'past30bingers_T1';
-    'past30bingers_T1';
-    'past30bingers_T2';
-    'past30bingers_T2';
-    'past30bingers_T2'};
-
+plotGroupStrs={'bygender';
+    'bygender';
+    'bygender'};
 
 plotStims = {'alcohol';
     'neutral';
-    'alcohol-neutral';
-    'alcohol';
-    'neutral';
-    'alcohol-neutral';
-    'alcohol';
-    'neutral';
-    'alcohol-neutral';
-    'alcohol';
-    'neutral';
-    'alcohol-neutral';
-    'alcohol';
-    'neutral';
-    'alcohol-neutral';
-    'alcohol';
-    'neutral';
-    'alcohol-neutral'
-    'alcohol';
-    'neutral';
     'alcohol-neutral'};
 
+
 plotStimStrs=plotStims;
+
+% plotGroups={'everdrinkers noneverdrinkers';
+%     'everdrinkers noneverdrinkers';
+%     'everdrinkers noneverdrinkers';
+%     'past30daydrinkers_1 nonpast30daydrinkers_1';
+%     'past30daydrinkers_1 nonpast30daydrinkers_1';
+%     'past30daydrinkers_1 nonpast30daydrinkers_1';
+%     'past30daydrinkers_2 nonpast30daydrinkers_2';
+%     'past30daydrinkers_2 nonpast30daydrinkers_2';
+%     'past30daydrinkers_2 nonpast30daydrinkers_2';
+%     'deltadrinks_positive deltadrinks_zero deltadrinks_negative';
+%     'deltadrinks_positive deltadrinks_zero deltadrinks_negative';
+%     'deltadrinks_positive deltadrinks_zero deltadrinks_negative';
+%     'deltadrinks_positive deltadrinks_negative';
+%     'deltadrinks_positive deltadrinks_negative';
+%     'deltadrinks_positive deltadrinks_negative';
+%     'past30daybingers_1 nonpast30daybingers_1';
+%     'past30daybingers_1 nonpast30daybingers_1';
+%     'past30daybingers_1 nonpast30daybingers_1';
+%     'past30daybingers_2 nonpast30daybingers_2';
+%     'past30daybingers_2 nonpast30daybingers_2';
+%     'past30daybingers_2 nonpast30daybingers_2'};
+% 
+% plotGroupStrs = {'everdrinkers';
+%     'everdrinkers';
+%     'everdrinkers';
+%     'past30drinkers_T1';
+%     'past30drinkers_T1';
+%     'past30drinkers_T1';
+%     'past30drinkers_T2';
+%     'past30drinkers_T2';
+%     'past30drinkers_T2';
+%     'deltadrinks_inc0';
+%     'deltadrinks_inc0';
+%     'deltadrinks_inc0';
+%     'deltadrinks';
+%     'deltadrinks';
+%     'deltadrinks';
+%     'past30bingers_T1';
+%     'past30bingers_T1';
+%     'past30bingers_T1';
+%     'past30bingers_T2';
+%     'past30bingers_T2';
+%     'past30bingers_T2'};
+% 
+
+% plotStims = {'alcohol';
+%     'neutral';
+%     'alcohol-neutral';
+%     'alcohol';
+%     'neutral';
+%     'alcohol-neutral';
+%     'alcohol';
+%     'neutral';
+%     'alcohol-neutral';
+%     'alcohol';
+%     'neutral';
+%     'alcohol-neutral';
+%     'alcohol';
+%     'neutral';
+%     'alcohol-neutral';
+%     'alcohol';
+%     'neutral';
+%     'alcohol-neutral'
+%     'alcohol';
+%     'neutral';
+%     'alcohol-neutral'};
+% 
+
 
 
 
