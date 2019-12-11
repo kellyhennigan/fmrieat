@@ -1,10 +1,10 @@
-function [subjects,exc_subj_notes] = getFmrieatSubjects(task)
+function [subjects,exc_subj_notes] = getFmrieatSubjects(task,group)
 % -------------------------------------------------------------------------
 % [subjects,exc_subj_notes] = getFmrieatSubjects(task)
 % usage: returns cell array with subject id strings for this experiment.
 
-% INPUT: 
-%   task (optional) - string that must be either 'cue', 'dti' or '' 
+% INPUT:
+%   task (optional) - string that must be either 'cue', 'dti' or ''
 %         (Default is '').
 
 %
@@ -24,6 +24,13 @@ function [subjects,exc_subj_notes] = getFmrieatSubjects(task)
 if notDefined('task')
     task = '';
 end
+
+
+% return all subjects if task isn't given as input
+if notDefined('group')
+    group = '';
+end
+
 
 p=getFmrieatPaths;
 
@@ -57,6 +64,86 @@ else
     end
     
 end
+
+
+%%%%% GROUPS
+
+
+% now get group index corresponding to subject array, if desired
+if ~isempty(group)
+    
+    docid = '1QFMl95r8QAvuziri_sBPWPCfc9eqq95HmUOBuS8zl4Y';  % doc id for google sheet w/fmrieat subject group assignments
+    subjci=1; % which column to look for subject ids in
+    
+    switch lower(group)
+        
+        case 'everdrinkers'
+            colname = 'ever_drinker_1_qualtrics';
+            gi = getGSSData(docid,colname,subjects,subjci);
+            subjects=subjects(gi==1);
+        case 'noneverdrinkers'
+            colname = 'ever_drinker_1_qualtrics';
+            gi = getGSSData(docid,colname,subjects,subjci);
+            subjects=subjects(gi==0);            
+            
+            
+        case 'past30daydrinkers_1'
+            colname = 'past30ddrinker_1_tlfb';
+            gi = getGSSData(docid,colname,subjects,subjci);
+            subjects=subjects(gi==1);
+        case 'nonpast30daydrinkers_1'
+            colname = 'past30ddrinker_1_tlfb';
+            gi = getGSSData(docid,colname,subjects,subjci);
+            subjects=subjects(gi==0);
+           
+            
+        case 'past30daybingers_1'
+            colname = 'bingestat30d_1_tlfb';
+            gi = getGSSData(docid,colname,subjects,subjci);
+            subjects=subjects(gi==1);
+        case 'nonpast30daybingers_1'
+            colname = 'bingestat30d_1_tlfb';
+            gi = getGSSData(docid,colname,subjects,subjci);
+            subjects=subjects(gi==0);
+            
+            
+        case 'past30daydrinkers_2'
+            colname = 'past30ddrink_2';
+            gi = getGSSData(docid,colname,subjects,subjci);
+            subjects=subjects(gi==1);
+        case 'nonpast30daydrinkers_2'
+            colname = 'past30ddrink_2';
+            gi = getGSSData(docid,colname,subjects,subjci);
+            subjects=subjects(gi==0);
+            
+            
+        case 'past30daybingers_2'
+            colname = 'bingestat30d_2_tlfb';
+            gi = getGSSData(docid,colname,subjects,subjci);
+            subjects=subjects(gi==1);
+        case 'nonpast30daybingers_2'
+            colname = 'bingestat30d_2_tlfb';
+            gi = getGSSData(docid,colname,subjects,subjci);
+            subjects=subjects(gi==0);
+            
+            
+        case 'deltadrinks_positive'
+            colname = 'ndrinks_delta';
+            gi = getGSSData(docid,colname,subjects,subjci);
+            subjects=subjects(gi==1);
+       case 'deltadrinks_negative'
+            colname = 'ndrinks_delta';
+            gi = getGSSData(docid,colname,subjects,subjci);
+            subjects=subjects(gi==-1);
+       case 'deltadrinks_zero'
+            colname = 'ndrinks_delta';
+            gi = getGSSData(docid,colname,subjects,subjci);
+            subjects=subjects(gi==0);
+            
+    end
+    
+end % ~isempty(group)
+
 
 
 end % function

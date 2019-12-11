@@ -53,8 +53,8 @@ end
 hold on
 
 % plot data points as dots
-plot(axH,x,y,'.','MarkerSize',30,'color',col);
-
+% plot(axH,x,y,'.','MarkerSize',30,'color',col);
+plot(axH,x,y,'.','MarkerSize',40,'color',col);
 
 % plot correlation/best fit line
 xl = [min(x), max(x)];

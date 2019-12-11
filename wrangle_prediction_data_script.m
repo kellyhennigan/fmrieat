@@ -91,7 +91,7 @@ outPath = fullfile(dataDir,'prediction_data',['data_' datestr(now,'yymmdd') '.cs
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% OUTCOME VARS 
+%% OUTCOME VARS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -111,7 +111,7 @@ subjci=2; % which column to look for subject ids in
 
 d = getGSSData(docid,colnames,subjects,subjci);
 
-BMI_1=d(:,1); 
+BMI_1=d(:,1);
 fat_1=d(:,2);
 waist_1=d(:,3);
 hip_1=d(:,4);
@@ -126,7 +126,7 @@ subjci=2; % which column to look for subject ids in
 
 d = getGSSData(docid,colnames,subjects,subjci);
 
-BMI_2=d(:,1); 
+BMI_2=d(:,1);
 fat_2=d(:,2);
 waist_2=d(:,3);
 hip_2=d(:,4);
@@ -138,7 +138,7 @@ w2hr_1=waist_1./hip_1;
 w2hr_2=waist_2./hip_2;
 
 
-%%%%%%% post-pre change 
+%%%%%%% post-pre change
 BMI_delta=BMI_2-BMI_1;
 fat_delta=fat_2-fat_1;
 waist_delta=waist_2-waist_1;
@@ -188,7 +188,7 @@ nbinge30d_2=d(:,6);
 
 clear d
 
-%%%%%%% post-pre change 
+%%%%%%% post-pre change
 ndrinks30d_delta=ndrinks30d_2-ndrinks30d_1;
 nepisodes30d_delta=nepisodes30d_2-nepisodes30d_1;
 nbinge30d_delta=nbinge30d_2-nbinge30d_1;
@@ -209,7 +209,7 @@ Toutcomealc30dvars = table(ndrinks30d_1,ndrinks30d_2,ndrinks30d_delta,...
 % negative consequences experienced from alcohol consumption (based on X
 % questionnaire on Qualtrics)
 
-%%%%%%%% 
+%%%%%%%%
 docid1 = '1E0bmGIt_2PwCO6RxdMVG9eR0SCQeVgBPuHR87s9kkMc'; % doc id for google sheet for BASELINE
 docid2 = '1qo1-FZcauGImZJgKth6-2XradwdwuUKiiObO0RwQFQY'; % doc id for google sheet for FOLLOWUP
 
@@ -218,10 +218,10 @@ colnames={'Averaging over the past 6 months, how many times in a TYPICAL month d
     'Averaging over the past 6 months, how many drinks do you have in a TYPICAL WEEK?',...
     'Averaging over the past 6 months, how many drinks do you TYPICALLY have at ONE TIME?',...
     'RAPI: Total neg consequences experienced - Past 6m'};
-    
+
 subjci=1; % which column to look for subject ids in
 
-d = getGSSData(docid1,colnames,subjects,subjci); % baseline 
+d = getGSSData(docid1,colnames,subjects,subjci); % baseline
 
 nepisodespermonth6m_1=d(:,1);
 ndrinksperweek6m_1=d(:,2);
@@ -238,7 +238,7 @@ ndrinksperepisode6m_2=d(:,3);
 negconsequences6m_2=d(:,4);
 
 clear d
-    
+
 
 %%%%%%% post-pre change
 nepisodespermonth6m_delta=nepisodespermonth6m_2-nepisodespermonth6m_1;
@@ -267,12 +267,12 @@ Toutcomealc6mvars = table(nepisodespermonth6m_1,nepisodespermonth6m_2,nepisodesp
 %% brain data
 
 
-roiNames = {'nacc_desai','naccL_desai','naccR_desai','mpfc','VTA','acing','ins_desai','caudate'};
-roiVarNames = {'nacc','naccL','naccR','mpfc','vta','acc','ains','caudate'};
+roiNames = {'nacc_desai','naccL_desai','naccR_desai','mpfc','VTA','acing','ins_desai','caudate','dlpfc_sarahj','dlpfcL_sarahj','dlpfcR_sarahj'};
+roiVarNames = {'nacc','naccL','naccR','mpfc','vta','acc','ains','caudate','dlpfc','dlpfcL','dlpfcR'};
 
 
-% stims = {'alcohol','food','neutral','alcohol-neutral'};
-stims = {'alcohol','drugs','food','neutral'};
+stims = {'alcohol','drugs','food','neutral','alcohol-neutral','food-neutral'};
+% stims = {'alcohol','drugs','food','neutral'};
 
 
 bd = [];  % array of brain data values
@@ -283,12 +283,13 @@ bdNames = {};  % brain data predictor names
 
 tcPath = fullfile(dataDir,['timecourses_cue'],'%s','%s.csv'); %s is roiNames, stims
 % % tcPath = fullfile(dataDir,['timecourses_' task '_woOutliers'],'%s','%s.csv'); %s is roiNames, stims
-% 
+%
 TRs = [3:7];
-aveTRs = [3:5]; % ***this is an index of var TRs**, so the mean will be taken of TRs(aveTRs)
-% 
+% aveTRs = [3:5]; % ***this is an index of var TRs**, so the mean will be taken of TRs(aveTRs)
+aveTRs = [];
+%
 for j=1:numel(roiNames)
-         
+    
     for k = 1:numel(stims)
         
         % if there's a minus sign, assume desired output is stim1-stim2
@@ -298,8 +299,8 @@ for j=1:numel(roiNames)
             thistc1=loadRoiTimeCourses(sprintf(tcPath,roiNames{j},stim1),subjects,TRs);
             thistc2=loadRoiTimeCourses(sprintf(tcPath,roiNames{j},stim2),subjects,TRs);
             thistc=thistc1-thistc2;
-        
-        % otherwise just load stim timecourses
+            
+            % otherwise just load stim timecourses
         else
             thistc=loadRoiTimeCourses(sprintf(tcPath,roiNames{j},stims{k}),subjects,TRs);
         end
@@ -315,30 +316,43 @@ for j=1:numel(roiNames)
             bd = [bd mean(thistc(:,aveTRs),2)];
             bdNames{end+1} = [roiVarNames{j} '_' strrep(stims{k},'-','') '_TR' strrep(num2str(TRs(aveTRs)),' ','') 'mean'];
         end
-            
+        
     end % stims
-   
+    
 end % rois
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%  ROI BETAS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
- 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%  ROI BETAS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 betaPath = fullfile(dataDir,['results_cue'],'roi_betas','%s','%s.csv'); %s is roiName, stim
 
 for j=1:numel(roiNames)
-
-      for k = 1:numel(stims)
-          
-          this_bfile = sprintf(betaPath,roiNames{j},stims{k}); % this beta file path
-          if exist(this_bfile,'file')
-              B = loadRoiTimeCourses(this_bfile,subjects);
-              bd = [bd B];
-              bdNames = [bdNames [roiVarNames{j} '_' strrep(stims{k},'-','') '_beta']];
-          end
+    
+    for k = 1:numel(stims)
+        
+        % if there's a minus sign, assume desired output is stim1-stim2
+        if strfind(stims{k},'-')
+            stim1 = stims{k}(1:strfind(stims{k},'-')-1);
+            stim2 = stims{k}(strfind(stims{k},'-')+1:end);
+            B1=loadRoiTimeCourses(sprintf(betaPath,roiNames{j},stim1),subjects);
+            B2=loadRoiTimeCourses(sprintf(betaPath,roiNames{j},stim2),subjects);
+            B=B1-B2;
             
-      end % stims
-      
+            % otherwise just load stim timecourses
+        else
+            this_bfile = sprintf(betaPath,roiNames{j},stims{k}); % this beta file path
+            B = loadRoiTimeCourses(this_bfile,subjects);
+            
+        end
+        
+        bd = [bd B];
+        bdNames = [bdNames [roiVarNames{j} '_' strrep(stims{k},'-','') '_beta']];
+        
+        
+    end % stims
+    
 end % roiNames
+
 
 % brain data
 Tbrain = array2table(bd,'VariableNames',bdNames);
@@ -379,6 +393,7 @@ varnames=cellfun(@(x) ['pref_' x ], conds,'uniformoutput',0);
 Tpref = array2table(mean_pref,'VariableNames',varnames);
 
 
+
 %% BIS (from BIS/BAS)
 
 docid = '1Ra-JM2JyLnqYyFnfnwr8mTrcesAG94tz-REDeCNMaG8'; % doc id for google sheet
@@ -396,17 +411,32 @@ BASRewardResponse=d(:,4);
 Tbisbas = table(BIS_BISBAS,BASDrive,BASFunSeeking,BASRewardResponse);
 
 
-%% more to variables to add: 
+%% demographics 
+
+
+docid = '1fBiZ8TGVOuH9W9i16wnjG1Pcuu7Md1LgkPkq8I48b_s'; % doc id for google sheet
+
+colnames = {'Sex','Community subj status'};
+subjci=1; % which column to look for subject ids in
+
+d = getGSSData(docid,colnames,subjects,subjci);
+
+sex=d(:,1); 
+comm_status= d(:,2); 
+
+Tdemo = table(sex,comm_status);
+
+
+
+
+%% more to variables to add:
 
 % neuroticism (from TIPI 5)
 
 
 % DEMOGRAPHICS:
-
 % ethnicity
-% gender
-% SES
-
+% ?? 
 
 % CONTROL VARIABLES:
 
@@ -433,7 +463,7 @@ Tsubj = table(subjects);
 % concatenate all data into 1 table
 T=table();
 % T = [Tsubj Trelapse Tdem Tbeh Tbrain Totherdruguse];
-T = [Tsubj Toutcomefoodvars Toutcomealc30dvars Toutcomealc6mvars Tbrain Tratings Tpref Tbisbas]; 
+T = [Tsubj Toutcomefoodvars Toutcomealc30dvars Toutcomealc6mvars Tdemo Tbisbas Tratings Tpref Tbrain];
 
 % save out
 writetable(T,outPath);
