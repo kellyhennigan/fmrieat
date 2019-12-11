@@ -145,7 +145,7 @@ if ~isempty(group)
             subjects={'femaleid1';
                 'femaleid2'};
             
-               case {'male','males'}
+        case {'male','males'}
             subjects={'maleid1';
                 'maleid2'}
             
