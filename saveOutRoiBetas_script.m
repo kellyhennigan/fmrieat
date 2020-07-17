@@ -30,13 +30,13 @@ roiNames = whichRois(roiDir,'_func.nii','_func.nii');
 % directory that contains glm results of interest
 % resultsDir = fullfile(dataDir,['results_' task '_afni']);
 % resultsDir = fullfile(dataDir,['results_' task '_afni_reltest']);
-resultsDir = fullfile(dataDir,['results_' task '_pa']);
+resultsDir = fullfile(dataDir,['results_' task '_na']);
 
 % DOUBLE CHECK TO MAKE SURE THESE LABELS ARE ALIGNED TO THE VOLUMES IN THE
 % GLM FILES
 fileStr = 'glm_B+tlrc.HEAD'; % string identifying files w/single subject beta maps
 volIdx = [12]; % index of which volumes are the beta maps of interest (first vol=0, etc.)
-bNames = {'pa'}; % bNames should correspond to volumes in index volIdx
+bNames = {'na'}; % bNames should correspond to volumes in index volIdx
 
 % fileStr = 'glm+tlrc.HEAD'; % string identifying files w/single subject beta maps
 % volIdx = [29,32,35]; % index of which volumes are the beta maps of interest (first vol=0, etc.)
