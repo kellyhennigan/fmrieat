@@ -34,9 +34,9 @@ resultsDir = fullfile(dataDir,['results_' task '_pa']);
 
 % DOUBLE CHECK TO MAKE SURE THESE LABELS ARE ALIGNED TO THE VOLUMES IN THE
 % GLM FILES
-fileStr = 'glm_v2_B+tlrc.HEAD'; % string identifying files w/single subject beta maps
+fileStr = 'glm_B+tlrc.HEAD'; % string identifying files w/single subject beta maps
 volIdx = [12]; % index of which volumes are the beta maps of interest (first vol=0, etc.)
-bNames = {'pa_v2'}; % bNames should correspond to volumes in index volIdx
+bNames = {'pa'}; % bNames should correspond to volumes in index volIdx
 
 % fileStr = 'glm+tlrc.HEAD'; % string identifying files w/single subject beta maps
 % volIdx = [29,32,35]; % index of which volumes are the beta maps of interest (first vol=0, etc.)

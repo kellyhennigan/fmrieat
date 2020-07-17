@@ -189,7 +189,7 @@ nepisodes30d_2=d(:,4);
 nbinge30d_1=d(:,5);
 nbinge30d_2=d(:,6);
 
-% square root 
+% square root
 ndrinks30d_1_sqrt=sqrt(d(:,1));
 ndrinks30d_2_sqrt=sqrt(d(:,2));
 nepisodes30d_1_sqrt=sqrt(d(:,3));
@@ -300,8 +300,7 @@ Toutcomealc6mvars = table(nepisodespermonth6m_1,nepisodespermonth6m_2,nepisodesp
 roiNames = {'nacc_desai','naccL_desai','naccR_desai','mpfc','VTA','acing','ins_desai','caudate'};
 roiVarNames = {'nacc','naccL','naccR','mpfc','vta','acc','ains','caudate'};
 
-
-stims = {'alcohol','drugs','food','neutral','alcohol-neutral','food-neutral'};
+stims = {'alcohol','drugs','food','neutral'};
 % stims = {'alcohol','drugs','food','neutral'};
 
 
@@ -326,13 +325,18 @@ for j=1:numel(roiNames)
         if strfind(stims{k},'-')
             stim1 = stims{k}(1:strfind(stims{k},'-')-1);
             stim2 = stims{k}(strfind(stims{k},'-')+1:end);
-            thistc1=loadRoiTimeCourses(sprintf(tcPath,roiNames{j},stim1),subjects,TRs);
-            thistc2=loadRoiTimeCourses(sprintf(tcPath,roiNames{j},stim2),subjects,TRs);
+            tcfile1=sprintf(tcPath,roiNames{j},stim1);
+            tcfile2=sprintf(tcPath,roiNames{j},stim2);
+            thistc1=loadRoiTimeCourses(tcfile1,subjects,TRs);
+            thistc2=loadRoiTimeCourses(tcfile2,subjects,TRs);
             thistc=thistc1-thistc2;
+            
             
             % otherwise just load stim timecourses
         else
-            thistc=loadRoiTimeCourses(sprintf(tcPath,roiNames{j},stims{k}),subjects,TRs);
+            tcfile=sprintf(tcPath,roiNames{j},stims{k});
+            thistc=loadRoiTimeCourses(tcfile,subjects,TRs);
+            
         end
         bd = [bd thistc];
         
@@ -354,6 +358,12 @@ end % rois
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  ROI BETAS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+roiNames = {'nacc_desai','naccL_desai','naccR_desai','mpfc','VTA','acing','ins_desai','caudate'};
+roiVarNames = {'nacc','naccL','naccR','mpfc','vta','acc','ains','caudate'};
+
+stims = {'alcohol','drugs','food','neutral','alcohol-neutral','food-neutral'};
+% stims = {'alcohol','drugs','food','neutral'};
+
 betaPath = fullfile(dataDir,['results_cue'],'roi_betas','%s','%s.csv'); %s is roiName, stim
 
 for j=1:numel(roiNames)
@@ -368,7 +378,7 @@ for j=1:numel(roiNames)
             B2=loadRoiTimeCourses(sprintf(betaPath,roiNames{j},stim2),subjects);
             B=B1-B2;
             
-            % otherwise just load stim timecourses
+            % otherwise just load stim betas
         else
             this_bfile = sprintf(betaPath,roiNames{j},stims{k}); % this beta file path
             B = loadRoiTimeCourses(this_bfile,subjects);
@@ -441,7 +451,7 @@ BASRewardResponse=d(:,4);
 Tbisbas = table(BIS_BISBAS,BASDrive,BASFunSeeking,BASRewardResponse);
 
 
-%% demographics 
+%% demographics
 
 
 docid = '1fBiZ8TGVOuH9W9i16wnjG1Pcuu7Md1LgkPkq8I48b_s'; % doc id for google sheet
@@ -451,12 +461,26 @@ subjci=1; % which column to look for subject ids in
 
 d = getGSSData(docid,colnames,subjects,subjci);
 
-sex=d(:,1); 
-comm_status= d(:,2); 
+sex=d(:,1);
+comm_status= d(:,2);
 
 Tdemo = table(sex,comm_status);
 
+%% alexithymia
 
+%%%%%%%%  TAS score
+docid = '1EnopBGes6n_TyFvGKjd6GxJHoPjbIajHh5QEOBrA4RY'; % doc id for google sheet w/relapse data
+
+colnames={'TAS Total'};  % column names for variables of interest
+subjci=1; % which column to look for subject ids in
+
+d = getGSSData(docid,colnames,subjects,subjci);
+
+tas=d;
+
+clear d
+
+Ttas=table(tas);
 
 
 %% more to variables to add:
@@ -466,7 +490,7 @@ Tdemo = table(sex,comm_status);
 
 % DEMOGRAPHICS:
 % ethnicity
-% ?? 
+% ??
 
 % CONTROL VARIABLES:
 
@@ -493,7 +517,7 @@ Tsubj = table(subjects);
 % concatenate all data into 1 table
 T=table();
 % T = [Tsubj Trelapse Tdem Tbeh Tbrain Totherdruguse];
-T = [Tsubj Toutcomefoodvars Toutcomealc30dvars Toutcomealc6mvars Tdemo Tbisbas Tratings Tpref Tbrain];
+T = [Tsubj Toutcomefoodvars Toutcomealc30dvars Toutcomealc6mvars Tdemo Tbisbas Tratings Tpref Tbrain Ttas];
 
 % save out
 writetable(T,outPath);
