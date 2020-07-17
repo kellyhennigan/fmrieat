@@ -134,7 +134,7 @@ for i=1:numel(subjects)
     
     subject = subjects{i};
     
-    idx=find(strncmp(subject,fnames,8));
+    idx=find(strncmp(subject,fnames,numel(subject)));
     if numel(idx)>1
         fprintf(['\nmore than 1 file found for subject, ' subject ' \n\n']);
         disp(fnames(idx));

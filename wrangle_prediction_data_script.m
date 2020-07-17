@@ -126,7 +126,7 @@ subjci=2; % which column to look for subject ids in
 
 d = getGSSData(docid,colnames,subjects,subjci);
 
-BMI_2=d(:,1);
+BMI_2=d(:,1); BMI_2(BMI_2<1)=nan;
 fat_2=d(:,2);
 waist_2=d(:,3);
 hip_2=d(:,4);
@@ -139,15 +139,18 @@ w2hr_2=waist_2./hip_2;
 
 
 %%%%%%% post-pre change
-BMI_delta=BMI_2-BMI_1;
-fat_delta=fat_2-fat_1;
-waist_delta=waist_2-waist_1;
-hip_delta=hip_2-hip_1;
-w2hr_delta=w2hr_2-w2hr_1;
+BMI_delta=(BMI_2-BMI_1)./BMI_1;
+BMI_21=BMI_2-BMI_1;
+% BMI_delta_sqrt=sqrt(BMI_delta);
+
+fat_delta=(fat_2-fat_1)./fat_1;
+waist_delta=(waist_2-waist_1)./waist_1;
+hip_delta=(hip_2-hip_1)./hip_1;
+w2hr_delta=(w2hr_2-w2hr_1);
 
 
 % table that has all food outcome variables
-Toutcomefoodvars = table(BMI_1,BMI_2,BMI_delta,...
+Toutcomefoodvars = table(BMI_1,BMI_2,BMI_delta,BMI_21,...
     fat_1,fat_2,fat_delta,...
     waist_1,waist_2,waist_delta,...
     hip_1,hip_2,hip_delta,...
@@ -186,6 +189,24 @@ nepisodes30d_2=d(:,4);
 nbinge30d_1=d(:,5);
 nbinge30d_2=d(:,6);
 
+% square root 
+ndrinks30d_1_sqrt=sqrt(d(:,1));
+ndrinks30d_2_sqrt=sqrt(d(:,2));
+nepisodes30d_1_sqrt=sqrt(d(:,3));
+nepisodes30d_2_sqrt=sqrt(d(:,4));
+nbinge30d_1_sqrt=sqrt(d(:,5));
+nbinge30d_2_sqrt=sqrt(d(:,6));
+
+
+% log-transformed
+ndrinks30d_1_ln=log(d(:,1)+1);
+ndrinks30d_2_ln=log(d(:,2)+1);
+nepisodes30d_1_ln=log(d(:,3)+1);
+nepisodes30d_2_ln=log(d(:,4)+1);
+nbinge30d_1_ln=log(d(:,5)+1);
+nbinge30d_2_ln=log(d(:,6)+1);
+
+
 clear d
 
 %%%%%%% post-pre change
@@ -194,9 +215,16 @@ nepisodes30d_delta=nepisodes30d_2-nepisodes30d_1;
 nbinge30d_delta=nbinge30d_2-nbinge30d_1;
 
 % table that has 30-day alcohol outcome variables
+% Toutcomealc30dvars = table(ndrinks30d_1,ndrinks30d_2,ndrinks30d_delta,...
+%     nepisodes30d_1,nepisodes30d_2,nepisodes30d_delta,...
+%     nbinge30d_1,nbinge30d_2,nbinge30d_delta);
+
+% table that has 30-day alcohol outcome variables
 Toutcomealc30dvars = table(ndrinks30d_1,ndrinks30d_2,ndrinks30d_delta,...
     nepisodes30d_1,nepisodes30d_2,nepisodes30d_delta,...
-    nbinge30d_1,nbinge30d_2,nbinge30d_delta);
+    nbinge30d_1,nbinge30d_2,nbinge30d_delta,...
+    ndrinks30d_1_ln,ndrinks30d_2_ln,nepisodes30d_1_ln,nepisodes30d_2_ln,nbinge30d_1_ln,nbinge30d_2_ln,...
+    ndrinks30d_1_sqrt,ndrinks30d_2_sqrt,nepisodes30d_1_sqrt,nepisodes30d_2_sqrt,nbinge30d_1_sqrt,nbinge30d_2_sqrt);
 
 
 %%%%%%%% 6 month measures
@@ -267,8 +295,10 @@ Toutcomealc6mvars = table(nepisodespermonth6m_1,nepisodespermonth6m_2,nepisodesp
 %% brain data
 
 
-roiNames = {'nacc_desai','naccL_desai','naccR_desai','mpfc','VTA','acing','ins_desai','caudate','dlpfc_sarahj','dlpfcL_sarahj','dlpfcR_sarahj'};
-roiVarNames = {'nacc','naccL','naccR','mpfc','vta','acc','ains','caudate','dlpfc','dlpfcL','dlpfcR'};
+% roiNames = {'nacc_desai','naccL_desai','naccR_desai','mpfc','VTA','acing','ins_desai','caudate','dlpfc_sarahj','dlpfcL_sarahj','dlpfcR_sarahj'};
+% roiVarNames = {'nacc','naccL','naccR','mpfc','vta','acc','ains','caudate','dlpfc','dlpfcL','dlpfcR'};
+roiNames = {'nacc_desai','naccL_desai','naccR_desai','mpfc','VTA','acing','ins_desai','caudate'};
+roiVarNames = {'nacc','naccL','naccR','mpfc','vta','acc','ains','caudate'};
 
 
 stims = {'alcohol','drugs','food','neutral','alcohol-neutral','food-neutral'};
@@ -281,7 +311,7 @@ bdNames = {};  % brain data predictor names
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  ROI TRs  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-tcPath = fullfile(dataDir,['timecourses_cue'],'%s','%s.csv'); %s is roiNames, stims
+tcPath = fullfile(dataDir,['timecourses_cue_woOutliers'],'%s','%s.csv'); %s is roiNames, stims
 % % tcPath = fullfile(dataDir,['timecourses_' task '_woOutliers'],'%s','%s.csv'); %s is roiNames, stims
 %
 TRs = [3:7];
