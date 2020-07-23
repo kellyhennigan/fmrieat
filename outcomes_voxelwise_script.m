@@ -22,11 +22,11 @@ if ~exist(outDir,'dir')
 end
 
 % 
-stim = 'food-neutral';
+stim = 'alcohol-neutral';
 
-ymeasure = 'BMI_1';
+% ymeasure = 'BMI_1';
 % ymeasure = 'BMI_2';
-% ymeasure = 'ndrinks30d_delta';
+ymeasure = 'ndrinks30d_delta';
 
 
 mask = niftiRead(fullfile(dataDir,'ROIs','bmask.nii')); % brain mask
