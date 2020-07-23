@@ -24,7 +24,7 @@ end
 % 
 stim = 'food'
 
-ymeasure = 'BMI_1';
+ymeasure = 'BMI_2';
 % ymeasure = 'BMI_2';
 % ymeasure = 'BMI_delta';
 
@@ -97,7 +97,7 @@ tni = createNewNii(mask,outPath,t,['tstats for ' stim ' X ' ymeasure ' regressio
 %      
 writeFileNifti(tni); % save out nifti volume
 
-cmd = sprintf('3drefit -sublabel 0 %s -substatpar 0 fitt %d',[stim 'X' ymeasure '_tstat'],df);
+cmd = sprintf('3drefit -sublabel 0 %s -substatpar 0 fitt %d %s',[stim 'X' ymeasure '_tstat'],df,tni.fname);
 disp(cmd);
 system(cmd);
 % 
