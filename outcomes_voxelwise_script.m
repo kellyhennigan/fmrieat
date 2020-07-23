@@ -22,11 +22,11 @@ if ~exist(outDir,'dir')
 end
 
 % 
-stim = 'alcohol';
+stim = 'food';
 
+ymeasure = 'BMI_1';
 % ymeasure = 'BMI_2';
-% ymeasure = 'BMI_2';
-ymeasure = 'ndrinks30d_delta';
+% ymeasure = 'ndrinks30d_delta';
 
 
 mask = niftiRead(fullfile(dataDir,'ROIs','bmask.nii')); % brain mask
@@ -57,7 +57,7 @@ mask = niftiRead(fullfile(dataDir,'ROIs','bmask.nii')); % brain mask
 
 %% get outcomes data 
 % 
-T=readtable(fullfile(dataDir,'prediction_data','data_200717.csv'));
+T=readtable(fullfile(dataDir,'prediction_data','data_200723.csv'));
 
 % 
 % omit subjects that dont have outcome data as defined above
