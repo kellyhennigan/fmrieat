@@ -89,7 +89,7 @@ for vi = find(mask.data)'
 
 end % voxels in brain mask
 % 
-df = numel(subjects)-1; 
+df = numel(subjects)-2; 
 
 outPath = fullfile(outDir,['T' stim 'X' ymeasure '.nii.gz']); % out filepath
 
