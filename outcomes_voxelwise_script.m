@@ -22,7 +22,7 @@ if ~exist(outDir,'dir')
 end
 
 % 
-stim = 'food';
+stim = 'food-neutral';
 
 ymeasure = 'BMI_delta';
 % ymeasure = 'BMI_2';
@@ -71,10 +71,21 @@ subjects = T.subjects;
 % 
 for i=1:numel(subjects)
 %     
+if strfind(stim,'-')
+    
+    stim1 = stim(1:strfind(stim,'-')-1);
+    stim2 = stim(strfind(stim,'-')+1:end);
+    bfile1 =  [outDir '/' subjects{i} '_' stim1 '.nii']; % nifti filepath for saving out beta map
+    bfile2 =  [outDir '/' subjects{i} '_' stim2 '.nii']; % nifti filepath for saving out beta map
+    ni1 = niftiRead(bfile1); ni2 = niftiRead(bfile2);
+    X(i,:) = double(reshape(ni1.data,1,[]))-double(reshape(ni2.data,1,[])); % all this subjects' voxels in the ith row
+     
+else
     bfile =  [outDir '/' subjects{i} '_' stim '.nii']; % nifti filepath for saving out beta map
      ni = niftiRead(bfile);
      X(i,:) = double(reshape(ni.data,1,[])); % all this subjects' voxels in the ith row
-   
+end
+
 end
 
 fprintf(['\nworking on ' stim ' betas X ' ymeasure ' analysis...\n'])
