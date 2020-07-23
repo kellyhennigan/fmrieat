@@ -26,7 +26,7 @@ stim = 'alcohol';
 
 % ymeasure = 'BMI_2';
 % ymeasure = 'BMI_2';
-ymeasure = 'ndrinks30d_2_sqrt';
+ymeasure = 'ndrinks30d_delta';
 
 
 mask = niftiRead(fullfile(dataDir,'ROIs','bmask.nii')); % brain mask
