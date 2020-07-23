@@ -21,81 +21,87 @@ if ~exist(outDir,'dir')
     mkdir(outDir)
 end
 
-stims = {'neutral','drugs'};
+% 
+stim = 'food'
 
-beta_fstr = '_glm+tlrc';
+ymeasure = 'BMI_1';
+% ymeasure = 'BMI_2';
+% ymeasure = 'BMI_delta';
+
 
 mask = niftiRead(fullfile(dataDir,'ROIs','bmask.nii')); % brain mask
 
 
-
 %%  extract beta values of interest and save out as separate single volume nifti files
 
-cd(inDir)
-for k=1:numel(stims)
-    
-    for i=1:numel(subjects)
-        
-        cmd = ['3dinfo -label2index ' stims{k} '#0_Coef ' subjects{i} beta_fstr]
-        [status,cmdout]=system(cmd);
-        si=strfind(cmdout,sprintf('\n')); % index number is between 2 line breaks
-        
-        outfile =  [outDir '/' subjects{i} '_' stims{k} '.nii']; % nifti filepath for saving out beta map
-        cmd = ['3dTcat ' subjects{i} beta_fstr '[' cmdout(si(1)+1:si(2)-1) '] -output ' outfile];
-        [status,cmdout]=system(cmd);
-        
-    end % subjects
-    
-end % stims
+% betas = {'alcohol','food','neutral','drugs'};
+% beta_fstr = '_glm+tlrc';
+
+% cd(inDir)
+% for k=1:numel(betas)
+%     
+%     for i=1:numel(subjects)
+%         
+%         cmd = ['3dinfo -label2index ' betas{k} '#0_Coef ' subjects{i} beta_fstr]
+%         [status,cmdout]=system(cmd);
+%         si=strfind(cmdout,sprintf('\n')); % index number is between 2 line breaks
+%         
+%         outfile =  [outDir '/' subjects{i} '_' betas{k} '.nii']; % nifti filepath for saving out beta map
+%         cmd = ['3dTcat ' subjects{i} beta_fstr '[' cmdout(si(1)+1:si(2)-1) '] -output ' outfile];
+%         [status,cmdout]=system(cmd);
+%         
+%     end % subjects
+%     
+% end % betas
 
 
 %% get outcomes data 
 % 
-% T=readtable(fullfile(dataDir,'prediction_data','data_200717.csv'));
+T=readtable(fullfile(dataDir,'prediction_data','data_200717.csv'));
+
 % 
-% relapse = getCueData(subjects,'relapse');
-% obstime = getCueData(subjects,'observedtime');
+% omit subjects that dont have outcome data as defined above
+
+eval(['T(isnan(T.' ymeasure '),:)=[];']);
+y = eval(['T.' ymeasure]);
+
+% get new subject list that includes only subjects with desired outcome data
+subjects = T.subjects; 
+
 % 
-% % omit subjects without followup data from analysis
-% nanidx = find(isnan(relapse));
-% relapse(nanidx) = [];
-% obstime(nanidx) = [];
-% subjects(nanidx) = [];
-% 
-% censored = abs(relapse-1); % censored var is 1 for non-relapse, 0 for relapse
-% 
-% % k=1
-% for k=1:numel(stims)
-% 
-% for i=1:numel(subjects)
+for i=1:numel(subjects)
 %     
-%     bfile =  [outDir '/' subjects{i} '_' stims{k} '.nii']; % nifti filepath for saving out beta map
-%      ni = niftiRead(bfile);
-%      X(i,:) = double(reshape(ni.data,1,[])); % all this subjects' voxels in the ith row
-%    
-% end
-% 
-% fprintf(['\nworking on survival analysis for ' stims{k} ' betas...\n'])
+    bfile =  [outDir '/' subjects{i} '_' stim '.nii']; % nifti filepath for saving out beta map
+     ni = niftiRead(bfile);
+     X(i,:) = double(reshape(ni.data,1,[])); % all this subjects' voxels in the ith row
+   
+end
+
+fprintf(['\nworking on ' stim ' betas X ' ymeasure ' analysis...\n'])
 % 
 % % there's prob a better/faster way to do this...
-% Z = zeros(size(mask.data));
+t = zeros(size(mask.data));
 % 
-% for vi = find(mask.data)'
-%     
-%     [b,logl,H,stats] = coxphfit(X(:,vi),obstime,'Censoring',censored);
-%     Z(vi) = stats.z;
+for vi = find(mask.data)'
+    
+    res = fitglm(X(:,vi),y,'Distribution','normal');
+    t(vi) = res.Coefficients.tStat(2);
+
+end % voxels in brain mask
 % 
-% end % voxels in brain mask
-% 
-% outPath = fullfile(outDir,['Z' stims{k} '.nii.gz']); % out filepath
-% Zni = createNewNii(mask,outPath,Z,['zscores for Cox regression on n=' num2str(numel(subjects)) ' patients']);     
+df = numel(subjects)-1; 
+
+outPath = fullfile(outDir,['T' stim 'X' ymeasure '.nii.gz']); % out filepath
+
+tni = createNewNii(mask,outPath,t,['tstats for ' stim ' X ' ymeasure ' regression on n=' num2str(numel(subjects))]);     
 %      
-% writeFileNifti(Zni); % save out nifti volume
-% cmd = ['3drefit -fbuc -sublabel 0 CoxZ -substatpar 0 fizt ' outPath];
-% disp(cmd);
-% system(cmd);
+writeFileNifti(tni); % save out nifti volume
+
+cmd = sprintf('3drefit -sublabel 0 %s -substatpar 0 fitt %d',[stim 'X' ymeasure '_tstat'],df);
+disp(cmd);
+system(cmd);
 % 
-% fprintf(['done.\n\n'])
+fprintf(['done.\n\n'])
 % 
 % end % stims
 % 
