@@ -358,10 +358,10 @@ end % rois
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  ROI BETAS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-roiNames = {'nacc_desai','naccL_desai','naccR_desai','mpfc','VTA','acing','ins_desai','caudate'};
-roiVarNames = {'nacc','naccL','naccR','mpfc','vta','acc','ains','caudate'};
+% roiNames = {'nacc_desai','naccL_desai','naccR_desai','mpfc','VTA','acing','ins_desai','caudate'};
+% roiVarNames = {'nacc','naccL','naccR','mpfc','vta','acc','ains','caudate'};
 
-stims = {'alcohol','drugs','food','neutral','alcohol-neutral','food-neutral'};
+stims = {'alcohol','drugs','food','neutral','alcohol-neutral','food-neutral','pa','pa_v2','na','pref'};
 % stims = {'alcohol','drugs','food','neutral'};
 
 betaPath = fullfile(dataDir,['results_cue'],'roi_betas','%s','%s.csv'); %s is roiName, stim
