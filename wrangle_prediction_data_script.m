@@ -295,6 +295,10 @@ Toutcomealc6mvars = table(nepisodespermonth6m_1,nepisodespermonth6m_2,nepisodesp
 %% brain data
 
 
+bd = [];  % array of brain data values
+bdNames = {};  % brain data predictor names
+
+
 % roiNames = {'nacc_desai','naccL_desai','naccR_desai','mpfc','VTA','acing','ins_desai','caudate','dlpfc_sarahj','dlpfcL_sarahj','dlpfcR_sarahj'};
 % roiVarNames = {'nacc','naccL','naccR','mpfc','vta','acc','ains','caudate','dlpfc','dlpfcL','dlpfcR'};
 roiNames = {'nacc_desai','naccL_desai','naccR_desai','mpfc','VTA','acing','ins_desai','caudate'};
@@ -302,10 +306,6 @@ roiVarNames = {'nacc','naccL','naccR','mpfc','vta','acc','ains','caudate'};
 
 stims = {'alcohol','drugs','food','neutral'};
 % stims = {'alcohol','drugs','food','neutral'};
-
-
-bd = [];  % array of brain data values
-bdNames = {};  % brain data predictor names
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  ROI TRs  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -358,11 +358,48 @@ end % rois
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  ROI BETAS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% roiNames = {'nacc_desai','naccL_desai','naccR_desai','mpfc','VTA','acing','ins_desai','caudate'};
-% roiVarNames = {'nacc','naccL','naccR','mpfc','vta','acc','ains','caudate'};
+roiNames = {'nacc_desai','naccL_desai','naccR_desai','mpfc','VTA','acing','ins_desai','caudate','singlevox322424'};
+roiVarNames = {'nacc','naccL','naccR','mpfc','vta','acc','ains','caudate','singlevox'};
 
-stims = {'alcohol','drugs','food','neutral','alcohol-neutral','food-neutral','pa','pa_v2','na','pref'};
+stims = {'alcohol','drugs','food','neutral','alcohol-neutral','food-neutral'};
 % stims = {'alcohol','drugs','food','neutral'};
+
+betaPath = fullfile(dataDir,['results_cue'],'roi_betas','%s','%s.csv'); %s is roiName, stim
+
+for j=1:numel(roiNames)
+    
+    for k = 1:numel(stims)
+        
+        % if there's a minus sign, assume desired output is stim1-stim2
+        if strfind(stims{k},'-')
+            stim1 = stims{k}(1:strfind(stims{k},'-')-1);
+            stim2 = stims{k}(strfind(stims{k},'-')+1:end);
+            B1=loadRoiTimeCourses(sprintf(betaPath,roiNames{j},stim1),subjects);
+            B2=loadRoiTimeCourses(sprintf(betaPath,roiNames{j},stim2),subjects);
+            B=B1-B2;
+            
+            % otherwise just load stim betas
+        else
+            this_bfile = sprintf(betaPath,roiNames{j},stims{k}); % this beta file path
+            B = loadRoiTimeCourses(this_bfile,subjects);
+            
+        end
+        
+        bd = [bd B];
+        bdNames = [bdNames [roiVarNames{j} '_' strrep(stims{k},'-','') '_beta']];
+        
+        
+    end % stims
+    
+end % roiNames
+
+
+%%%%%%%%%%%%%%%%%%  ROI SELFREPORT X BRAIN BETAS  %%%%%%%%%%%%%%%%%%%%%%%%%
+
+roiNames = {'nacc_desai','naccL_desai','naccR_desai','mpfc','VTA','acing','ins_desai','caudate'};
+roiVarNames = {'nacc','naccL','naccR','mpfc','vta','acc','ains','caudate'};
+
+stims = {'pa','pa_v2','na','pref'};
 
 betaPath = fullfile(dataDir,['results_cue'],'roi_betas','%s','%s.csv'); %s is roiName, stim
 

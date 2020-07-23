@@ -21,34 +21,37 @@ if ~exist(outDir,'dir')
     mkdir(outDir)
 end
 
-stims = {'alcohol','food'};
+stims = {'neutral','drugs'};
 
 beta_fstr = '_glm+tlrc';
 
 mask = niftiRead(fullfile(dataDir,'ROIs','bmask.nii')); % brain mask
 
 
+
 %%  extract beta values of interest and save out as separate single volume nifti files
 % 
-cd(inDir)
-for k=1:numel(stims)
-    
-    for i=1:numel(subjects)
-        
-        cmd = ['3dinfo -label2index ' stims{k} '#0_Coef ' subjects{i} beta_fstr]
-        [status,cmdout]=system(cmd);
-        si=strfind(cmdout,sprintf('\n')); % index number is between 2 line breaks
-        
-        outfile =  [outDir '/' subjects{i} '_' stims{k} '.nii']; % nifti filepath for saving out beta map
-        cmd = ['3dTcat ' subjects{i} beta_fstr '[' cmdout(si(1)+1:si(2)-1) '] -output ' outfile];
-        [status,cmdout]=system(cmd);
-        
-    end % subjects
-    
-end % stims
+% cd(inDir)
+% for k=1:numel(stims)
+%     
+%     for i=1:numel(subjects)
+%         
+%         cmd = ['3dinfo -label2index ' stims{k} '#0_Coef ' subjects{i} beta_fstr]
+%         [status,cmdout]=system(cmd);
+%         si=strfind(cmdout,sprintf('\n')); % index number is between 2 line breaks
+%         
+%         outfile =  [outDir '/' subjects{i} '_' stims{k} '.nii']; % nifti filepath for saving out beta map
+%         cmd = ['3dTcat ' subjects{i} beta_fstr '[' cmdout(si(1)+1:si(2)-1) '] -output ' outfile];
+%         [status,cmdout]=system(cmd);
+%         
+%     end % subjects
+%     
+% end % stims
 
 
-% %% get survival data
+%% get outcomes data 
+% 
+% T=readtable(fullfile(dataDir,'prediction_data','data_200717.csv'));
 % 
 % relapse = getCueData(subjects,'relapse');
 % obstime = getCueData(subjects,'observedtime');
