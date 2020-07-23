@@ -25,7 +25,7 @@ stims = {'alcohol','food'};
 
 beta_fstr = '_glm+tlrc';
 
-mask = niftiRead(fullfile(dataDir,'templates','bmask.nii')); % brain mask
+mask = niftiRead(fullfile(dataDir,'ROIs','bmask.nii')); % brain mask
 
 
 %%  extract beta values of interest and save out as separate single volume nifti files
