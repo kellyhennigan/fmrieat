@@ -24,7 +24,7 @@ end
 % 
 stim = 'food';
 
-ymeasure = 'BMI_1';
+ymeasure = 'BMI_2';
 % ymeasure = 'BMI_2';
 % ymeasure = 'ndrinks30d_delta';
 
