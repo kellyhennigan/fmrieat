@@ -28,7 +28,7 @@ stim='food';
 % ymeasure = 'BMI_1';
 % ymeasure = 'BMI_2';
 % ymeasure = 'ndrinks30d_delta';
-ymeasure = 'fat_2';
+ymeasure = 'fat_delta';
 
 mask = niftiRead(fullfile(dataDir,'ROIs','bmask.nii')); % brain mask
 
