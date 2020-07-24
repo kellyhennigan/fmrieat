@@ -23,7 +23,7 @@ end
 
 % 
 % stim = 'alcohol-neutral';
-stim='food';
+stim='food-neutral';
 
 % ymeasure = 'BMI_1';
 % ymeasure = 'BMI_2';
