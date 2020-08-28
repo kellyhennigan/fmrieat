@@ -21,8 +21,8 @@ task = 'cue';
 
 subjects=getFmrieatSubjects(task);
 
-tcDir = ['timecourses_' task ];
-% tcDir = ['timecourses_' task '_woOutliers' ];
+% tcDir = ['timecourses_' task ];
+tcDir = ['timecourses_' task '_woOutliers' ];
 
 tcPath = fullfile(dataDir,tcDir);
 
