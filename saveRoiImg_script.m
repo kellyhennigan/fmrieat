@@ -8,7 +8,7 @@ p = getFmrieatPaths();
 dataDir = p.derivatives;
 figDir = p.figures;
 
-roiName = 'gust8mm_Porubska';
+roiName = 'gust8mm_Simmons';
 roiPath =  fullfile(dataDir,'ROIs',[roiName '.nii']);
 t1Path = fullfile(dataDir,'templates','TT_N27.nii');
 % t1Path = fullfile(dataDir,'templates','mni_icbm152_t1_tal_nlin_asym_09a_brain.nii');
