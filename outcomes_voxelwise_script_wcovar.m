@@ -29,9 +29,9 @@ stim='food-neutral';
 % ymeasure = 'BMI_2';
 % ymeasure = 'ndrinks30d_delta';
 
-covars = {'fat_1'}; % list 1 or more covariates; names must match the variable names from the prediction data (.csv file generated with the wrangle script)
+covars = {'BMI_1'}; % list 1 or more covariates; names must match the variable names from the prediction data (.csv file generated with the wrangle script)
 
-ymeasure = 'fat_2';
+ymeasure = 'BMI_2';
 
 mask = niftiRead(fullfile(dataDir,'ROIs','bmask.nii')); % brain mask
 
