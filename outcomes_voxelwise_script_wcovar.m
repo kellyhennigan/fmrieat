@@ -117,7 +117,7 @@ end % voxels in brain mask
 % get error degrees of freedom 
 df = res.DFE;
 
-outPath = fullfile(outDir,['T' stim 'X' ymeasure '.nii.gz']); % out filepath
+outPath = fullfile(outDir,['T' stim 'X' ymeasure '_cv' [covars{:}] '.nii.gz']); % out filepath
 
 tni = createNewNii(mask,outPath,t,['tstats for ' stim ' X ' ymeasure ' regression on n=' num2str(numel(subjects))]);     
 %      
