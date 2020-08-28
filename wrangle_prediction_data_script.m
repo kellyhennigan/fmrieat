@@ -358,8 +358,8 @@ end % rois
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%  ROI BETAS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-roiNames = {'nacc_desai','naccL_desai','naccR_desai','mpfc','VTA','acing','ins_desai','caudate','singlevox322424'};
-roiVarNames = {'nacc','naccL','naccR','mpfc','vta','acc','ains','caudate','singlevox'};
+roiNames = {'nacc_desai','naccL_desai','naccR_desai','mpfc','VTA','acing','ins_desai','caudate','singlevox322424','gust8mm_Porubska','gust8mm_Simmons','gust8mm_Simon'};
+roiVarNames = {'nacc','naccL','naccR','mpfc','vta','acc','ains','caudate','singlevox','gust8mm_Porubska','gust8mm_Simmons','gust8mm_Simon'};
 
 stims = {'alcohol','drugs','food','neutral','alcohol-neutral','food-neutral'};
 % stims = {'alcohol','drugs','food','neutral'};
