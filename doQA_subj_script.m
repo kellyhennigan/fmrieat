@@ -8,8 +8,8 @@ p=getFmrieatPaths;
 
 dataDir = p.derivatives;
 
-% task = input('cue or dti task?','s');
-task='cue';
+task = input('cue or dti task?','s');
+% task='cue';
 
 %
 subjects=getFmrieatSubjects();
