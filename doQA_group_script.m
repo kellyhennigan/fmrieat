@@ -9,8 +9,8 @@ p = getFmrieatPaths();
 
 dataDir = p.derivatives;
 
-% task = input('cue or dti task?','s');
-task='cue';
+task = input('cue or dti task?','s');
+% task='cue';
 
 % 
 [subjects,gi]=getFmrieatSubjects();
@@ -35,7 +35,7 @@ switch task
         
         vox_mm = 2; % dti voxel dimensions are 2mm isotropic
         
-        en_thresh = 5; % euclidean norm threshold for calling a TR "bad"
+        en_thresh = 3; % euclidean norm threshold for calling a TR "bad"
         
         % what percentage of bad volumes should lead to excluding a subject for
         % motion?
