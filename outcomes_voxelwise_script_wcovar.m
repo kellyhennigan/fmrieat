@@ -22,16 +22,16 @@ if ~exist(outDir,'dir')
 end
 
 % 
-% stim = 'alcohol-neutral';
-stim='food-neutral';
+stim = 'alcohol-neutral';
+% stim='food-neutral';
 
 % ymeasure = 'BMI_1';
 % ymeasure = 'BMI_2';
 % ymeasure = 'ndrinks30d_delta';
 
-covars = {'BMI_1'}; % list 1 or more covariates; names must match the variable names from the prediction data (.csv file generated with the wrangle script)
+covars = {'ndrinks30d_1_sqrt'}; % list 1 or more covariates; names must match the variable names from the prediction data (.csv file generated with the wrangle script)
 
-ymeasure = 'BMI_2';
+ymeasure = 'ndrinks30d_2_sqrt';
 
 mask = niftiRead(fullfile(dataDir,'ROIs','bmask.nii')); % brain mask
 
