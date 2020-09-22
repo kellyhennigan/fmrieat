@@ -25,9 +25,9 @@ refFile = fullfile(dataDir,'%s','anat_proc','t1_acpc.nii.gz'); % reference file 
 % 
 % xform_invWarp = fullfile(dataDir,'%s','t1','t12tlrc_xform_InverseWarp.nii.gz'); % acpc aligned t1 > tlrc space affine xform (estimated with ANTs)
 
-xform_aff = fullfile(dataDir,'%s','t1','t12mni_xform_Affine.txt'); % acpc aligned t1 > tlrc space affine xform (estimated with ANTs)
+xform_aff = fullfile(dataDir,'%s','anat_proc','t12mni_xform_Affine.txt'); % acpc aligned t1 > tlrc space affine xform (estimated with ANTs)
 
-xform_invWarp = fullfile(dataDir,'%s','t1','t12mni_xform_InverseWarp.nii.gz'); % acpc aligned t1 > tlrc space affine xform (estimated with ANTs)
+xform_invWarp = fullfile(dataDir,'%s','anat_proc','t12mni_xform_InverseWarp.nii.gz'); % acpc aligned t1 > tlrc space affine xform (estimated with ANTs)
 
 
 %% do it
