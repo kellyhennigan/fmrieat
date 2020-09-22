@@ -82,22 +82,21 @@ def doCommand(cmd):
 		os.system(cmd)
 
 
-#########  get main data directory and subjects to process	
+#########  get subjects to process	
 def whichSubs():
-	
-	from getCueSubjects import getsubs 
-	subjects,gi = getsubs()
 
-	print ' '.join(subjects)
+	from getFmrieatSubjects import getsubs
+	subjects = getsubs()
+
+	print(' '.join(subjects))
 
 	input_subs = raw_input('subject id(s) (hit enter to process all subs): ')
-	print '\nyou entered: '+input_subs+'\n'
+	print('\nyou entered: '+input_subs+'\n')
 
 	if input_subs:
 		subjects=input_subs.split(' ')
 
 	return subjects
-
 
 ######### produce command for fiber tracking	
 if __name__ == '__main__':
