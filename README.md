@@ -288,7 +288,7 @@ Saves out files to directory, **fmrieat/derivatives/subjid/anat_proc**
 ### Convert midbrain ROI from standard > native space
 From terminal command line, run:
 ```
-t12tlrc_ANTS_script.py
+t12mni_ANTS_script.py
 ```
 and then in matlab, run:
 ```
@@ -296,8 +296,18 @@ xformROIs_script.m
 ```
 To estimate the tranform (using ANTs) between subject's acpc-aligned native space and standard space and to apply the inverse transform to take a midbrain ROI in standard space > subject native space. 
 
+We're currently trying out a midbrain ROI placed on the CIT168 atlas (Pauli et al., 2018) using these labels combined (all dopaminergic regions): VTA, SNc, and PBP. 
+
 #### output
-Saves out acpc-aligned<->standard space transforms to directory, **fmrieat/derivatives/subjid/anat_proc**, and saves out a midbrain ROI ("DA.nii.gz") in directory: **fmrieat/derivatives/subjid/ROIs**
+Saves out acpc-aligned<->standard space transforms to directory, **fmrieat/derivatives/subjid/anat_proc**, and saves out a midbrain ROI ("PauliAtlasDA.nii.gz") in directory: **fmrieat/derivatives/subjid/ROIs**
+
+
+
+### dilate ROIs (if desired)
+Following procedures in MacNiven et al (2020), at least for tracking between the midbrain and NAcc, dilate these ROIs by 2 voxels using an mrtrix command (e.g., "maskfilter -npass 2 naccL.nii.gz dilate naccL_dil2.nii.gz")
+
+#### output
+dilated ROI nifti files to directory, **fmrieat/derivatives/subjid/ROIs**
 
 
 
@@ -332,18 +342,24 @@ Saves out files to directory, **fmrieat/derivatives/subjid/dti96trilin/mrtrix**
 ### Track fibers
 From terminal command line, run:
 ```
-python mrtrix_fibertrack.py
+python mrtrix_fibertrack_mfb.py, 		 	 # for inferior NAcc tract
+python mrtrix_fibertrack_mfb_aboveAC.py, or  # for superior NAcc tract
+python mrtrix_fibertrack.py			 	     # for all other tracts
 ```
-tracks fiber pathways between 2 ROIs with desired parameters 
+tracks fiber pathways between 2 ROIs with desired parameters. The "mfb" script includes an exclusionary ROI to not include any streamlines that go above the anterior commissure; the "...mfb_aboveAC" script has an exclusionary ROI to not include any streamlines that run below the anterior commissure.
 
 ##### output
-Saves out files to directory, **fmrieat/derivatives/fibersdti96trilin/mrtrix**
+Saves out files to directory, **fmrieat/derivatives/fibers/dti96trilin/mrtrix**
+
 
 
 ### Clean fiber bundles
 In matlab:
 ```
-cleanFibers_script
+cleanFibersMFB_script, 			# for inferior NAcc tract
+cleanFibersAboveAC_script, or  	# for superior NAcc tract
+cleanFibers_script 				# for all other tracts
+
 ```
 uses AFQ software to iteratively remove errant fibers 
 
@@ -357,10 +373,15 @@ In matlab:
 ```
 dtiSaveFGMeasures_script & dtiSaveFGMeasures_csv_script
 ```
+to save out summary tract measures 
 
-### Correlate diffusivity measurements with personality and/or fMRI measures, e.g., impulsivity
+##### output
+Saves out .mat files with summary measures to directory, **fmrieat/derivatives/fgMeasures/mrtrix_fa/**
 
-### Create density maps of fiber group endpoints 
+
+
+### Regression and correlation analyses to test relationships between tract coherence, personality, behavior, and/or fMRI measures
+
 
 
 
