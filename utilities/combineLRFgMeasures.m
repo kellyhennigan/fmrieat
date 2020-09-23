@@ -34,7 +34,6 @@ end
 % now combine (note: this should be smarter to automatically detect what
 % fields are there instead of hard coding...)
 subjects = l.subjects;
-gi=l.gi;
 seed = l.seed;
 target = l.target;
 lr = 'LR_mean';
@@ -50,7 +49,7 @@ fgMeasures=cellfun(@(x,y) mean(cat(3,x,y),3), l.fgMeasures,r.fgMeasures,'uniform
 
 
 if ~notDefined('savePath')
-    save(savePath,'subjects','gi','seed','target','lr',...
+    save(savePath,'subjects','seed','target','lr',...
         'fgName','nNodes','fgMeasures','fgMLabels','SuperFibers','eigVals','err_subs');
     
 end
