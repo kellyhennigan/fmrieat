@@ -18,8 +18,8 @@ close all
 
 % get experiment-specific paths and cd to main data directory
 p=getFmrieatPaths();
-subjects=getFmrieatSubjects();
-subjects={'rs181219'};
+subjects=whichFmrieatSubjects();
+
 
 
 dataDir = p.derivatives; 

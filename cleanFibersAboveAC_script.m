@@ -18,10 +18,8 @@ close all
 
 % get experiment-specific paths and cd to main data directory
 p=getFmrieatPaths();
-subjects=getFmrieatSubjects();
+subjects=whichFmrieatSubjects();
 
-% temporarily exclude rs181219 (still troubleshooting)
-subjects(strcmp(subjects,'rs181219'))=[];
 
 % [subjects,gi]=getCueSubjects('dti');
 dataDir = p.derivatives;
