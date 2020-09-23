@@ -12,6 +12,9 @@ subjects=getFmrieatSubjects();
 % temporarily exclude rs181219 (still troubleshooting)
 subjects(strcmp(subjects,'rs181219'))=[];
 
+% this subject doesnt have dti data
+subjects(strcmp(subjects,'hb190109'))=[];
+
 dataDir = p.derivatives;
 
 % define fiber group to load
