@@ -104,7 +104,7 @@ for lr=LorR
         
         subject = subjects{i};
         fprintf(['\n\nworking on subject ' subject '...\n\n'])
-        subjDir = fullfile(p.data,subject);
+        subjDir = fullfile(dataDir,subject);
         cd(subjDir);
         
         % load seed and target rois
