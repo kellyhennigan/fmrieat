@@ -10,7 +10,7 @@ p=getFmrieatPaths();
 subjects=getFmrieatSubjects();
 
 % temporarily exclude rs181219 (still troubleshooting)
-subjects(strcmp(subjects,'rs181219'))=[];
+% subjects(strcmp(subjects,'rs181219'))=[];
 
 % this subject doesnt have dti data
 subjects(strcmp(subjects,'hb190109'))=[];
