@@ -22,8 +22,9 @@ subjects=getFmrieatSubjects();
 
 % temporarily exclude rs181219 (still troubleshooting)
 subjects(strcmp(subjects,'rs181219'))=[];
+subjects(strcmp(subjects,'hb190109'))=[];
 
-subjects=subjects(1:30);
+subjects=subjects(25:30);
 % [subjects,gi]=getCueSubjects('dti');
 dataDir = p.derivatives; 
 mainfigDir=p.figures; 
