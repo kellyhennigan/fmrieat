@@ -128,7 +128,7 @@ for lr=LorR
                 [fg,flipped] = AFQ_ReorientFibers(fg,roi1,roi2);
                 
                 % remove fibers that deviate out of DA<-> nacc (above AC) trajectory
-                fg = pruneAboveACMFBFG(subject,lr,fg,roi1,roi2,0,box_thresh);
+%                 fg = pruneAboveACMFBFG(subject,lr,fg,roi1,roi2,0,box_thresh);
                 
                 %                 % remove crazy fibers that deviate outside area defined by box_thresh
                 %                 fg = pruneFG(fg,roi1,roi2,0,box_thresh);
