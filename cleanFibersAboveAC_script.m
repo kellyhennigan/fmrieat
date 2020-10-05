@@ -42,7 +42,8 @@ savePlots = 1; % 1 to save out plots, otherwise 0
 
 % method = 'conTrack';
 method = 'mrtrix_fa';
-fstr = '_aboveAC';
+% fstr = '_aboveAC';
+fstr = '';
 
 % out file name for pruned fibers
 outFgStr = [seed '%s_%s%s' fstr '_autoclean']; %s: LorR, target, LorR
