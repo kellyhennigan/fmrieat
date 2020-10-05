@@ -7,13 +7,7 @@ close all
 
 % get experiment-specific paths and cd to main data directory
 p=getFmrieatPaths();
-subjects=getFmrieatSubjects();
-
-% temporarily exclude rs181219 (still troubleshooting)
-% subjects(strcmp(subjects,'rs181219'))=[];
-
-% this subject doesnt have dti data
-subjects(strcmp(subjects,'hb190109'))=[];
+subjects=getFmrieatSubjects('dti');
 
 dataDir = p.derivatives;
 
@@ -51,11 +45,11 @@ versionStrs = {'autoclean'};
 
 % fiber group file strings
 inDir = fullfile(dataDir,'%s','fibers',method); %s: subject
-inStr = '%s%s_%s%s_belowAC_%s.mat'; %s: seed,lr,target,lr,versionStr
+inStr = '%s%s_%s%s_aboveAC_%s.mat'; %s: seed,lr,target,lr,versionStr
 
 % out file name string
 outDir = fullfile(dataDir,'fgMeasures',method);
-outStr = '%s%s_%s%s_belowAC_%s.mat'; %s: seed,lr,target,lr,versionStr
+outStr = '%s%s_%s%s_aboveAC_%s.mat'; %s: seed,lr,target,lr,versionStr
 
 
 nNodes=100;
