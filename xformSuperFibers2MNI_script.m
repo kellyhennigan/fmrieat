@@ -9,7 +9,7 @@ close all
 p=getFmrieatPaths();
 task='dti';
 dataDir = p.derivatives;
-
+subjects=getFmrieatSubjects(task); 
 
 group='';
 
