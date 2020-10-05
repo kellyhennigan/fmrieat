@@ -56,6 +56,7 @@ end
 
 if notDefined('cols')
     cols = solarizedColors(nGroups);
+     cols=[0.1490    0.5451    0.8235]
 end
 
 if notDefined('plotSig')
