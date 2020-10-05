@@ -52,8 +52,8 @@ for j=1:numel(fgMNames)
     
     outName=[fgMName '_group_mni' ];
 
-    [fgMeasures,fgMLabels,scores,subjects,gi,SuperFibers]=loadFGBehVars(...
-        fgMFile,'',group);
+    [fgMeasures,fgMLabels,scores,subjects,SuperFibers]=loadFGBehVars(...
+        fgMFile,'');
 
 
 i=1
