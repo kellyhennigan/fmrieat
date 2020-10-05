@@ -25,7 +25,7 @@ fgMDir = fullfile(dataDir,'fgMeasures',method);
 %     'DAR_caudateR_autoclean';
 %     'DAL_putamenL_autoclean';
 %     'DAR_putamenR_autoclean'};
-fgMNames = {'DAL_naccL_belowAC_autoclean'};
+fgMNames = {'PauliAtlasDAL_naccL_belowAC_autoclean'};
 
     
 t1Path = fullfile(dataDir,'templates','mni_icbm152_t1_tal_nlin_asym_09a_brain.nii');
