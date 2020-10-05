@@ -45,12 +45,13 @@ versionStrs = {'autoclean'};
 
 % fiber group file strings
 inDir = fullfile(dataDir,'%s','fibers',method); %s: subject
-inStr = '%s%s_%s%s_aboveAC_%s.mat'; %s: seed,lr,target,lr,versionStr
+% inStr = '%s%s_%s%s_aboveAC_%s.mat'; %s: seed,lr,target,lr,versionStr
+inStr = '%s%s_%s%s_%s.mat'; %s: seed,lr,target,lr,versionStr
 
 % out file name string
 outDir = fullfile(dataDir,'fgMeasures',method);
-outStr = '%s%s_%s%s_aboveAC_%s.mat'; %s: seed,lr,target,lr,versionStr
-
+% outStr = '%s%s_%s%s_aboveAC_%s.mat'; %s: seed,lr,target,lr,versionStr
+outStr = '%s%s_%s%s_%s.mat'; %s: seed,lr,target,lr,versionStr
 
 nNodes=100;
 
