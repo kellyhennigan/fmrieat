@@ -55,12 +55,12 @@ def main():
 	# get project directory
 	main_dir=getMainDir()
 	data_dir = main_dir+'/derivatives'
-	res_dir = data_dir+'/results_cue'
+	res_dir = data_dir+'/results_cue_PANAsplit'
 
 	# get subject ids
 	subjects = whichSubs()
 
-	out_str = ''  # add a string to output files? 
+	out_str = 'split'  # add a string to output files? 
 
 		# labels of sub-bricks to test
 	sub_labels = ['cue#0',
@@ -68,8 +68,12 @@ def main():
 	'choice#0',
 	'choice_rt#0',
 	'alcohol#0',
+	'alcohol_topPA#0',
+	'alcohol_topNA#0',
 	'drugs#0',
 	'food#0',
+	'food_topPA#0',
+	'food_topNA#0',
 	'neutral#0'] 
 
 	# labels for out files 
@@ -78,8 +82,12 @@ def main():
 	'Zchoice'+out_str,
 	'Zchoice_rt'+out_str,
 	'Zalcohol'+out_str,
+	'Zalcohol_topPA'+out_str,
+	'Zalcohol_topNA'+out_str,
 	'Zdrugs'+out_str,
 	'Zfood'+out_str,
+	'Zfood_topPA'+out_str,
+	'Zfood_topNA'+out_str,
 	'Zneutral'+out_str]
 
 	# glt contrasts, arent in coeff bucket so get them from glm bucket: 
@@ -88,8 +96,12 @@ def main():
 	sub_labels2 = ['Full_R^2',
 	'Full_Fstat',
 	'alcohol-neutral_GLT#0_Coef',
+	'alcohol_topPA-neutral_GLT#0_Coef',
+	'alcohol_topNA-neutral_GLT#0_Coef',
 	'drugs-neutral_GLT#0_Coef',
 	'food-neutral_GLT#0_Coef',
+	'food_topPA-neutral_GLT#0_Coef',
+        'food_topNA-neutral_GLT#0_Coef',
 	'drugs-food_GLT#0_Coef']
 
 
@@ -97,8 +109,12 @@ def main():
 	out_labels2 =  ['ZFull_R^2'+out_str,
 	'ZFull_Fstat'+out_str,
 	'Zalc-neutral'+out_str,
+	'Zalc_topPA-neutral'+out_str,
+     	'Zalc_topNA-neutral'+out_str,
 	'Zdrug-neutral'+out_str,
 	'Zfood-neutral'+out_str,
+	'Zfood_topPA-neutral'+out_str,
+        'Zfood_topNA-neutral'+out_str,
 	'Zdrug-food'+out_str]
 
 	# concatenate lists 
@@ -123,37 +139,37 @@ def main():
 	print(res_dir)
 
 
-	for i, sub_label in enumerate(sub_labels): 
+#	for i, sub_label in enumerate(sub_labels): 
 		#print i, sub_label
 		
 		# get part of command for subjects in setA
-		subjA_cmd = ' '
-		if subjects:
-			subjA_cmd = '-setA '
-			for subj in subjects:
-				cmd = "3dinfo -label2index '"+sub_label+"' "+subj+in_str[i]
-				vol_idx=int(os.popen(cmd).read())
-				subjA_cmd+="'"+subj+in_str[i]+'['+str(vol_idx)+']'+"' " 
+#		subjA_cmd = 'subjects '
+#		if subjects:
+#			subjA_cmd = '-setA '
+#			for subj in subjects:
+#				cmd = "3dinfo -label2index '"+sub_label+"' "+subj+in_str[i]
+#				vol_idx=int(os.popen(cmd).read())
+#				subjA_cmd+="'"+subj+in_str[i]+'['+str(vol_idx)+']'+"' " 
 				#print(subjA_cmd)
 
 
 		# define mask command, if desired
-		if mask_file:
-			mask_cmd = ' -mask '+mask_file
-		else:
-			mask_cmd = ''
+#		if mask_file:
+#			mask_cmd = ' -mask '+mask_file
+#		else:
+#			mask_cmd = ''
 
 
 		# clustsim command, if desired
-		if doClustSim:
-			clustsim_cmd = ' -Clustsim '
-		else:
-			clustsim_cmd = ''
-
-		cmd = '3dttest++ -prefix '+out_labels[i]+mask_cmd+' -toz '+clustsim_cmd+subjA_cmd
-		print(cmd+'\n')
-		if not justPrint:
-			os.system(cmd)
+#		if doClustSim:
+#			clustsim_cmd = ' -Clustsim '
+#		else:
+#			clustsim_cmd = ''
+#
+#		cmd = '3dttest++ -prefix '+out_labels[i]+mask_cmd+' -toz '+clustsim_cmd+subjA_cmd
+#		print(cmd+'\n')
+#		if not justPrint:
+#			os.system(cmd)
 
 		# 3dttest++ -prefix '+z_cue -toz -setA 'aa151010_glm+tlrc[2]' 'nd150921_glm+tlrc[2]' -setB 'ag151024_glm+tlrc[2]' 'si151120_glm+tlrc[2]' 
 

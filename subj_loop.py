@@ -19,23 +19,16 @@ def printDirections():
 	print('type "end" after the last desired command.')
 
 
-
 #########  get main data directory and subjects to process	
-def getMainDir():
+def whichSubs(base_dir='fmrieat'):
 
-	# get full path for main project directory & return to current dir
-	os.chdir('../')
-	main_dir=os.getcwd()
-	os.chdir('scripts')
-
-	return main_dir
-
-
-#########  get main data directory and subjects to process	
-def whichSubs():
-
-	from getFmrieatSubjects import getsubs
-	subjects = getsubs()
+	
+	if base_dir=='fmrieat':
+		from getFmrieatSubjects import getsubs 
+		subjects = getsubs('dti')
+	elif base_dir=='cueexp_claudia':
+		from getCueSubjects import getsubs_claudia
+		subjects,gi = getsubs_claudia()
 
 	print(' '.join(subjects))
 
@@ -47,25 +40,6 @@ def whichSubs():
 
 	return subjects
 	
-
-#########  get task 
-def whichDir():
-	
-	potential_dirs = ['rawdata_bids','derivatives','source']
-
-	print('loop over subjects in which sub-directory?\n')
-	print('\t1) '+potential_dirs[0])
-	print('\t2) '+potential_dirs[1])
-	print('\t3) '+potential_dirs[2]+'\n')
-	dir_idx = raw_input('enter 1,2, or 3: ') # task index
-
-	print('\n\ndir_idx: '+dir_idx+'\n\n')
-
-	this_dir = [potential_dirs[int(dir_idx)-1]]
-
-	print('\n\nthis_dir: '+this_dir[0]+'\n\n')
-	return this_dir[0]
-
 
 def getSubCommands():
 	cmd_list = []	
@@ -92,6 +66,17 @@ def performSubCommands(data_dir,subjects,cmd_list):
 			else:
 				os.system(cmd)
 			
+
+#########  get main data directory and subjects to process	
+def getMainDir():
+
+	# get full path for main project directory & return to current dir
+	os.chdir('../')
+	main_dir=os.getcwd()
+	os.chdir('scripts')
+
+	return main_dir
+
 		
 def main(): 
 	
@@ -101,16 +86,14 @@ def main():
 	# main directory
 	main_dir=getMainDir()
 
-	print('Current working directory: '+os.getcwd())
+	
+	# data directory
+	data_dir=main_dir+'/derivatives'
 
-	# which directory?
-	this_dir=whichDir()
-	data_dir=main_dir+'/'+this_dir
-
-
+	
 	# get subject ids
 	subjects = whichSubs()
-
+	
 	os.chdir(data_dir+'/'+subjects[0]) 		# cd to first subject's dir
 	print('Current working directory: '+os.getcwd())
 	

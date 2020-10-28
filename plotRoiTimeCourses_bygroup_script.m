@@ -75,18 +75,40 @@ plotToScreen=0; % 1 to plot figures to screen, otherwise 0
 
 % [plotGroups,plotStims,plotStimStrs]=getTCPlotSpec(task);
 
-plotGroups={'females males';
-    'females males';
-    'females males'};
+plotGroups={'hungriest lesshungry';
+    'hungriest lesshungry';
+    'hungriest lesshungry';
+    'hungriest lesshungry';
+    'hungriest lesshungry';
+    'hungriest lesshungry'};
 
-plotGroupStrs={'bygender';
-    'bygender';
-    'bygender'};
+plotGroupStrs={'byhunger';
+    'byhunger';
+    'byhunger';
+    'byhunger';
+    'byhunger';
+    'byhunger'};
+
+%plotGroups={'weightlossd nweightlossd';
+%   'weightlossd nweightlossd';
+%   'weightlossd nweightlossd';
+%   'weightlossd nweightlossd';
+%   'weightlossd nweightlossd';
+%   'weightlossd nweightlossd'};
+
+%plotGroupStrs={'byweightgoals';
+%   'byweightgoals';
+%   'byweightgoals';
+%   'byweightgoals';
+%   'byweightgoals';
+%   'byweightgoals'};
 
 plotStims = {'alcohol';
+    'food';
     'neutral';
-    'alcohol-neutral'};
-
+    'alcohol-neutral';
+    'food-neutral';
+    'alcohol-food'};
 
 plotStimStrs=plotStims;
 

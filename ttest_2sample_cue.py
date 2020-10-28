@@ -52,8 +52,8 @@ def main():
 	in_str = '_glm_B+tlrc'  # identify file string of coefficients file 
 
 	
-#	out_str = '_past30daydrinkersVnot'  # add a string to output files? 
-	out_str = '_past30daybingeVnot'  # add a string to output files? 
+#	out_str = '_femalevmale'  # add a string to output files? 
+	out_str = '_hungriestvlesshungry'  # add a string to output files? 
 
 	# get project directory
 	main_dir=getMainDir()
@@ -67,10 +67,14 @@ def main():
 	# subjsA = ['ag190107','am190125','an190106','bc190118','em181211','fc190124','fh181203','ga181112','gm181112','gr190124','hs190128','id181126','ip190130','jk190114','km190114','ks181114','kt190110','lg190117','mm190115','ms190110','mx190114','oo190130','pc181210','pm181126','rk181206','rs181219','sa190128','sb190122','se190106','sg190121','sk190110','sr190128','ss190122','st181128','tr181126','ts190110','zl190124']
 	# subjsB = ['aa190115','ak190110','ap181126','ar181204','as190111','bg190114_1','bg190114_2','er190106','hb190109','ih190111','ja181214','js181128','js190106','kl181210','ky190106','nh190110','sa181203','sl190114','ty190109','va190114']
 
-	# binge drinkers (based on TLFB at timepoint 1)
-	subjsA = ['am190125','em181211','fc190124','fh181203','gm181112','hs190128','ip190130','km190114','ks181114','lg190117','mx190114','oo190130','pm181126','rs181219','sb190122','se190106','sg190121','sk190110','st181128','ty190109']
-	subjsB = ['aa190115','ag190107','ak190110','an190106','ap181126','ar181204','as190111','bc190118','bg190114_1','bg190114_2','er190106','ga181112','gr190124','hb190109','id181126','ih190111','ja181214','jk190114','js181128','js190106','kl181210','kt190110','ky190106','mm190115','ms190110','nh190110','pc181210','rk181206','sa181203','sa190128','sl190114','sr190128','ss190122','tr181126','ts190110','va190114','zl190124']
+	# weight loss desire (0/1, based on time point 1)
+	#subjsA = ['ga181112','ks181114','tr181126','id181126','pm181126','js181128','st181128','sa181203','ar181204','rk181206','em181211','ja181214','js190106','an190106','se190106','ky190106','ag190107','hb190109','ms190110','nh190110','ak190110','as190111','va190114','km190114','sl190114','bg190114_2']
+	#subjsB = ['gm181112','ap181126','fh181203','kl181210','pc181210','rs181219','er190106','ty190109','kt190110','ts190110','sk190110','ih190111','mx190114','jk190114','bg190114_1','mm190115','bc190118','sb190122','gr190124','fc190124','zl190124','hs190128']
 	
+	# Hungriest individuals (7) vs less hungry individuals (1-5)
+	subjsA = ['js190106','lg190117','ss190122','fh181203','pc181210','jk190114','km190114','ga181112','ks181114','rk181206','kl181210','em181211','rs181219','ky190106','er190106','ak190110','as190111','bg190114_1','sl190114','gr190124','sa190128','sr190128']
+	subjsB = ['tr181126','id181126','ap181126','an190106','se190106','hb190109','ty190109','kt190110','ms190110','nh190110','ih190111','bg190114_2','mm190115','sb190122','zl190124','am190125','hs190128','ip190130']
+
 	# labels of sub-bricks to test
 	sub_labels = ['cue#0',
 	'img#0',

@@ -53,7 +53,7 @@ def main():
 	func_dir = 'func_proc'  	# relative to subject-specific directory
 	func_files = 'pp_cue_tlrc'+afniStr+'.nii.gz'
 
-	out_dir = os.path.join(data_dir,'results_cue')  	# directory for out files 
+	out_dir = os.path.join(data_dir,'results_cue_PANAsplit')  	# directory for out files 
 	out_str = 'glm'					# string for output files
 
 
@@ -89,7 +89,7 @@ def main():
 			'-jobs 2 '
 			'-input '+func_dir+'/'+func_files+' '
 			'-censor '+func_dir+'/'+'cue_censor.1D '
-			'-num_stimts 16 '
+			'-num_stimts 20 '
 			'-polort 2 '
 			'-dmbase '						# de-mean baseline regressors
 			'-xjpeg '+os.path.join(out_dir,'Xmat')+' '
@@ -104,16 +104,24 @@ def main():
 			'-stim_file 9 regs/cue_cuec.1D -stim_label 9 cue '
 			'-stim_file 10 regs/img_cuec.1D -stim_label 10 img '
 			'-stim_file 11 regs/choice_cuec.1D -stim_label 11 choice ' 
-			'-stim_file 12 regs/choicert_cuec.1D -stim_label 12 choice_rt ' 
-			'-stim_file 13 regs/alcohol_trial_cuec.1D -stim_label 13 alcohol ' 
-			'-stim_file 14 regs/drugs_trial_cuec.1D -stim_label 14 drugs ' 
-			'-stim_file 15 regs/food_trial_cuec.1D -stim_label 15 food ' 
-			'-stim_file 16 regs/neutral_trial_cuec.1D -stim_label 16 neutral ' 
-			'-num_glt 4 '					 # of contrasts
+			'-stim_file 12 regs/choicert_cuec.1D -stim_label 12 choice_rt '
+ 			'-stim_file 13 regs/alcohol_trial_cuec.1D -stim_label 13 alcohol '
+			'-stim_file 14 regs/alcohol_topPA_trial_cuec.1D -stim_label 14 alcohol_topPA ' 
+			'-stim_file 15 regs/alcohol_topNA_trial_cuec.1D -stim_label 15 alcohol_topNA '
+			'-stim_file 16 regs/drugs_trial_cuec.1D -stim_label 16 drugs ' 
+			'-stim_file 17 regs/food_trial_cuec.1D -stim_label 17 food ' 
+			'-stim_file 18 regs/food_topPA_trial_cuec.1D -stim_label 18 food_topPA '
+			'-stim_file 19 regs/food_topNA_trial_cuec.1D -stim_label 19 food_topNA '
+			'-stim_file 20 regs/neutral_trial_cuec.1D -stim_label 20 neutral ' 
+			'-num_glt 8 '					 # of contrasts
 			'-glt_label 1 alcohol-neutral -gltsym "SYM: +alcohol -neutral" ' 
-			'-glt_label 2 drugs-neutral -gltsym "SYM: +drugs -neutral" '
-			'-glt_label 3 food-neutral -gltsym "SYM: +food -neutral" '
-			'-glt_label 4 drugs-food -gltsym "SYM: +drugs -food" '
+			'-glt_label 2 alcohol_topPA-neutral -gltsym "SYM: +alcohol_topPA -neutral" '
+			'-glt_label 3 alcohol_topNA-neutral -gltsym "SYM: +alcohol_topNA -neutral" ' 
+			'-glt_label 4 drugs-neutral -gltsym "SYM: +drugs -neutral" '
+			'-glt_label 5 food-neutral -gltsym "SYM: +food -neutral" '
+			'-glt_label 6 food_topPA-neutral -gltsym "SYM: +food_topPA -neutral" '
+			'-glt_label 7 food_topNA-neutral -gltsym "SYM: +food_topNA -neutral" ' 
+			'-glt_label 8 drugs-food -gltsym "SYM: +drugs -food" '
 			'-tout ' 					# output the partial and full model F
 	 		'-rout ' 					# output the partial and full model R2
 	 		'-xout '						# print design matrix to the screen

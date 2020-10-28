@@ -70,7 +70,8 @@ coordIndx = sub2ind(niiRefFile.dim(1:3),imgCoords(:,1),imgCoords(:,2),imgCoords(
 niiRoi = niiRefFile;
 niiRoi.data = zeros(niiRoi.dim(1:3));
 niiRoi.data(coordIndx) = 1;
-niiRoi.fname = fullfile(fp,[matRoiFile.name '.nii.gz']);
+% niiRoi.fname = fullfile(fp,[matRoiFile.name '.nii.gz']);
+niiRoi.fname = [matRoiFile.name '.nii.gz'];
       
 
 % save new nifti ROI file

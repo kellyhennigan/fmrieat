@@ -15,8 +15,10 @@
 % gray matter R: 6
 % unlabeled: either 1 or 0
 
-% aparc_aseg - segmentation of cortex and sub-cortical structures. See here
-% for look up table of segmentation indices:
+% aparc_aseg - segmentation of cortex and sub-cortical structures. 
+% aparc.a2009s+aseg - Destrieux atlas segmentation of cortex and
+% sub-cortical structures (for vlpfc and ainterior insula VOIs)
+% See here for look up table of segmentation indices:
 %     https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/AnatomicalROI/FreeSurferColorLUT
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -28,7 +30,7 @@ close all
 
 p=getFmrieatPaths;
 subjects=getFmrieatSubjects();
-
+%subjects = {'ts190110'};
 dataDir = p.derivatives;
 
 !source $FREESURFER_HOME/SetUpFreeSurfer.sh
@@ -61,24 +63,32 @@ for s=1:numel(subjects)
         end
         
         % Convert freesurfer t1 to nifti
-        cmd = [fshome '/bin/mri_convert --out_orientation RAS -i ' inDir '/T1.mgz -o ' outDir '/t1_fs.nii.gz'];
-        unix_wrapper(cmd);
+%         cmd = [fshome '/bin/mri_convert --out_orientation RAS -i ' inDir '/T1.mgz -o ' outDir '/t1_fs.nii.gz'];
+%         unix_wrapper(cmd);
         
         
         % Convert ribbon.mgz to a nifti class file
-        outfile     = [outDir '/t1_class.nii.gz'];
-        resample_type = 'weighted';
-        fillWithCSF = true;
-        cmd = [fshome '/bin/mri_convert --out_orientation RAS -rt ' resample_type ' -i ',...
-            inDir '/ribbon.mgz -o ' outfile];
-        unix_wrapper(cmd);
+%         outfile     = [outDir '/t1_class.nii.gz'];
+%         resample_type = 'weighted';
+%         fillWithCSF = true;
+%         cmd = [fshome '/bin/mri_convert --out_orientation RAS -rt ' resample_type ' -i ',...
+%             inDir '/ribbon.mgz -o ' outfile];
+%         unix_wrapper(cmd);
         
         
         % Convert aparc+aseg.mgz file
-        outfile2     = [outDir '/aparc+aseg.nii.gz'];
+%         outfile2     = [outDir '/aparc+aseg.nii.gz'];
+%         resample_type = 'weighted';
+%         cmd = [fshome '/bin/mri_convert --out_orientation RAS -rt ' resample_type ' -i ',...
+%             inDir '/aparc+aseg.mgz -o ' outfile2];
+%         unix_wrapper(cmd);
+
+
+        % Convert aparc+aseg.mgz file
+        outfile3     = [outDir '/aparc.a2009s+aseg.nii.gz'];
         resample_type = 'weighted';
         cmd = [fshome '/bin/mri_convert --out_orientation RAS -rt ' resample_type ' -i ',...
-            inDir '/aparc+aseg.mgz -o ' outfile2];
+            inDir '/aparc.a2009s+aseg.mgz -o ' outfile3];
         unix_wrapper(cmd);
         
         
@@ -97,49 +107,49 @@ for s=1:numel(subjects)
         %   unlabeled:    0 => 0 (if fillWithCSF == 0) or 1 (if fillWithCSF == 1)
         
         % read in the nifti
-        ni = niftiRead(outfile);
-        
-        % check that we have the expected values in the ribbon file
-        vals = sort(unique(ni.data(:)));
-        if ~isequal(vals, [0 2 3 41 42]')
-            warning('The values in the ribbon file - %s - do no match the expected values [2 3 41 42]. Proceeding anyway...') %#ok<WNTAG>
-        end
-        
-        % map the replacement values
-        invals  = [3 2 41 42];
-        outvals = [5 3  4  6];
-        labels  = {'L Gray', 'L White', 'R White', 'R Gray'};
-        
-        fprintf('\n\n****************\nConverting voxels....\n\n');
-        for ii = 1:4;
-            inds = ni.data == invals(ii);
-            ni.data(inds) = outvals(ii);
-            fprintf('Number of %s voxels \t= %d\n', labels{ii}, sum(inds(:)));
-        end
-        
-        if fillWithCSF,
-            ni.data(ni.data == 0) = 1;
-        end
-        
-        % write out the nifti
-        writeFileNifti(ni)
-        
-        % done.
-        fprintf('\n\ndone.\n');
-        
-        
-        % also save out a wm mask
-        fprintf('\n\nsaving out a white matter mask....\n\n');
-        
-        wmmask = zeros(size(ni.data));
-        wmmask(ni.data==3)=1;  wmmask(ni.data==4)=1;
-        
-        wmNi =ni;
-        wmNi.fname = fullfile(outDir,'wm_mask.nii.gz');
-        wmNi.data = wmmask;
-        writeFileNifti(wmNi);
-        
-        fprintf('\n\ndone.\n');
+%         ni = niftiRead(outfile);
+%         
+%         % check that we have the expected values in the ribbon file
+%         vals = sort(unique(ni.data(:)));
+%         if ~isequal(vals, [0 2 3 41 42]')
+%             warning('The values in the ribbon file - %s - do no match the expected values [2 3 41 42]. Proceeding anyway...') %#ok<WNTAG>
+%         end
+%         
+%         % map the replacement values
+%         invals  = [3 2 41 42];
+%         outvals = [5 3  4  6];
+%         labels  = {'L Gray', 'L White', 'R White', 'R Gray'};
+%         
+%         fprintf('\n\n****************\nConverting voxels....\n\n');
+%         for ii = 1:4;
+%             inds = ni.data == invals(ii);
+%             ni.data(inds) = outvals(ii);
+%             fprintf('Number of %s voxels \t= %d\n', labels{ii}, sum(inds(:)));
+%         end
+%         
+%         if fillWithCSF,
+%             ni.data(ni.data == 0) = 1;
+%         end
+%         
+%         % write out the nifti
+%         writeFileNifti(ni)
+%         
+%         % done.
+%         fprintf('\n\ndone.\n');
+%         
+%         
+%         % also save out a wm mask
+%         fprintf('\n\nsaving out a white matter mask....\n\n');
+%         
+%         wmmask = zeros(size(ni.data));
+%         wmmask(ni.data==3)=1;  wmmask(ni.data==4)=1;
+%         
+%         wmNi =ni;
+%         wmNi.fname = fullfile(outDir,'wm_mask.nii.gz');
+%         wmNi.data = wmmask;
+%         writeFileNifti(wmNi);
+%         
+%         fprintf('\n\ndone.\n');
     end
     
     fprintf(['done with subject ' subject '.\n\n']);
