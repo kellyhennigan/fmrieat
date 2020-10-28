@@ -30,12 +30,12 @@ mainfigDir = [p.figures,'_dti'];
 % add scripts to matlab's search path
 path(path,genpath(scriptsDir)); % add scripts dir to matlab search path
 
-seed = 'amygdala';  % define seed roi
+seed = 'PauliAtlasDA';  % define seed roi
 % seed = 'nacc';
 
-targets=input('target name(s): ','s');
-targets=splitstring(targets);
-% targets = {'caudate','putamen','nacc'};
+% targets=input('target name(s): ','s');
+% targets=splitstring(targets);
+targets = {'nacc'};
 
 % LorR = ['L'];
 LorR = upper(input('L, R, or both? ','s'));
