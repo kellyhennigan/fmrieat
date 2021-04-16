@@ -20,7 +20,7 @@ subjects=getFmrieatSubjects(task);
 
 dataDir = p.derivatives;
 
-% Xbasefname=['pp_' task '_tlrc_afni_nuisance_designmat.txt'];
+Xbasefname=['pp_' task '_tlrc_nuisance_designmat.txt'];
 
 seed = 'vta';
 seedtsfname=[task '_' seed '_ts.1D']; % seed ROI time series
