@@ -162,14 +162,14 @@ Ttask = array2table([r_cond{:} r_cond_partial{:}],'VariableNames',varnames);
 % resting state func conn in a table
 Trestingstate= array2table([r_restingstate r_restingstate_partial],'VariableNames',{'wholescan','partial_wholescan'});
 
-subjid = cell2mat(subjects);
-Tsubj = table(subjid);
-Tgroupindex=table(gi);
+% subjid = cell2mat(subjects);
+% Tsubj = table(subjid);
+% Tgroupindex=table(gi);
+Tsubj = table(subjects);
 
 % concatenate all data into 1 table
 T=table();
-T = [Tsubj Tgroupindex Ttask Trestingstate];
-% T = [Tsubj Tgroupindex Tvars Tdti Tcontrollingagemotion];
+T = [Tsubj Ttask Trestingstate];
 
 % save out
 writetable(T,outPath);
