@@ -23,13 +23,8 @@ vox_ts=reshape(data,prod(dim(1:3)),[]);
 
 vox_ts=vox_ts(logical(roi_vol),:); % extract just roi voxel time series
 
-% average across non-zero (roi) voxels. Mean is weighted by the values in roi_vol
-if size(vox_ts,1)~=1
-    roi_ts= sum(repmat(roi_vol(roi_vol~=0),1,size(vox_ts,2)).*vox_ts)./sum(roi_vol(roi_vol~=0));
-else
-    roi_ts=vox_ts;
-end
-roi_ts = roi_ts';
+% average across non-zero (roi) voxels.
+roi_ts=mean(vox_ts)';
 
 fprintf('\ndone\n\n');
 
