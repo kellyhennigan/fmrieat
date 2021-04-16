@@ -34,7 +34,7 @@ conds = {'alcohol','drugs','food','neutral'}; % conditions to contrast
 
 regfileStr=fullfile(dataDir,'%s','regs',['%s_trial_' task '.1D']); %s is subject, conds
 
-censorTRs=1; % 1 to censor out bad motion TRs, otherwise 0
+censorTRs=0; % 1 to censor out bad motion TRs, otherwise 0
 
 censorFilePath = fullfile(dataDir, '%s','func_proc',[task '_censor.1D']);
 
